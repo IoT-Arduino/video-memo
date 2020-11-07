@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>airtableテストページ</p>
+    <p>再生リスト動画一覧ページ</p>
     <ul>
       <li v-for="item in items" :key="item.id">
         <img :src="item['fields']['Thumbnail']" width="150" />
@@ -23,6 +23,9 @@ export default {
       items: []
     };
   },
+  created: function() {
+    const currentId = this.$nuxt.$route.params.id;
+  },
   mounted: function() {
     this.loadItems();
   },
@@ -32,11 +35,15 @@ export default {
       var self = this;
       var app_id = "applalJUP0IngU6jQ";
       var app_key = "keyd5fbLuMg5nDqdT";
-      var table_id = "テクノロジー"
+      var table_id = this.$nuxt.$route.query.name;
       this.items = [];
       this.$axios
         .get(
-          "https://api.airtable.com/v0/" + app_id + "/" + table_id + "?view=Grid%20view",
+          "https://api.airtable.com/v0/" +
+            app_id +
+            "/" +
+            table_id +
+            "?view=Grid%20view",
           {
             headers: { Authorization: "Bearer " + app_key }
           }

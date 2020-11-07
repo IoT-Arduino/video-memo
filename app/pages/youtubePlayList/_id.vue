@@ -2,17 +2,6 @@
   <div class="container">
     <div>
       <p>Videos in Playlist</p>
-
-      <!-- <ul v-for="video in videos" :key="video.id">
-        <li>
-          <img :src="video.snippet.thumbnails.default.url" alt="" />
-          <nuxt-link :to="`/videos/${video.snippet.resourceId.videoId}`">
-            {{ video.snippet.title }}
-          </nuxt-link>
-          <p>{{ video.snippet.description.slice(0,140) }}</p>
-          <p>{{ video.snippet.memo }}</p>
-        </li>
-      </ul> -->
       <table>
         <tr v-for="video in videos" :key="video.id">
           <td>{{video.snippet.title}}</td>

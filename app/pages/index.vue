@@ -1,37 +1,41 @@
 <template>
   <div class="container">
-    <div>
-      <p>Youtube ChannelLists Top Page</p>
+    <div class="container__list">
+      <p>ゴルフ理論「解体新書」PlayLists</p>
+      <ul>
+        <li v-for="item in items" :key="item.id">
+          <h3>{{ item["fields"]["Name"] }}</h3>
+          <nuxt-link
+            :to="
+              `/airtableList/${item.fields.PlayListId}?name=${item.fields.Name}`
+            "
+          >
+            {{ item["fields"]["PlayListId"] }}
+          </nuxt-link>
+          <span>
+            {{ item["fields"]["memo"] }}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="container__list">
+      <p>Youtube ChannelLists Top Page　/ playlist</p>
 
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
           {{ playlist }}
-          <nuxt-link :to="`/playList/${playlist}`">
+          <nuxt-link :to="`/youtubePlayList/${playlist}`">
             {{ playlist }}
           </nuxt-link>
         </li>
       </ul>
+    </div>
 
-      <p>Youtube ChannelLists Top Page</p>
-      <ul v-for="playlist in playlists" :key="playlist.id">
-        <li>
-          {{ playlist }}
-          <nuxt-link :to="`/airtable/${playlist}`">
-            {{ playlist }}
-          </nuxt-link>
-        </li>
-      </ul>
-
-      <div>
-        <nuxt-link :to="'/firebase/'">
-          firebase
-        </nuxt-link>
-      </div>
-      <div>
-        <nuxt-link :to="'/airtable/'">
-          airtable
-        </nuxt-link>
-      </div>
+    <div class="container__list">
+      <nuxt-link :to="'/firebase/'">
+        firebase
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -47,6 +51,42 @@ export default {
     await store.dispatch("fetchPlayLists");
     console.log(store.state.playLists);
   },
+  data() {
+    return {
+      items: []
+    };
+  },
+  mounted: function() {
+    this.loadItems();
+  },
+  methods: {
+    loadItems: function() {
+      // Init variables
+      var self = this;
+      var app_id = "applalJUP0IngU6jQ";
+      var app_key = "keyd5fbLuMg5nDqdT";
+      var table_id = "再生リスト一覧";
+      this.items = [];
+      this.$axios
+        .get(
+          "https://api.airtable.com/v0/" +
+            app_id +
+            "/" +
+            table_id +
+            "?view=Grid%20view",
+          {
+            headers: { Authorization: "Bearer " + app_key }
+          }
+        )
+        .then(function(response) {
+          self.items = response.data.records;
+          console.log(self.items);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  },
   computed: {
     playlists() {
       return this.$store.state.playLists;
@@ -56,4 +96,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.container__list {
+  margin: 16px;
+}
+</style>
