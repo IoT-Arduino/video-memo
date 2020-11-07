@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/proxy": "^2.0.1",
     "core-js": "^3.6.5",
+    "firebase": "^7.24.0",
     "lodash": "^4.17.20",
     "marked": "^1.1.1",
     "nuxt": "^2.14.5",
-    "shitajicss": "^5.1.0"
+    "shitajicss": "^5.1.0",
+    "vue-youtube": "^1.4.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.1.0",

@@ -1,73 +1,59 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
-      <h1 class="title">
-        movie-memo
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <p>Youtube ChannelLists Top Page</p>
+
+      <ul v-for="playlist in playlists" :key="playlist.id">
+        <li>
+          {{ playlist }}
+          <nuxt-link :to="`/playList/${playlist}`">
+            {{ playlist }}
+          </nuxt-link>
+        </li>
+      </ul>
+
+      <p>Youtube ChannelLists Top Page</p>
+      <ul v-for="playlist in playlists" :key="playlist.id">
+        <li>
+          {{ playlist }}
+          <nuxt-link :to="`/airtable/${playlist}`">
+            {{ playlist }}
+          </nuxt-link>
+        </li>
+      </ul>
+
+      <div>
+        <nuxt-link :to="'/firebase/'">
+          firebase
+        </nuxt-link>
+      </div>
+      <div>
+        <nuxt-link :to="'/airtable/'">
+          airtable
+        </nuxt-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from "vuex";
+
+export default {
+  async asyncData({ store }) {
+    if (store.getters["playLists"].length) {
+      return;
+    }
+    await store.dispatch("fetchPlayLists");
+    console.log(store.state.playLists);
+  },
+  computed: {
+    playlists() {
+      return this.$store.state.playLists;
+    }
+    // ...mapGetters(['playLists'])
+  }
+};
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
+<style></style>
