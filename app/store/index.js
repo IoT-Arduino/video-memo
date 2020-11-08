@@ -52,23 +52,55 @@ export default () =>
         const fetchVideoLists = await this.$axios.$get("/api/playlistItems", {
           params: {
             part: "snippet",
-
             playlistId: id,
-            maxResults: 40,
+            maxResults: 50,
             // key: process.env.YOUTUBE_API_KEY,
-            key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE",
-            regionCode: "JP"
+            key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+            // regionCode: "JP"
             // type: "video",
             // chart: 'mostPopular'
           }
         });
 
-        const videoLists = fetchVideoLists.items.map((item, index) => {
+        let videoLists2 = [];
+
+        if (fetchVideoLists.nextPageToken) {
+          console.log(fetchVideoLists.nextPageToken);
+          const fetchVideoLists2 = await this.$axios.$get(
+            "/api/playlistItems",
+            {
+              params: {
+                part: "snippet",
+                playlistId: id,
+                maxResults: 50,
+                pageToken: fetchVideoLists.nextPageToken,
+                // key: process.env.YOUTUBE_API_KEY,
+                key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+                // regionCode: "JP"
+                // type: "video",
+                // chart: 'mostPopular'
+              }
+            }
+          );
+          videoLists2 = fetchVideoLists2.items.map((item, index) => {
+            return item;
+          });
+          console.log(videoLists2.length);
+        }
+        let videoLists = fetchVideoLists.items.map((item, index) => {
           return item;
         });
-        // console.log(videoLists[2]);
 
-        commit("setVideoLists1",  videoLists );
+        let videoListsAll = [];
+        if (videoLists2.length) {
+          videoListsAll = videoLists.concat(videoLists2);
+        } else {
+          videoListsAll = videoLists;
+        }
+
+        console.log(videoListsAll.length);
+
+        commit("setVideoLists1", videoListsAll);
       },
       //　playList/_id.vue で使用
       async saveVideoLists(videoData) {
@@ -89,7 +121,7 @@ export default () =>
             .then(ref => {
               console.log("Add ID: ", ref);
             });
-        })
+        });
       },
       //　playList/_id.vue で使用
       async setVideoLists({ commit }) {
@@ -111,27 +143,6 @@ export default () =>
         // console.log(memoData);
         commit("setVideoLists2", memoData);
       },
-
-      //　参考
-      // async updateVideoLists(state, videos) {
-      //   const db = firebase.firestore();
-      //   let memos = await db.collection("videoLists");
-
-      //   videos.forEach(video => {
-      //     memos
-      //       .add({
-      //         playlistId: video.snippet.playlistId,
-      //         movieId: video.id,
-      //         title: video.snippet.title,
-      //         thumbnail: video.snippet.thumbnails.default.url,
-      //         description: video.snippet.description.slice(0, 140),
-      //         memo: ""
-      //       })
-      //       .then(ref => {
-      //         // console.log("Add ID: ", ref.id);
-      //       });
-      //   });
-      // },
 
       // videos/_id.vue で使用
       async setCurrentVideo({ commit }, id) {
