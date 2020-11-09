@@ -6,7 +6,11 @@
         <img :src="item['fields']['Thumbnail']" width="150" />
         <h3>{{ item["fields"]["Title"] }}</h3>
         <p>{{ item["fields"]["VideoId"] }}</p>
-        <nuxt-link :to="`/airtableVideo/${item.fields.VideoId}?id=${item.id}`">
+        <nuxt-link
+          :to="
+            `/airtableVideo/${item.fields.VideoId}?id=${item.id}?${tableId}`
+          "
+        >
           {{ item["fields"]["VideoId"] }}
         </nuxt-link>
         <p>{{ item["fields"]["Description"] }}</p>
@@ -20,13 +24,16 @@
 export default {
   data() {
     return {
-      items: []
+      items: [],
+      tableId: ""
     };
   },
   created: function() {
     const currentId = this.$nuxt.$route.params.id;
   },
   mounted: function() {
+    this.tableId = this.$nuxt.$route.query.name;
+    console.log(this.tableId);
     this.loadItems();
   },
   methods: {

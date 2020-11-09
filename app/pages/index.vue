@@ -20,8 +20,7 @@
     </div>
 
     <div class="container__list">
-      <p>Youtube ChannelLists Top Page　/ playlist</p>
-
+      <p>Youtube ChannelLists Top Page　/ データ取得用</p>
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
           {{ playlist }}
