@@ -1,14 +1,19 @@
 <template>
   <div>
     <youtube ref="youtube" :video-id="videoId" />
-    <p>{{ $route.params.id }}</p>
+    <p>VideoId: {{ $route.params.id }}</p>
     <!-- <img :src="currentVideo.thumbnail" alt="" />
     <p>{{ currentVideo.title }}</p>
     <p>{{ currentVideo.description }}</p>
     <div>{{ currentVideo.id }}</div> -->
-    <p>{{ memoData }}</p>
+    <!-- <p>{{ memoData }}</p> -->
+    <p>recordId: {{ recordId }}</p>
+    <p>tableId: {{ tableId }}</p>
+
     <form class="form" @submit.prevent="submit(recordId,tableId)">
-      <textarea type="text" v-model="memo" class="text-area" />
+      <textarea type="text" v-model="memo" class="text-area" 
+      
+      />
       <button type="submit">submit</button>
     </form>
   </div>
@@ -71,11 +76,16 @@ export default {
             headers: { Authorization: "Bearer " + app_key }
           }
         )
-        .then(function(response) {
+        .then((response) => {
           // self.items = response.data.records;
-          self.items = response.data.records.find(record => record.id = recordId);
+          self.items = response.data.records.find(record => {
+            // console.log(record.fields.Title)
+           return record.id == recordId
+          });
           self.memoData = self.items.fields.memo
+          this.memo = self.items.fields.memo
           console.log(self.memoData);
+          // console.log(response.data);
         })
         .catch(function(error) {
           console.log(error);
