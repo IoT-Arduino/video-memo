@@ -1,23 +1,31 @@
 <template>
-  <div>
-    <p>再生リスト動画一覧ページ</p>
-    <ul>
-      <li v-for="item in items" :key="item.id">
-        <img :src="item['fields']['Thumbnail']" width="150" />
-        <h3>{{ item["fields"]["Title"] }}</h3>
-        <p>{{ item["fields"]["VideoId"] }}</p>
-        <nuxt-link
-          :to="
-            `/airtableVideo/${item.fields.VideoId}?id=${item.id}?${tableId}`
-          "
-        >
-          {{ item["fields"]["VideoId"] }}
-        </nuxt-link>
-        <p>{{ item["fields"]["Description"] }}</p>
-        <p>{{ item["fields"]["memo"] }}</p>
-      </li>
-    </ul>
-  </div>
+  <v-app>
+    <v-container>
+      <p>再生リスト動画一覧ページ</p>
+      <ul>
+        <div v-for="item in items" :key="item.id">
+          <v-row>
+            <v-col cols="4">
+              <img :src="item['fields']['Thumbnail']" width="150" />
+            </v-col>
+            <v-col cols="8">
+              <h3>{{ item["fields"]["Title"] }}</h3>
+              <nuxt-link
+                :to="
+                  `/airtableVideo/${item.fields.VideoId}?id=${item.id}?${tableId}`
+                "
+              >
+               動画詳細ページへ
+              </nuxt-link>
+              <!-- <p>{{ item["fields"]["Description"] }}</p> -->
+            </v-col>
+          </v-row>
+
+          <p>{{ item["fields"]["memo"] }}</p>
+        </div>
+      </ul>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
