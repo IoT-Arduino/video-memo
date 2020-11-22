@@ -1,20 +1,15 @@
 <template>
-  <div>
+  <div class="container">
     <youtube ref="youtube" :video-id="videoId" />
     <p>VideoId: {{ $route.params.id }}</p>
-    <!-- <img :src="currentVideo.thumbnail" alt="" />
-    <p>{{ currentVideo.title }}</p>
-    <p>{{ currentVideo.description }}</p>
-    <div>{{ currentVideo.id }}</div> -->
-    <!-- <p>{{ memoData }}</p> -->
     <p>recordId: {{ recordId }}</p>
     <p>tableId: {{ tableId }}</p>
 
-    <form class="form" @submit.prevent="submit(recordId,tableId)">
-      <textarea type="text" v-model="memo" class="text-area" 
-      
-      />
-      <button type="submit">submit</button>
+    <form class="form" @submit.prevent="submit(recordId, tableId)">
+      <textarea type="text" v-model="memo" class="text-area" />
+      <div class="border-solid">
+        <button type="submit">submit</button>
+      </div>
     </form>
   </div>
 </template>
@@ -31,7 +26,7 @@ export default {
     this.tableId = queryString[1];
 
     // this.$store.dispatch("setCurrentVideo", currentId);
-    this.loadItem(this.recordId,this.tableId);
+    this.loadItem(this.recordId, this.tableId);
     // console.log(tableId);
     console.log(this.recordId);
     console.log(this.tableId);
@@ -41,8 +36,8 @@ export default {
       videoId: this.$nuxt.$route.params.id,
       memoData: "",
       memo: "",
-      recordId:"",
-      tableId:""
+      recordId: "",
+      tableId: ""
     };
   },
   computed: {
@@ -54,7 +49,7 @@ export default {
     }
   },
   methods: {
-    loadItem: function(recordId,tableId) {
+    loadItem: function(recordId, tableId) {
       console.log(recordId);
       console.log(tableId);
       // Init variables
@@ -76,14 +71,14 @@ export default {
             headers: { Authorization: "Bearer " + app_key }
           }
         )
-        .then((response) => {
+        .then(response => {
           // self.items = response.data.records;
           self.items = response.data.records.find(record => {
             // console.log(record.fields.Title)
-           return record.id == recordId
+            return record.id == recordId;
           });
-          self.memoData = self.items.fields.memo
-          this.memo = self.items.fields.memo
+          self.memoData = self.items.fields.memo;
+          this.memo = self.items.fields.memo;
           console.log(self.memoData);
           // console.log(response.data);
         })
@@ -91,16 +86,13 @@ export default {
           console.log(error);
         });
     },
-    submit(recordId,tableId) {
+    submit(recordId, tableId) {
       // Init variables
       var self = this;
       // var recordId = this.$nuxt.$route.query.id;
       var app_id = "applalJUP0IngU6jQ";
       var app_key = "keyd5fbLuMg5nDqdT";
       var tableId = tableId;
-
-      console.log(recordId);
-      console.log(tableId);
 
       const data = {
         records: [
@@ -134,8 +126,10 @@ export default {
 </script>
 
 <style>
+
 .text-area {
-  width: 60%;
+  width: 640px;
   height: 400px;
+  border: 1px solid gray;
 }
 </style>
