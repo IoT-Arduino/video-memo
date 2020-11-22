@@ -1,7 +1,6 @@
 const {
   AIRTABLE_APP_ID,
   AIRTABLE_API_KEY,
-  AIRTABLE_TABLE_ID_TOPPAGE,
   FIREBASE_API_KEY,
   YOUTUBE_API_KEY
 } = process.env;
@@ -64,7 +63,6 @@ export default {
   env: {
     AIRTABLE_APP_ID,
     AIRTABLE_API_KEY,
-    AIRTABLE_TABLE_ID_TOPPAGE,
     FIREBASE_API_KEY,
     YOUTUBE_API_KEY
   },

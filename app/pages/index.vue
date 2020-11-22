@@ -59,7 +59,7 @@ export default {
       var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
-      var table_id = process.env.AIRTABLE_TABLE_ID_TOPPAGE;
+      var table_id = "再生リスト一覧";
       this.items = [];
       this.$axios
         .get(
