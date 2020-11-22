@@ -4,7 +4,8 @@ import "firebase/firestore";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyBy2YwdqUjB1N07cDJsQV0DtxYjsUSXc-Q",
+    // apiKey: "AIzaSyBy2YwdqUjB1N07cDJsQV0DtxYjsUSXc-Q",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "movie-memo-a810f.firebaseapp.com",
     databaseURL: "https://movie-memo-a810f.firebaseio.com",
     projectId: "movie-memo-a810f",

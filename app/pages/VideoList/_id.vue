@@ -12,15 +12,13 @@
               <h3>{{ item["fields"]["Title"] }}</h3>
               <nuxt-link
                 :to="
-                  `/airtableVideo/${item.fields.VideoId}?id=${item.id}?${tableId}`
+                  `/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`
                 "
               >
                動画詳細ページへ
               </nuxt-link>
-              <!-- <p>{{ item["fields"]["Description"] }}</p> -->
             </v-col>
           </v-row>
-
           <p>{{ item["fields"]["memo"] }}</p>
         </div>
       </ul>
@@ -41,15 +39,14 @@ export default {
   },
   mounted: function() {
     this.tableId = this.$nuxt.$route.query.name;
-    console.log(this.tableId);
     this.loadItems();
   },
   methods: {
     loadItems: function() {
       // Init variables
       var self = this;
-      var app_id = "applalJUP0IngU6jQ";
-      var app_key = "keyd5fbLuMg5nDqdT";
+      var app_id = process.env.AIRTABLE_APP_ID;
+      var app_key = process.env.AIRTABLE_API_KEY;
       var table_id = this.$nuxt.$route.query.name;
       this.items = [];
       this.$axios

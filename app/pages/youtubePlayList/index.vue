@@ -5,7 +5,6 @@
 
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
-          {{ playlist }}
           <nuxt-link :to="`/youtubeEachVideo/${playlist}`">
             {{ playlist }}
           </nuxt-link>

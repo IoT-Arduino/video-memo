@@ -1,3 +1,11 @@
+const {
+  AIRTABLE_APP_ID,
+  AIRTABLE_API_KEY,
+  AIRTABLE_TABLE_ID_TOPPAGE,
+  FIREBASE_API_KEY,
+  YOUTUBE_API_KEY
+} = process.env;
+
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: "static",
@@ -48,15 +56,17 @@ export default {
 
   proxy: {
     "/api/": {
-      // target: "https://newsapi.org/v2",
       target: "https://www.googleapis.com/youtube/v3",
       pathRewrite: { "^/api/": "" }
     }
   },
 
   env: {
-    NEWS_API_KEY: "9519b5d66b7246929de760c99c0e6f45",
-    YOUTUBE_API_KEY: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+    AIRTABLE_APP_ID,
+    AIRTABLE_API_KEY,
+    AIRTABLE_TABLE_ID_TOPPAGE,
+    FIREBASE_API_KEY,
+    YOUTUBE_API_KEY
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

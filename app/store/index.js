@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import {firebase,auth} from "@/plugins/firebase";
+import { auth } from "@/plugins/firebase";
 
 export default () =>
   new Vuex.Store({
@@ -48,8 +48,7 @@ export default () =>
             part: "contentDetails",
             channelId: "UCkli32c5AWOAReJmPnbEs6w",
             maxResults: 50,
-            // key: process.env.YOUTUBE_API_KEY,
-            key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+            key: process.env.YOUTUBE_API_KEY,
           }
         });
         console.log(fetchPlayLists.items[1]);
@@ -64,8 +63,7 @@ export default () =>
             part: "snippet",
             playlistId: id,
             maxResults: 50,
-            // key: process.env.YOUTUBE_API_KEY,
-            key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+            key: process.env.YOUTUBE_API_KEY
           }
         });
 
@@ -81,8 +79,7 @@ export default () =>
                 playlistId: id,
                 maxResults: 50,
                 pageToken: fetchVideoLists.nextPageToken,
-                // key: process.env.YOUTUBE_API_KEY,
-                key: "AIzaSyDDYIhiUvrD2SiuOkZi1RhsJWjzhw9etiE"
+                key: process.env.YOUTUBE_API_KEY,
               }
             }
           );
@@ -100,6 +97,8 @@ export default () =>
         } else {
           videoListsAll = videoLists;
         }
+
+        console.log(videoListsAll)
 
         commit("setVideoLists", videoListsAll);
       }

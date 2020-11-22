@@ -50,15 +50,11 @@ export default {
   },
   methods: {
     loadItem: function(recordId, tableId) {
-      console.log(recordId);
-      console.log(tableId);
       // Init variables
       var self = this;
-      var app_id = "applalJUP0IngU6jQ";
-      var app_key = "keyd5fbLuMg5nDqdT";
-
+      var app_id = process.env.AIRTABLE_APP_ID;
+      var app_key = process.env.AIRTABLE_API_KEY;
       var table_id = tableId;
-
       this.items = [];
       this.$axios
         .get(
@@ -90,8 +86,8 @@ export default {
       // Init variables
       var self = this;
       // var recordId = this.$nuxt.$route.query.id;
-      var app_id = "applalJUP0IngU6jQ";
-      var app_key = "keyd5fbLuMg5nDqdT";
+      var app_id = process.env.AIRTABLE_APP_ID;
+      var app_key = process.env.AIRTABLE_API_KEY;
       var tableId = tableId;
 
       const data = {

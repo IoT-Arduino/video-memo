@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container class="container">
+    <div class="container">
       <div class="container__list">
         <p>ゴルフ理論「解体新書」PlayLists</p>
         <p></p>
@@ -9,7 +9,7 @@
             <h3>{{ item["fields"]["Name"] }}</h3>
             <nuxt-link
               :to="
-                `/airtableList/${item.fields.PlayListId}?name=${item.fields.Name}`
+                `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
               "
             >
               {{ item["fields"]["PlayListId"] }}
@@ -21,12 +21,16 @@
         </ul>
       </div>
 
+      <div class="container__item">
+        <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
+      </div>
+
       <div class="pa-5">
         <v-btn block outlined color="grey darken-3" @click="signOut">
           ログアウト
         </v-btn>
       </div>
-    </v-container>
+    </div>
   </v-app>
 </template>
 
@@ -53,9 +57,9 @@ export default {
     loadItems: function() {
       // Init variables
       var self = this;
-      var app_id = "applalJUP0IngU6jQ";
-      var app_key = "keyd5fbLuMg5nDqdT";
-      var table_id = "再生リスト一覧";
+      var app_id = process.env.AIRTABLE_APP_ID;
+      var app_key = process.env.AIRTABLE_API_KEY;
+      var table_id = process.env.AIRTABLE_TABLE_ID_TOPPAGE;
       this.items = [];
       this.$axios
         .get(
@@ -95,7 +99,8 @@ export default {
 </script>
 
 <style>
-.container__list {
+.container__list,
+.container__item {
   margin: 16px;
 }
 </style>
