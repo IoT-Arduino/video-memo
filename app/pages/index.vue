@@ -21,24 +21,6 @@
         </ul>
       </div>
 
-      <!-- <div class="container__list">
-      <p>Youtube ChannelLists Top Page　/ データ取得用</p>
-      <ul v-for="playlist in playlists" :key="playlist.id">
-        <li>
-          {{ playlist }}
-          <nuxt-link :to="`/youtubePlayList/${playlist}`">
-            {{ playlist }}
-          </nuxt-link>
-        </li>
-      </ul>
-    </div> -->
-
-      <div class="container__list">
-        <nuxt-link :to="'/firebase/'">
-          firebase
-        </nuxt-link>
-      </div>
-
       <div class="pa-5">
         <v-btn block outlined color="grey darken-3" @click="signOut">
           ログアウト
@@ -52,13 +34,6 @@
 import { mapGetters } from "vuex";
 
 export default {
-  // async asyncData({ store }) {
-  //   if (store.getters["playLists"].length) {
-  //     return;
-  //   }
-  //   await store.dispatch("fetchPlayLists");
-  //   console.log(store.state.playLists);
-  // },
   data() {
     return {
       items: []
@@ -69,11 +44,11 @@ export default {
     this.getUserStatus();
   },
   methods: {
-    getUserStatus(){
-      const userStatus = this.$store.getters["isAuthenticated"]
-      const userName = this.$store.getters["user"]
-      console.log(userStatus)
-      console.log(userName)
+    getUserStatus() {
+      const userStatus = this.$store.getters["isAuthenticated"];
+      const userName = this.$store.getters["user"];
+      console.log(userStatus);
+      console.log(userName);
     },
     loadItems: function() {
       // Init variables
@@ -95,28 +70,26 @@ export default {
         )
         .then(function(response) {
           self.items = response.data.records;
-          console.log(self.items);
         })
         .catch(function(error) {
           console.log(error);
         });
     },
-     signOut: function(err) {
+    signOut: function(err) {
       this.$store
-        .dispatch('signOut')
+        .dispatch("signOut")
         .then(() => {
-          this.$router.push('/login')
+          this.$router.push("/login");
         })
-        .catch((err) => {
-          alert(err.message)
-        })
+        .catch(err => {
+          alert(err.message);
+        });
     }
   },
   computed: {
     playlists() {
       return this.$store.state.playLists;
     }
-    // ...mapGetters(['playLists'])
   }
 };
 </script>

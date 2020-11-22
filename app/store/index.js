@@ -36,7 +36,6 @@ export default () =>
     },
     actions: {
       signInWithEmail({ commit }, { email, password }) {
-        // commit("setUser", email)
         return auth().signInWithEmailAndPassword(email, password);
       },
       signOut() {
@@ -90,7 +89,6 @@ export default () =>
           videoLists2 = fetchVideoLists2.items.map((item, index) => {
             return item;
           });
-          // console.log(videoLists2.length);
         }
         let videoLists = fetchVideoLists.items.map((item, index) => {
           return item;
@@ -103,7 +101,6 @@ export default () =>
           videoListsAll = videoLists;
         }
 
-        // console.log(videoListsAll.length);
         commit("setVideoLists", videoListsAll);
       }
     }

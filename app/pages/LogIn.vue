@@ -19,10 +19,6 @@
 import {firebase,auth} from "@/plugins/firebase";
 
 export default {
-  created() {
-    console.log(this.$route.path)
-  },
-  computed: {},
   data: function() {
     return {
       login_valid: true,
@@ -52,11 +48,6 @@ export default {
           }
         });
     },
-    // async login(){
-    //   const userLogin = await auth().signInWithEmailAndPassword(this.login_email, this.login_password)
-    //   console.log(userLogin)
-      
-    // }
   }
 };
 </script>
