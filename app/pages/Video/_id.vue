@@ -1,9 +1,8 @@
 <template>
   <div class="container">
     <youtube ref="youtube" :video-id="videoId" />
-    <p>VideoId: {{ $route.params.id }}</p>
-    <p>recordId: {{ recordId }}</p>
-    <p>tableId: {{ tableId }}</p>
+    <p>TableId: {{ tableId }}</p>
+    <p>Title: {{ Title }}</p>
 
     <form class="form" @submit.prevent="submit(recordId, tableId)">
       <textarea type="text" v-model="memo" class="text-area" />
@@ -19,17 +18,9 @@ export default {
   mounted: function() {
     const currentId = this.$nuxt.$route.params.id;
     const queryString = this.$nuxt.$route.query.id.split("?");
-
-    // var recordId = queryString[0];
-    // const tableId = queryString[1];
     this.recordId = queryString[0];
     this.tableId = queryString[1];
-
-    // this.$store.dispatch("setCurrentVideo", currentId);
     this.loadItem(this.recordId, this.tableId);
-    // console.log(tableId);
-    console.log(this.recordId);
-    console.log(this.tableId);
   },
   data() {
     return {
@@ -37,13 +28,11 @@ export default {
       memoData: "",
       memo: "",
       recordId: "",
-      tableId: ""
+      tableId: "",
+      Title:""
     };
   },
   computed: {
-    // currentVideo() {
-    //   return this.$store.getters["currentVideo"];
-    // },
     player() {
       return this.$refs.youtube.player;
     }
@@ -70,13 +59,12 @@ export default {
         .then(response => {
           // self.items = response.data.records;
           self.items = response.data.records.find(record => {
-            // console.log(record.fields.Title)
             return record.id == recordId;
           });
           self.memoData = self.items.fields.memo;
           this.memo = self.items.fields.memo;
-          console.log(self.memoData);
-          // console.log(response.data);
+          this.Title = self.items.fields.Title
+          console.log(self.items.fields.Title);
         })
         .catch(function(error) {
           console.log(error);
@@ -95,7 +83,6 @@ export default {
           {
             id: recordId,
             fields: {
-              // VideoId: this.$nuxt.$route.params.id,
               memo: this.memo
             }
           }

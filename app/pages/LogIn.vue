@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <p>Loginページ</p>
     <div>
       <p>Email</p>
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style lang="scss">
+
+.container {
+  margin: 32px;
+}
 
 .input {
   border:1px solid gray;
