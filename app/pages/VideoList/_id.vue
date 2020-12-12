@@ -1,28 +1,33 @@
 <template>
   <div class="container">
-    <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6 hover:bg-green-200">
-      <p>再生リスト動画一覧ページ</p>
+    <div
+      class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6 hover:bg-green-200"
+    >
+      <p>再生リスト「{{ tableId }}」一覧ページ</p>
     </div>
     <ul>
       <li
         v-for="item in items"
         :key="item.id"
-        class="mb-3 border list-none rounded-sm hover:bg-green-200"
+        class="mb-3 border list-none rounded-sm"
       >
-        <div class="flex">
+        <div class="flex hover:bg-green-200">
           <div class="flex-none">
             <img :src="item['fields']['Thumbnail']" />
           </div>
-          <div class="ml-3">
-            <h3>{{ item["fields"]["Title"] }}</h3>
+          <div class="ml-2 pt-1">
+            <h3 class="mb-2">{{ item["fields"]["Title"] | itemTitle }}</h3>
             <nuxt-link
+              class="mt-2"
               :to="`/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`"
             >
-              動画詳細ページへ
+              <span class="text-indigo-600">動画詳細ページへ</span>
             </nuxt-link>
           </div>
         </div>
-        <p class="m-1">{{ item["fields"]["memo"] }}</p>
+        <p v-if="item.fields.memo" class="m-1 p-1">
+          {{ item["fields"]["memo"] | itemMemo }}
+        </p>
       </li>
     </ul>
   </div>
@@ -42,6 +47,22 @@ export default {
   mounted: function() {
     this.tableId = this.$nuxt.$route.query.name;
     this.loadItems();
+  },
+  filters: {
+    itemTitle: function(val) {
+      if (val) {
+        return `${val.substring(0, 50)}...`;
+      } else {
+        return;
+      }
+    },
+    itemMemo: function(val) {
+      if (val) {
+        return `${val.substring(0, 70)}...`;
+      } else {
+        return;
+      }
+    }
   },
   methods: {
     loadItems: function() {
@@ -63,8 +84,31 @@ export default {
           }
         )
         .then(function(response) {
+          let beforeSortedItems = [];
+
           self.items = response.data.records;
-          console.log(self.items);
+
+          const filteredItems = self.items.filter((item,index) => {
+            if(item.fields.Title == 'Deleted video'){
+              console.log(`Video:${index} has deleted`)
+            }
+            return item.fields.Title != 'Deleted video';
+          });
+
+          filteredItems.forEach(data => {
+            if (!data.fields.memo) {
+              data.fields.memo = "";
+            }
+            beforeSortedItems.push(data);
+          });
+
+          const sortedItems = beforeSortedItems.sort(function(a, b) {
+            if (a.fields.memo < b.fields.memo) return -1;
+            if (a.fields.memo > b.fields.memo) return 1;
+            return 0;
+          });
+
+          self.items = sortedItems;
         })
         .catch(function(error) {
           console.log(error);
