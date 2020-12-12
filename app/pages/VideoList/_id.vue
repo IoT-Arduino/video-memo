@@ -1,29 +1,31 @@
 <template>
-  <v-app>
-    <v-container>
+  <div class="container">
+    <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6 hover:bg-green-200">
       <p>再生リスト動画一覧ページ</p>
-      <ul>
-        <div v-for="item in items" :key="item.id">
-          <v-row>
-            <v-col cols="4">
-              <img :src="item['fields']['Thumbnail']" width="150" />
-            </v-col>
-            <v-col cols="8">
-              <h3>{{ item["fields"]["Title"] }}</h3>
-              <nuxt-link
-                :to="
-                  `/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`
-                "
-              >
-               動画詳細ページへ
-              </nuxt-link>
-            </v-col>
-          </v-row>
-          <p>{{ item["fields"]["memo"] }}</p>
+    </div>
+    <ul>
+      <li
+        v-for="item in items"
+        :key="item.id"
+        class="mb-3 border list-none rounded-sm hover:bg-green-200"
+      >
+        <div class="flex">
+          <div class="flex-none">
+            <img :src="item['fields']['Thumbnail']" />
+          </div>
+          <div class="ml-3">
+            <h3>{{ item["fields"]["Title"] }}</h3>
+            <nuxt-link
+              :to="`/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`"
+            >
+              動画詳細ページへ
+            </nuxt-link>
+          </div>
         </div>
-      </ul>
-    </v-container>
-  </v-app>
+        <p class="m-1">{{ item["fields"]["memo"] }}</p>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

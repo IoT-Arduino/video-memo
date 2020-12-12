@@ -1,32 +1,38 @@
 <template>
-  <v-app>
-    <div class="container">
-      <div class="container__list">
+  <div class="container">
+    <div class="container__list">
+      <div class="border-l-4 border-red-400 -ml-6 pl-6 items-center mt-4 mb-6">
         <p>ゴルフ理論「解体新書」PlayLists</p>
-        <p></p>
-        <ul class="mb-6">
-          <li cols="12" v-for="item in items" :key="item.id">
+      </div>
+
+      <ul class="mb-6">
+        <li
+          class="border list-none  rounded-sm px-3 py-3 hover:bg-green-200 "
+          style="border-bottom-width:0"
+          v-for="item in items"
+          :key="item.id"
+        >
+          <nuxt-link
+            :to="
+              `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
+            "
+          >
             <h3>{{ item["fields"]["Name"] }}</h3>
-            <nuxt-link
-              :to="
-                `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
-              "
-            >
+            <p>
               {{ item["fields"]["PlayListId"] }}
-            </nuxt-link>
-            <span>
-              {{ item["fields"]["memo"] }}
-            </span>
-          </li>
-        </ul>
-      </div>
-
-      <div class="container__item">
-        <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
-      </div>
-
+            </p>
+          </nuxt-link>
+          <span>
+            {{ item["fields"]["memo"] }}
+          </span>
+        </li>
+      </ul>
     </div>
-  </v-app>
+
+    <div class="container__item">
+      <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
+    </div>
+  </div>
 </template>
 
 <script>

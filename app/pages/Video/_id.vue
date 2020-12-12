@@ -1,13 +1,21 @@
 <template>
   <div class="container">
-    <youtube ref="youtube" :video-id="videoId" />
-    <p>TableId: {{ tableId }}</p>
-    <p>Title: {{ Title }}</p>
-
+    <div class="youtube-wrapper" >
+      <youtube ref="youtube" :video-id="videoId" class="youtube-player" />
+    </div>
+    <div class="m-2">
+      <p>カテゴリ: {{ tableId }}</p>
+      <p class="text-left">{{ Title }}</p>
+    </div>
     <form class="form" @submit.prevent="submit(recordId, tableId)">
       <textarea type="text" v-model="memo" class="text-area" />
       <div class="border-solid">
-        <button type="submit">submit</button>
+        <button
+          type="submit"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-auto"
+        >
+          送信
+        </button>
       </div>
     </form>
   </div>
@@ -29,7 +37,7 @@ export default {
       memo: "",
       recordId: "",
       tableId: "",
-      Title:""
+      Title: ""
     };
   },
   computed: {
@@ -63,7 +71,7 @@ export default {
           });
           self.memoData = self.items.fields.memo;
           this.memo = self.items.fields.memo;
-          this.Title = self.items.fields.Title
+          this.Title = self.items.fields.Title;
           console.log(self.items.fields.Title);
         })
         .catch(function(error) {
@@ -109,9 +117,24 @@ export default {
 </script>
 
 <style>
+.youtube-wrapper {
+   position: relative;
+   height: 0;
+   overflow: hidden;
+   padding-top: 56.25%;
+}
+
+.youtube-player{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
 .text-area {
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
   height: 400px;
   border: 1px solid gray;
 }
