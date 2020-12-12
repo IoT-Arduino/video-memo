@@ -1,15 +1,44 @@
 <template>
   <div class="container">
-    <p>Loginページ</p>
-    <div>
-      <p>Email</p>
-      <input type="text" v-model="login_email" class="input"/>
+    <!-- Login Form -->
+    <div class="container mx-auto p-2">
+      <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
+        <div class="text-center mb-8">
+          <h1 class="font-bold text-2xl text-gray-800">
+            Login To ゴルフ理論解体新書
+          </h1>
+        </div>
+        <form action="#">
+          <div class="mt-5">
+            <label for="username">Email</label>
+            <input
+              type="text"
+              v-model="login_email"
+              id="username"
+              class="input block w-full p-2 border rounded border-gray-500"
+            />
+          </div>
+          <div class="mt-5">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              v-model="login_password"
+              id="password"
+              class="input block w-full p-2 border rounded border-gray-500"
+            />
+          </div>
+          <div class="mt-10">
+            <button
+              @click="email_login"
+              type="submit"
+              class="py-3 bg-green-500 hover:bg-green-600 rounded text-white text-center w-full"
+            >
+              ログイン
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div>
-      <p>password</p>
-      <input type="text" v-model="login_password" class="input" />
-    </div>
-    <button @click="email_login">ログイン</button>
   </div>
 </template>
 
@@ -51,13 +80,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-.container {
-  margin: 32px;
-}
-
 .input {
-  border:1px solid gray;
+  border: 1px solid gray;
 }
-
 </style>

@@ -25,11 +25,6 @@
         <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
       </div>
 
-      <div class="pa-5">
-        <v-btn block outlined color="grey darken-3" @click="signOut">
-          ログアウト
-        </v-btn>
-      </div>
     </div>
   </v-app>
 </template>
