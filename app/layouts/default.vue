@@ -1,9 +1,32 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <Header />
+    <Header :isLoginPage="isLoginPage" />
     <Nuxt />
   </div>
 </template>
+
+<script>
+export default {
+  async mounted() {
+    this.currentPage = await $nuxt.$route.path;
+
+    const detectPage = () => {
+      if (this.currentPage.match(/login/)) {
+        this.isLoginPage = true;
+      } else {
+        this.isLoginPage = false;
+      }
+    };
+  },
+  data() {
+    return {
+      isLoginPage: false,
+      currentPage: ""
+    };
+  },
+  methods: {}
+};
+</script>
 
 <style>
 html {
@@ -24,5 +47,4 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
-
 </style>

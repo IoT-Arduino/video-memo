@@ -41,10 +41,11 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      items: []
+      items: [],
     };
   },
   mounted: function() {
+    this.currentPage = $nuxt.$route.path;
     this.loadItems();
     this.getUserStatus();
   },
@@ -53,7 +54,6 @@ export default {
       const userStatus = this.$store.getters["isAuthenticated"];
       const userName = this.$store.getters["user"];
       console.log(userStatus);
-      console.log(userName);
     },
     loadItems: function() {
       // Init variables

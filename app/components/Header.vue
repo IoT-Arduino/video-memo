@@ -5,7 +5,7 @@
         ><h1 class="text-xl font-semibold">ゴルフ理論解体新書</h1></a
       >
       <div
-        v-if="this.currentPage !='/login'"
+        v-if="!isLoginPage"
         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         @click="signOut"
       >
@@ -17,14 +17,7 @@
 
 <script>
 export default {
-  mounted() {
-      this.currentPage = $nuxt.$route.path
-  },
-  data(){
-      return {
-          currentPage:''
-      }
-  },
+  props: ["isLoginPage"],
   methods: {
     signOut: function(err) {
       this.$store
