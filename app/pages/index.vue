@@ -35,7 +35,7 @@
       @click="signOut"
     />
 
-        <div class="container__item">
+    <div class="container__item">
       <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
     </div>
   </div>
@@ -50,9 +50,8 @@ export default {
     return {
       items: [],
       isLogin: false,
-      // isLoginPage: false,
       currentPage: "",
-      currentUser:""
+      currentUser: ""
     };
   },
   async mounted() {
@@ -60,12 +59,13 @@ export default {
     this.loadItems();
 
     await auth().onAuthStateChanged(
-      // user => (this.isLogin = user ? true : false)
       user => {
-        this.isLogin = user ? true : false
-        this.currentUser = user.email
-        console.log(user.email)
+        this.isLogin = user ? true : false;
+        if (user) {
+          this.currentUser = user.email;
+          console.log(user.email);
         }
+      }
     );
   },
   methods: {
@@ -96,7 +96,7 @@ export default {
     },
     async signOut(err) {
       await auth().signOut();
-      this.$router.push("/login");
+      await this.$router.push("/login");
     }
   },
   computed: {

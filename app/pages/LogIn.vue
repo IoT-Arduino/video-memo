@@ -8,7 +8,7 @@
             Login To VideoMemoApp
           </h1>
         </div>
-        <form action="#">
+        <form>
           <div class="mt-5">
             <label for="username">Email</label>
             <input
@@ -31,18 +31,16 @@
             {{ loginErrorMsg }}
           </div>
           <div class="font-bold text-lg mt-8 text-white">
-            <input
-              @click="login"
+            <button
+              @click.prevent="login"
               type="submit"
               value="Login"
               class="cursor-pointer py-3 bg-green-500 hover:bg-green-600 rounded text-center w-full"
-            />
+            >Login</button>
           </div>
         </form>
         <div class="hover:text-green-800 text-center w-full mt-3">
-          <nuxt-link
-            to="/SignUp"
-            class="hover:text-green-800"
+          <nuxt-link to="/SignUp" class="hover:text-green-800"
             ><span>Click this link to create account</span></nuxt-link
           >
         </div>
@@ -55,19 +53,36 @@
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
+  async mounted() {
+    await auth().onAuthStateChanged(
+      user => {
+        if (user) {
+          console.log(user)
+          // auth().signOut();
+        } else {
+          console.log("no user")
+        }
+      }
+    );
+  },
   data: function() {
     return {
       login_email: "",
       login_password: "",
-      loginErrorMsg: ""
+      loginErrorMsg: "",
+      // isLogin: false
     };
   },
+
   methods: {
     login() {
-      console.log("login");
+      console.log("loginFunction")
       auth()
         .signInWithEmailAndPassword(this.login_email, this.login_password)
-        .then(user => this.$router.push("/"))
+        .then(user => {
+          console.log("loggedIn")
+          this.$router.push("/")
+          })
         .catch(e => (this.loginErrorMsg = e.message));
     }
   }

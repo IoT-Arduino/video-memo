@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto">
-    <Header :currentUser="currentUser" />
+    <Header :currentUser="currentUser" v-if="isLogin"/>
     <Nuxt />
   </div>
 </template>
@@ -12,7 +12,6 @@ export default {
     return {
       items: [],
       isLogin: false,
-      // isLoginPage: false,
       currentPage: "",
       currentUser: ""
     };
@@ -23,9 +22,11 @@ export default {
     await auth().onAuthStateChanged(
       // user => (this.isLogin = user ? true : false)
       user => {
-        // this.isLogin = user ? true : false;
-        this.currentUser = user.email;
-        console.log(user.email);
+        this.isLogin = user ? true : false;
+        if(user){
+          this.currentUser = user.email;
+          console.log(user.email);
+        }
       }
     );
   }
