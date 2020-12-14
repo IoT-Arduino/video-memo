@@ -1,5 +1,4 @@
 import Vuex from "vuex";
-import { auth } from "@/plugins/firebase";
 
 export default () =>
   new Vuex.Store({
@@ -7,18 +6,11 @@ export default () =>
       playLists: [],
       videoLists: [],
       currentVideo: [],
-      // user: null
     },
     getters: {
       playLists: state => state.playLists,
       videoLists: state => state.videoLists,
       currentVideo: state => state.currentVideo,
-      // user(state) {
-      //   return state.user;
-      // },
-      // isAuthenticated(state) {
-      //   return !!state.user;
-      // }
     },
     mutations: {
       setPlayLists(state, { playLists }) {
@@ -30,17 +22,8 @@ export default () =>
       setCurrentVideo(state, payload) {
         state.currentVideo = payload;
       },
-      // setUser(state, payload) {
-      //   state.user = payload;
-      // }
     },
     actions: {
-      // signInWithEmail({ commit }, { email, password }) {
-      //   return auth().signInWithEmailAndPassword(email, password);
-      // },
-      // signOut() {
-      //   return auth().signOut();
-      // },
       //　index.vue で使用
       async fetchPlayLists({ commit }) {
         const fetchPlayLists = await this.$axios.$get("/api/channelSections", {

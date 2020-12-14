@@ -1,11 +1,10 @@
 <template>
   <div class="container">
-    <Header />
-    <div class="youtube-wrapper">
+     <div class="youtube-wrapper">
       <youtube ref="youtube" :video-id="videoId" class="youtube-player" />
     </div>
     <div class="m-2">
-      <p>カテゴリ: {{ tableId }}</p>
+      <p>Category: {{ tableId }}</p>
       <p class="text-left">{{ Title }}</p>
     </div>
     <form class="form" @submit.prevent="submit(recordId, tableId)">
@@ -15,10 +14,16 @@
           type="submit"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-auto"
         >
-          送信
+          Submit
         </button>
       </div>
     </form>
+    <button
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 mx-auto"
+      @click="backToList"
+    >
+      Back to List
+    </button>
   </div>
 </template>
 
@@ -82,7 +87,6 @@ export default {
     submit(recordId, tableId) {
       // Init variables
       var self = this;
-      // var recordId = this.$nuxt.$route.query.id;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
       var tableId = tableId;
@@ -112,6 +116,10 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+      this.$toast.show("Item Saved");
+    },
+    backToList(){
+      this.$router.go(-1)
     }
   }
 };

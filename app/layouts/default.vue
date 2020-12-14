@@ -1,11 +1,35 @@
 <template>
   <div class="max-w-2xl mx-auto">
+    <Header :currentUser="currentUser" />
     <Nuxt />
   </div>
 </template>
 
 <script>
-export default {};
+import { firebase, auth } from "@/plugins/firebase";
+export default {
+  data() {
+    return {
+      items: [],
+      isLogin: false,
+      // isLoginPage: false,
+      currentPage: "",
+      currentUser: ""
+    };
+  },
+  async mounted() {
+    this.currentPage = $nuxt.$route.path;
+
+    await auth().onAuthStateChanged(
+      // user => (this.isLogin = user ? true : false)
+      user => {
+        // this.isLogin = user ? true : false;
+        this.currentUser = user.email;
+        console.log(user.email);
+      }
+    );
+  }
+};
 </script>
 
 <style>

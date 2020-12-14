@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <Header />
     <div class="container__list">
       <div class="border-l-4 border-red-400 -ml-6 pl-6 items-center mt-4 mb-6">
-        <p>ゴルフ理論「解体新書」PlayLists</p>
+        <p>All PlayLists</p>
       </div>
 
       <ul class="mb-6">
@@ -29,15 +28,14 @@
         </li>
       </ul>
     </div>
-    <div
-      v-if="!isLoginPage"
+    <input
+      type="submit"
+      value="Logout"
       class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
       @click="signOut"
-    >
-      ログアウト
-    </div>
+    />
 
-    <div class="container__item">
+        <div class="container__item">
       <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
     </div>
   </div>
@@ -52,31 +50,25 @@ export default {
     return {
       items: [],
       isLogin: false,
-      isLoginPage: false,
-      currentPage: ""
+      // isLoginPage: false,
+      currentPage: "",
+      currentUser:""
     };
   },
   async mounted() {
     this.currentPage = $nuxt.$route.path;
     this.loadItems();
-    // this.getUserStatus();
 
-    const detectPage = () => {
-      if (this.currentPage.match(/login/)) {
-        this.isLoginPage = true;
-      } else {
-        this.isLoginPage = false;
-      }
-    };
-
-     await auth().onAuthStateChanged((user) => this.isLogin = user ? true :false)
+    await auth().onAuthStateChanged(
+      // user => (this.isLogin = user ? true : false)
+      user => {
+        this.isLogin = user ? true : false
+        this.currentUser = user.email
+        console.log(user.email)
+        }
+    );
   },
   methods: {
-    // getUserStatus() {
-    //   const userStatus = this.$store.getters["isAuthenticated"];
-    //   const userName = this.$store.getters["user"];
-    //   console.log(userStatus);
-    // },
     loadItems: function() {
       // Init variables
       var self = this;
@@ -103,17 +95,8 @@ export default {
         });
     },
     async signOut(err) {
-      await auth().signOut()
-      this.$router.push('/login')
-      console.log("indexSignOut");
-      // this.$store
-      //   .dispatch("signOut")
-      //   .then(() => {
-      //     this.$router.push("/login");
-      //   })
-      //   .catch(err => {
-      //     alert(err.message);
-      //   });
+      await auth().signOut();
+      this.$router.push("/login");
     }
   },
   computed: {

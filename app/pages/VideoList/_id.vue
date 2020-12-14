@@ -1,10 +1,9 @@
 <template>
   <div class="container">
-        <Header />
     <div
-      class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6 hover:bg-green-200"
+      class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6"
     >
-      <p>再生リスト「{{ tableId }}」一覧ページ</p>
+      <p>PlayList : {{ tableId }}</p>
     </div>
     <ul>
       <li

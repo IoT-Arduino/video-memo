@@ -5,8 +5,10 @@ const {
   YOUTUBE_API_KEY
 } = process.env;
 
+const SITE_DOMAIN = "https://video-memo.netlify.app/";
+ 
 export default {
-  ssr: false, // サーバーサイドレンダリングを無効化
+  ssr: false,
   // Target (https://go.nuxtjs.dev/config-target)
   target: "static",
 
@@ -20,7 +22,14 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "apple-touch-icon",
+        type: "image/png",
+        href: SITE_DOMAIN + "apple-touch-icon.png"
+      }
+    ]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -44,8 +53,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/proxy",
-    "@nuxtjs/tailwindcss"
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/toast"
   ],
+
+  toast: {
+    position: "bottom-right",
+    duration: 3000
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {

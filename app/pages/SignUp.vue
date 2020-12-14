@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <!-- Login Form -->
+    <!-- SignUp Form -->
     <div class="container mx-auto p-2">
       <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
         <div class="text-center mb-8">
           <h1 class="font-bold text-2xl text-gray-800">
-            Login To VideoMemoApp
+            Sign To VideoMemoApp
           </h1>
         </div>
         <form action="#">
@@ -13,7 +13,7 @@
             <label for="username">Email</label>
             <input
               type="text"
-              v-model="login_email"
+              v-model="SignUp_email"
               id="username"
               class="input block w-full p-2 border rounded border-gray-500"
             />
@@ -22,28 +22,26 @@
             <label for="password">Password</label>
             <input
               type="password"
-              v-model="login_password"
+              v-model="SignUp_password"
               id="password"
               class="input block w-full p-2 border rounded border-gray-500"
             />
           </div>
-          <div v-if="loginErrorMsg" class="text-center mt-3 text-red-400">
-            {{ loginErrorMsg }}
+          <div v-if="SignUpErrorMsg" class="text-center mt-3 text-red-400">
+            {{ SignUpErrorMsg }}
           </div>
           <div class="font-bold text-lg mt-8 text-white">
             <input
-              @click="login"
+              @click="SignUp"
               type="submit"
-              value="Login"
-              class="cursor-pointer py-3 bg-green-500 hover:bg-green-600 rounded text-center w-full"
+              value="SignUp"
+              class="cursor-pointer py-3 bg-indigo-500 hover:bg-indigo-600 rounded text-center w-full"
             />
           </div>
         </form>
         <div class="hover:text-green-800 text-center w-full mt-3">
-          <nuxt-link
-            to="/SignUp"
-            class="hover:text-green-800"
-            ><span>Click this link to create account</span></nuxt-link
+          <nuxt-link to="/Login" class="hover:text-green-800"
+            ><span>Already have an account? Click this link to Login</span></nuxt-link
           >
         </div>
       </div>
@@ -57,18 +55,14 @@ import { firebase, auth } from "@/plugins/firebase";
 export default {
   data: function() {
     return {
-      login_email: "",
-      login_password: "",
-      loginErrorMsg: ""
+      SignUp_email: "",
+      SignUp_password: "",
+      SignUpErrorMsg: ""
     };
   },
   methods: {
-    login() {
-      console.log("login");
-      auth()
-        .signInWithEmailAndPassword(this.login_email, this.login_password)
-        .then(user => this.$router.push("/"))
-        .catch(e => (this.loginErrorMsg = e.message));
+    SignUp() {
+      this.SignUpErrorMsg = "This is Dummy SignUpPage";
     }
   }
 };
