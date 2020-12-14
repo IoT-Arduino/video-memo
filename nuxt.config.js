@@ -6,8 +6,10 @@ const {
 } = process.env;
 
 export default {
+  mode: "spa", // デフォルトは universal
+  ssr: false, // サーバーサイドレンダリングを無効化
   // Target (https://go.nuxtjs.dev/config-target)
-  target: "static",
+  // target: "static",
 
   srcDir: "app",
 
