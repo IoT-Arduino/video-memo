@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="youtube-wrapper" >
+    <Header />
+    <div class="youtube-wrapper">
       <youtube ref="youtube" :video-id="videoId" class="youtube-player" />
     </div>
     <div class="m-2">
@@ -118,18 +119,18 @@ export default {
 
 <style>
 .youtube-wrapper {
-   position: relative;
-   height: 0;
-   overflow: hidden;
-   padding-top: 56.25%;
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%;
 }
 
-.youtube-player{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.youtube-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .text-area {

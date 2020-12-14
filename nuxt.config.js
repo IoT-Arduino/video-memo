@@ -30,8 +30,7 @@ export default {
   plugins: [
     { src: "~/plugins/axios" },
     { src: "~/plugins/vue-youtube" },
-    { src: "~/plugins/firebase.js" },
-    { src: "~/plugins/firebase.auth.js" }
+    { src: "~/plugins/firebase" }
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -71,6 +70,6 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
   router: {
-    middleware: "authenticated"
+    middleware: ["auth"]
   }
 };

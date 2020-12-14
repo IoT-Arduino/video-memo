@@ -29,14 +29,14 @@
           </div>
           <div class="mt-10">
             <input
-              @click="email_login"
+              @click="login"
               type="input"
               value="送信"
               class="py-3 bg-green-500 hover:bg-green-600 rounded text-white text-center w-full"
             />
           </div>
         </form>
-        <div v-if="loginErrorMsg">{{ loginErrorMsg }}</div>
+        <!-- <div v-if="loginErrorMsg">{{ loginErrorMsg }}</div> -->
       </div>
     </div>
   </div>
@@ -50,36 +50,37 @@ export default {
     return {
       login_email: "",
       login_password: "",
-      loginErrorMsg: ""
+      // loginErrorMsg: ""
     };
   },
   methods: {
     login() {
+      console.log('login')
       auth()
         .signInWithEmailAndPassword(this.login_email, this.login_password)
         .then(user => this.$router.push("/"))
         .catch(e => alert(e.message))
     },
-    email_login: function(err) {
-      this.$store
-        .dispatch("signInWithEmail", {
-          email: this.login_email,
-          password: this.login_password
-        })
-        .then(() => {
-          this.login_email = "";
-          this.login_password = "";
-          // this.$router.push("/");
-        })
-        .catch(err => {
-          if (err.code === "auth/user-disabled") {
-            this.loginErrorMsg = "このアカウントはロックされています。";
-          } else {
-            this.loginErrorMsg =
-              "メールアドレスまたはパスワードが間違っています。";
-          }
-        });
-    }
+    // email_login: function(err) {
+    //   this.$store
+    //     .dispatch("signInWithEmail", {
+    //       email: this.login_email,
+    //       password: this.login_password
+    //     })
+    //     .then(() => {
+    //       this.login_email = "";
+    //       this.login_password = "";
+    //       // this.$router.push("/");
+    //     })
+    //     .catch(err => {
+    //       if (err.code === "auth/user-disabled") {
+    //         this.loginErrorMsg = "このアカウントはロックされています。";
+    //       } else {
+    //         this.loginErrorMsg =
+    //           "メールアドレスまたはパスワードが間違っています。";
+    //       }
+    //     });
+    // }
   }
 };
 </script>
