@@ -28,15 +28,15 @@
             />
           </div>
           <div class="mt-10">
-            <button
+            <input
               @click="email_login"
-              type="submit"
+              type="input"
+              value="送信"
               class="py-3 bg-green-500 hover:bg-green-600 rounded text-white text-center w-full"
-            >
-              ログイン
-            </button>
+            />
           </div>
         </form>
+        <div v-if="loginErrorMsg">{{ loginErrorMsg }}</div>
       </div>
     </div>
   </div>
@@ -48,13 +48,18 @@ import { firebase, auth } from "@/plugins/firebase";
 export default {
   data: function() {
     return {
-      login_valid: true,
       login_email: "",
       login_password: "",
       loginErrorMsg: ""
     };
   },
   methods: {
+    login() {
+      auth()
+        .signInWithEmailAndPassword(this.login_email, this.login_password)
+        .then(user => this.$router.push("/"))
+        .catch(e => alert(e.message))
+    },
     email_login: function(err) {
       this.$store
         .dispatch("signInWithEmail", {
@@ -64,7 +69,7 @@ export default {
         .then(() => {
           this.login_email = "";
           this.login_password = "";
-          this.$router.push("/");
+          // this.$router.push("/");
         })
         .catch(err => {
           if (err.code === "auth/user-disabled") {

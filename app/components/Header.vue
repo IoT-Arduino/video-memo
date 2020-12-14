@@ -18,12 +18,15 @@
 <script>
 export default {
   props: ["isLoginPage"],
+  async mounted(){
+    await console.log(this.isLoginPage)
+  },
   methods: {
     signOut: function(err) {
       this.$store
         .dispatch("signOut")
         .then(() => {
-          this.$router.push("/login");
+          this.$router.replace("/login");
         })
         .catch(err => {
           alert(err.message);

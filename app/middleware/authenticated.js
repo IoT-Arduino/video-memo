@@ -13,8 +13,8 @@ export default ({ store, route, redirect }) => {
     redirect("/login");
     console.log(store.getters.isAuthenticated);
   }
-  if (store.getters.isAuthenticated && isLoginPage) {
-    redirect("/");
-    console.log(store.getters.isAuthenticated);
-  }
+  // if (store.getters.isAuthenticated && isLoginPage) {
+  //   redirect("/");
+  //   console.log(store.getters.isAuthenticated);
+  // }
 };
