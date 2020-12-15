@@ -2,9 +2,9 @@
   <div class="wrapper">
     <div class="mx-auto pb-20">
       <Header :currentUser="currentUser" v-if="isLogin" />
-      <main class="max-w-2xl mx-auto">
+      <div class="max-w-7xl mx-auto">
         <Nuxt />
-      </main>
+      </div>
     </div>
     <div class="footer">
       <Footer />
@@ -58,10 +58,6 @@ html {
 *::after {
   box-sizing: border-box;
   margin: 0;
-}
-
-main{
-  margin: 0 auto;
 }
 
 .footer {

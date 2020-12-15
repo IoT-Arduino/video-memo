@@ -1,16 +1,16 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto">
     <div>
-      <p>Youtube ChannelLists Top Page</p>
-
+      <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
+        <p>Youtube ChannelLists Top Page</p>
+      </div>
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
-          <nuxt-link :to="`/youtubeEachVideo/${playlist}`">
+          <nuxt-link :to="`/youtubeEachPlayList/${playlist}`">
             {{ playlist }}
           </nuxt-link>
         </li>
       </ul>
-
     </div>
   </div>
 </template>

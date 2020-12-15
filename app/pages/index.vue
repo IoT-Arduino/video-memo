@@ -1,42 +1,28 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto">
     <div class="container__list">
-      <div class="border-l-4 border-red-400 -ml-6 pl-6 items-center mt-4 mb-6">
+      <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
         <p>All PlayLists</p>
       </div>
 
       <ul class="mb-6">
         <li
-          class="border list-none  rounded-sm px-3 py-3 hover:bg-green-200 "
+          class="border list-none rounded-sm px-3 py-3 flex items-center"
           style="border-bottom-width:0"
           v-for="item in items"
           :key="item.id"
         >
+          <font-awesome-icon :icon="['fas', 'list']" />
           <nuxt-link
             :to="
               `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
             "
+            class="ml-2 hover:font-bold"
           >
             <h3>{{ item["fields"]["Name"] }}</h3>
-            <p>
-              {{ item["fields"]["PlayListId"] }}
-            </p>
           </nuxt-link>
-          <span>
-            {{ item["fields"]["memo"] }}
-          </span>
         </li>
       </ul>
-    </div>
-    <input
-      type="submit"
-      value="Logout"
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-      @click="signOut"
-    />
-
-    <div class="container__item">
-      <nuxt-link :to="'/youtubePlayList'">YoutubePlayList</nuxt-link>
     </div>
   </div>
 </template>
@@ -58,15 +44,13 @@ export default {
     this.currentPage = $nuxt.$route.path;
     this.loadItems();
 
-    await auth().onAuthStateChanged(
-      user => {
-        this.isLogin = user ? true : false;
-        if (user) {
-          this.currentUser = user.email;
-          console.log(user.email);
-        }
+    await auth().onAuthStateChanged(user => {
+      this.isLogin = user ? true : false;
+      if (user) {
+        this.currentUser = user.email;
+        console.log(user.email);
       }
-    );
+    });
   },
   methods: {
     loadItems: function() {
@@ -93,10 +77,6 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-    },
-    async signOut(err) {
-      await auth().signOut();
-      await this.$router.push("/login");
     }
   },
   computed: {
@@ -107,7 +87,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .container__list,
 .container__item {
   margin: 16px;

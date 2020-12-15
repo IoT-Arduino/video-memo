@@ -13,17 +13,11 @@
         <button
           type="submit"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-auto"
-        >
-          Submit
+        ><font-awesome-icon :icon="['fas', 'save']" />
+          Save
         </button>
       </div>
     </form>
-    <button
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-4 mx-auto"
-      @click="backToList"
-    >
-      Back to List
-    </button>
   </div>
 </template>
 
@@ -118,14 +112,14 @@ export default {
         });
       this.$toast.show("Item Saved");
     },
-    backToList(){
-      this.$router.go(-1)
-    }
+    // backToList(){
+    //   this.$router.go(-1)
+    // }
   }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .youtube-wrapper {
   position: relative;
   height: 0;
@@ -143,7 +137,7 @@ export default {
 
 .text-area {
   width: 100%;
-  max-width: 640px;
+  /* max-width: 640px; */
   height: 400px;
   border: 1px solid gray;
 }

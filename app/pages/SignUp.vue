@@ -68,7 +68,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input {
   border: 1px solid gray;
 }

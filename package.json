@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^5.15.1",
     "@nuxtjs/axios": "^5.12.2",
     "@nuxtjs/proxy": "^2.0.1",
     "@nuxtjs/toast": "^3.3.1",
@@ -22,6 +23,9 @@
     "vue-youtube": "^1.4.0"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.15.1",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/tailwindcss": "^3.2.0",
     "@nuxtjs/vuetify": "^1.11.2",
     "@vue/test-utils": "^1.1.0",

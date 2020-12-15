@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <div
-      class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6"
-    >
+    <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
       <p>PlayList : {{ tableId }}</p>
     </div>
     <ul>
@@ -16,16 +14,20 @@
             <img :src="item['fields']['Thumbnail']" />
           </div>
           <div class="ml-2 pt-1">
-            <h3 class="mb-2">{{ item["fields"]["Title"] | itemTitle }}</h3>
             <nuxt-link
               class="mt-2"
               :to="`/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`"
             >
-              <span class="text-indigo-600">動画詳細ページへ</span>
+              <h3 class="mb-2">{{ item["fields"]["Title"] | itemTitle }}</h3>
+              <span class="text-indigo-600">Go To Movie Page</span>
+              <font-awesome-icon
+                :icon="['fas', 'angle-double-right']"
+                class="text-indigo-600"
+              />
             </nuxt-link>
           </div>
         </div>
-        <p v-if="item.fields.memo" class="m-1 p-1">
+        <p v-if="item.fields.memo" class="m-1 p-1 bg-gray-300">
           {{ item["fields"]["memo"] | itemMemo }}
         </p>
       </li>
@@ -88,11 +90,11 @@ export default {
 
           self.items = response.data.records;
 
-          const filteredItems = self.items.filter((item,index) => {
-            if(item.fields.Title == 'Deleted video'){
-              console.log(`Video:${index} has deleted`)
+          const filteredItems = self.items.filter((item, index) => {
+            if (item.fields.Title == "Deleted video") {
+              console.log(`Video:${index} has deleted`);
             }
-            return item.fields.Title != 'Deleted video';
+            return item.fields.Title != "Deleted video";
           });
 
           filteredItems.forEach(data => {

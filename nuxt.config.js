@@ -5,8 +5,9 @@ const {
   YOUTUBE_API_KEY
 } = process.env;
 
+// Will be replaced by your site
 const SITE_DOMAIN = "https://video-memo.netlify.app/";
- 
+
 export default {
   ssr: false,
   // Target (https://go.nuxtjs.dev/config-target)
@@ -46,7 +47,21 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: ["@nuxtjs/vuetify"],
+  buildModules: ["@nuxtjs/vuetify", "@nuxtjs/fontawesome"],
+
+  fontawesome: {
+    icons: {
+      solid: [
+        "faHome",
+        "faAngleDoubleLeft",
+        "faAngleDoubleRight",
+        "faCog",
+        "faSignOutAlt",
+        "faList",
+        "faSave"
+      ]
+    }
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
