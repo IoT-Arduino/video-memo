@@ -6,11 +6,13 @@ export default () =>
       playLists: [],
       videoLists: [],
       currentVideo: [],
+      errorList: []
     },
     getters: {
       playLists: state => state.playLists,
       videoLists: state => state.videoLists,
       currentVideo: state => state.currentVideo,
+      errorList: state => state.errorList
     },
     mutations: {
       setPlayLists(state, { playLists }) {
@@ -22,6 +24,9 @@ export default () =>
       setCurrentVideo(state, payload) {
         state.currentVideo = payload;
       },
+      setErrorList(state, payload) {
+        state.errorList = payload;
+      }
     },
     actions: {
       //　index.vue で使用
@@ -31,7 +36,7 @@ export default () =>
             part: "contentDetails",
             channelId: "UCkli32c5AWOAReJmPnbEs6w",
             maxResults: 50,
-            key: process.env.YOUTUBE_API_KEY,
+            key: process.env.YOUTUBE_API_KEY
           }
         });
         console.log(fetchPlayLists.items[1]);
@@ -62,7 +67,7 @@ export default () =>
                 playlistId: id,
                 maxResults: 50,
                 pageToken: fetchVideoLists.nextPageToken,
-                key: process.env.YOUTUBE_API_KEY,
+                key: process.env.YOUTUBE_API_KEY
               }
             }
           );
@@ -81,7 +86,7 @@ export default () =>
           videoListsAll = videoLists;
         }
 
-        console.log(videoListsAll)
+        console.log(videoListsAll);
 
         commit("setVideoLists", videoListsAll);
       }

@@ -3,9 +3,18 @@
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
       <p>PlayList : {{ tableId }}</p>
     </div>
+    <label for="filter">Filter by Title</label>
+    <input type="text" v-model="filterName" name="filter" />
+
+    <div @click="sortBy('Title')" :class="sortClass('Title')" class="sort">
+      <span>Sort by Title</span>
+    </div>
+    <div @click="sortBy('memo')" :class="sortClass('memo')" class="sort">
+      <span>Sort by memo</span>
+    </div>
     <ul>
       <li
-        v-for="item in items"
+        v-for="item in result"
         :key="item.id"
         class="mb-3 border list-none rounded-sm"
       >
@@ -40,7 +49,12 @@ export default {
   data() {
     return {
       items: [],
-      tableId: ""
+      tableId: "",
+      sort: {
+        key: "memo",
+        isAsc: true
+      },
+      filterName: ""
     };
   },
   created: function() {
@@ -49,6 +63,27 @@ export default {
   mounted: function() {
     this.tableId = this.$nuxt.$route.query.name;
     this.loadItems();
+  },
+  computed: {
+    result: function() {
+      let list = this.items.slice();
+
+      if (this.filterName) {
+        list = list.filter(
+          item => item.fields.Title.indexOf(this.filterName) > -1
+        );
+      }
+
+      if (this.sort.key) {
+        list.sort((a, b) => {
+          a = a.fields[this.sort.key];
+          b = b.fields[this.sort.key];
+          return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1);
+        });
+      }
+      console.log(list);
+      return list;
+    }
   },
   filters: {
     itemTitle: function(val) {
@@ -115,7 +150,28 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+    sortBy: function(key) {
+      this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : true;
+      this.sort.key = key;
+    },
+    sortClass: function(key) {
+      return this.sort.key === key
+        ? `sort ${this.sort.isAsc ? "asc" : "desc"}`
+        : "";
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.sort.desc:after {
+  display: inline-block;
+  content: "▽";
+}
+
+.sort.asc:after {
+  display: inline-block;
+  content: "△";
+}
+</style>

@@ -32,7 +32,6 @@ export default {
         this.isLogin = user ? true : false;
         if (user) {
           this.currentUser = user.email;
-          console.log(user.email);
         }
       }
     );

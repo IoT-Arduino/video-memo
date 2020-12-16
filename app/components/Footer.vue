@@ -53,7 +53,6 @@ import { firebase, auth } from "@/plugins/firebase";
 export default {
   async mounted() {
     this.currentPage = $nuxt.$route.path;
-    console.log(this.currentPage);
   },
   methods: {
     backToList() {

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-     <div class="youtube-wrapper">
+    <div class="youtube-wrapper">
       <youtube ref="youtube" :video-id="videoId" class="youtube-player" />
     </div>
     <div class="m-2">
@@ -13,7 +13,8 @@
         <button
           type="submit"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-auto"
-        ><font-awesome-icon :icon="['fas', 'save']" />
+        >
+          <font-awesome-icon :icon="['fas', 'save']" />
           Save
         </button>
       </div>
@@ -29,6 +30,7 @@ export default {
     this.recordId = queryString[0];
     this.tableId = queryString[1];
     this.loadItem(this.recordId, this.tableId);
+    console.log(this.videoId);
   },
   data() {
     return {
@@ -72,7 +74,6 @@ export default {
           self.memoData = self.items.fields.memo;
           this.memo = self.items.fields.memo;
           this.Title = self.items.fields.Title;
-          console.log(self.items.fields.Title);
         })
         .catch(function(error) {
           console.log(error);
@@ -111,7 +112,7 @@ export default {
           console.log(error);
         });
       this.$toast.show("Item Saved");
-    },
+    }
     // backToList(){
     //   this.$router.go(-1)
     // }
@@ -122,7 +123,7 @@ export default {
 <style lang="scss" scoped>
 .youtube-wrapper {
   position: relative;
-  height: 0;
+  // height: 0;
   overflow: hidden;
   padding-top: 56.25%;
 }
