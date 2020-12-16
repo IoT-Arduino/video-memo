@@ -86,7 +86,7 @@ export default () =>
           videoListsAll = videoLists;
         }
 
-        console.log(videoListsAll);
+        // console.log(videoListsAll);
 
         commit("setVideoLists", videoListsAll);
       }
