@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="youtube-wrapper">
-      <youtube ref="youtube" :video-id="videoId" class="youtube-player" />
+      <div class="youtube-player-wrapper">
+        <youtube ref="youtube" :video-id="videoId"/>
+      </div>
     </div>
     <div class="m-2">
       <p>Category: {{ tableId }}</p>
@@ -123,12 +125,12 @@ export default {
 <style lang="scss" scoped>
 .youtube-wrapper {
   position: relative;
-  // height: 0;
+  height: 0;
   overflow: hidden;
   padding-top: 56.25%;
 }
 
-.youtube-player {
+.youtube-player-wrapper ::v-deep iframe{
   position: absolute;
   top: 0;
   left: 0;
