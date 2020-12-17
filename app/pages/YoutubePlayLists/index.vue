@@ -6,7 +6,7 @@
       </div>
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
-          <nuxt-link :to="`/YoutubeVideoList/${playlist}`">
+          <nuxt-link :to="`/YoutubeVideoLists/${playlist}`">
             {{ playlist }}
           </nuxt-link>
         </li>
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
-
 export default {
   async asyncData({ store }) {
     if (store.getters["YoutubePlayLists"].length) {
@@ -27,7 +25,6 @@ export default {
   },
   computed: {
     playlists() {
-      // return this.$store.state.YoutubePlayLists;
       return this.$store.getters["YoutubePlayLists"];
     }
   }

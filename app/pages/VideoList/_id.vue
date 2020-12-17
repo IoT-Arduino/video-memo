@@ -7,7 +7,12 @@
     <div class="filter-sort flex justify-between align-center mx-2 my-5">
       <div class="border-2 ">
         <label for="filter">Filter by Title</label>
-        <input type="text" v-model="filterName" name="filter" class="border-2" />
+        <input
+          type="text"
+          v-model="filterName"
+          name="filter"
+          class="border-2"
+        />
       </div>
 
       <div class="flex justify-around align-center">
@@ -64,16 +69,27 @@ export default {
       filterName: ""
     };
   },
-  created: function() {
+  created() {
     const currentId = this.$nuxt.$route.params.id;
   },
-  mounted: function() {
+  mounted() {
     this.tableId = this.$nuxt.$route.query.name;
-    this.loadItems();
+    // this.loadItems();
+  },
+  async asyncData({ store,route }) {
+    const dispatchInfo = {
+      tableId: route.query.name,
+      currentPage: "VideoList"
+    };
+    await store.dispatch("fetchAirTableData", dispatchInfo);
   },
   computed: {
-    result: function() {
-      let list = this.items.slice();
+    playLists() {
+      return this.$store.getters["airTableData"];
+    },
+    result() {
+      // let list = this.items.slice();
+      let list = this.playLists.slice();
 
       if (this.filterName) {
         list = list.filter(
@@ -93,14 +109,14 @@ export default {
     }
   },
   filters: {
-    itemTitle: function(val) {
+    itemTitle(val) {
       if (val) {
         return `${val.substring(0, 50)}...`;
       } else {
         return;
       }
     },
-    itemMemo: function(val) {
+    itemMemo(val) {
       if (val) {
         return `${val.substring(0, 70)}...`;
       } else {
@@ -109,60 +125,53 @@ export default {
     }
   },
   methods: {
-    loadItems: function() {
-      // Init variables
-      var self = this;
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var table_id = this.$nuxt.$route.query.name;
-      this.items = [];
-      this.$axios
-        .get(
-          "https://api.airtable.com/v0/" +
-            app_id +
-            "/" +
-            table_id +
-            "?view=Grid%20view",
-          {
-            headers: { Authorization: "Bearer " + app_key }
-          }
-        )
-        .then(function(response) {
-          let beforeSortedItems = [];
+    // loadItems() {
+    //   var self = this;
+    //   var app_id = process.env.AIRTABLE_APP_ID;
+    //   var app_key = process.env.AIRTABLE_API_KEY;
+    //   var table_id = this.$nuxt.$route.query.name;
+    //   this.items = [];
+    //   this.$axios
+    //     .get(
+    //       "https://api.airtable.com/v0/" +
+    //         app_id +
+    //         "/" +
+    //         table_id +
+    //         "?view=Grid%20view",
+    //       {
+    //         headers: { Authorization: "Bearer " + app_key }
+    //       }
+    //     )
+    //     .then(function(response) {
+    //       let beforeSortedItems = [];
 
-          self.items = response.data.records;
+    //       self.items = response.data.records;
 
-          const filteredItems = self.items.filter((item, index) => {
-            if (item.fields.Title == "Deleted video") {
-              console.log(`Video:${index} has deleted`);
-            }
-            return item.fields.Title != "Deleted video";
-          });
+    //       const filteredItems = self.items.filter((item, index) => {
+    //         if (item.fields.Title == "Deleted video") {
+    //           console.log(`Video:${index} has deleted`);
+    //         }
+    //         return item.fields.Title != "Deleted video";
+    //       });
 
-          filteredItems.forEach(data => {
-            if (!data.fields.memo) {
-              data.fields.memo = "";
-            }
-            beforeSortedItems.push(data);
-          });
+    //       filteredItems.forEach(data => {
+    //         if (!data.fields.memo) {
+    //           data.fields.memo = "";
+    //         }
+    //         beforeSortedItems.push(data);
+    //       });
 
-          const sortedItems = beforeSortedItems.sort(function(a, b) {
-            if (a.fields.memo < b.fields.memo) return -1;
-            if (a.fields.memo > b.fields.memo) return 1;
-            return 0;
-          });
-
-          self.items = sortedItems;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    sortBy: function(key) {
+    //       self.items = beforeSortedItems;
+    //     })
+    //     .catch(function(error) {
+    //       console.log(error);
+    //     });
+    // },
+    sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : true;
       this.sort.key = key;
     },
-    sortClass: function(key) {
+    sortClass(key) {
       return this.sort.key === key
         ? `sort ${this.sort.isAsc ? "asc" : "desc"}`
         : "";
@@ -174,7 +183,7 @@ export default {
 <style lang="scss" scoped>
 .sort {
   border: 1px solid gray;
-  padding: 4px 8px ;
+  padding: 4px 8px;
   border-radius: 5px;
 }
 

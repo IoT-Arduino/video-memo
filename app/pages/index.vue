@@ -8,8 +8,7 @@
       <ul class="mb-6">
         <li
           class="border list-none rounded-sm px-3 py-3 flex items-center playList"
-
-          v-for="item in items"
+          v-for="item in playLists"
           :key="item.id"
         >
           <font-awesome-icon :icon="['fas', 'list']" />
@@ -29,7 +28,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
@@ -43,47 +41,24 @@ export default {
   },
   async mounted() {
     this.currentPage = $nuxt.$route.path;
-    this.loadItems();
-
     await auth().onAuthStateChanged(user => {
       this.isLogin = user ? true : false;
       if (user) {
         this.currentUser = user.email;
-        console.log(user.email);
       }
     });
   },
-  methods: {
-    loadItems: function() {
-      // Init variables
-      var self = this;
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var table_id = "PlayListIndex";
-
-      this.items = [];
-      this.$axios
-        .get(
-          "https://api.airtable.com/v0/" +
-            app_id +
-            "/" +
-            table_id +
-            "?view=Grid%20view",
-          {
-            headers: { Authorization: "Bearer " + app_key }
-          }
-        )
-        .then(function(response) {
-          self.items = response.data.records;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+  async asyncData({ store }) {
+    const dispatchInfo = {
+      tableId : "PlayListIndex",
+      currentPage : "index"
     }
+    // const tableId = "PlayListIndex"
+    await store.dispatch("fetchAirTableData",dispatchInfo);
   },
   computed: {
-    playlists() {
-      return this.$store.state.playLists;
+    playLists() {
+      return this.$store.getters["airTableData"];
     }
   }
 };

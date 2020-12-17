@@ -3,22 +3,80 @@ import Vuex from "vuex";
 export default () =>
   new Vuex.Store({
     state: {
+      airTableData: [],
       YoutubePlayLists: [],
-      YoutubeVideoLists: [],
+      YoutubeVideoLists: []
     },
     getters: {
+      airTableData: state => state.airTableData,
       YoutubePlayLists: state => state.YoutubePlayLists,
-      YoutubeVideoLists: state => state.YoutubeVideoLists,
+      YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
+      setAirTableData(state, airTableData) {
+        state.airTableData = airTableData;
+      },
       setYoutubePlayLists(state, { YoutubePlayLists }) {
         state.YoutubePlayLists = YoutubePlayLists;
       },
       setYoutubeVideoLists(state, YoutubeVideoLists) {
         state.YoutubeVideoLists = YoutubeVideoLists;
-      },
+      }
     },
     actions: {
+      async fetchAirTableData({ commit }, dispatchInfo) {
+        console.log(dispatchInfo);
+        // Init variables
+        // var self = this;
+        const app_id = process.env.AIRTABLE_APP_ID;
+        const app_key = process.env.AIRTABLE_API_KEY;
+        // var table_id = "PlayListIndex";
+        const table_id = dispatchInfo.tableId;
+
+        let items = [];
+        this.$axios
+          .get(
+            "https://api.airtable.com/v0/" +
+              app_id +
+              "/" +
+              table_id +
+              "?view=Grid%20view",
+            {
+              headers: {
+                Authorization: "Bearer " + app_key
+              }
+            }
+          )
+          .then(function(response) {
+            items = response.data.records;
+            let addMemoItems = []
+            // console.log("items");
+            // console.log(items);
+
+            if (dispatchInfo.currentPage !== "index") {
+              const filteredItems = items.filter((item, index) => {
+                if (item.fields.Title == "Deleted video") {
+                  console.log(`Video:${index} has deleted`);
+                }
+                return item.fields.Title != "Deleted video";
+              });
+
+              filteredItems.forEach(data => {
+                if (!data.fields.memo) {
+                  data.fields.memo = "";
+                }
+                addMemoItems.push(data);
+              });
+
+              items = addMemoItems;
+            }
+
+            commit("setAirTableData", items);
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      },
       async fetchYoutubePlayLists({ commit }) {
         const fetchYoutubePlayLists = await this.$axios.$get(
           "/api/channelSections",
@@ -77,8 +135,6 @@ export default () =>
         } else {
           videoListsAll = videoLists;
         }
-
-        // console.log(videoListsAll);
 
         commit("setYoutubeVideoLists", videoListsAll);
       }

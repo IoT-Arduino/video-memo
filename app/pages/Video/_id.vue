@@ -2,7 +2,7 @@
   <div class="container">
     <div class="youtube-wrapper">
       <div class="youtube-player-wrapper">
-        <youtube ref="youtube" :video-id="videoId"/>
+        <youtube ref="youtube" :video-id="videoId" />
       </div>
     </div>
     <div class="m-2">
@@ -26,13 +26,12 @@
 
 <script>
 export default {
-  mounted: function() {
+  async mounted () {
     const currentId = this.$nuxt.$route.params.id;
     const queryString = this.$nuxt.$route.query.id.split("?");
     this.recordId = queryString[0];
     this.tableId = queryString[1];
-    this.loadItem(this.recordId, this.tableId);
-    console.log(this.videoId);
+    await this.loadItem(this.recordId, this.tableId);
   },
   data() {
     return {
@@ -69,11 +68,10 @@ export default {
           }
         )
         .then(response => {
-          // self.items = response.data.records;
           self.items = response.data.records.find(record => {
             return record.id == recordId;
           });
-          self.memoData = self.items.fields.memo;
+          // self.memoData = self.items.fields.memo;
           this.memo = self.items.fields.memo;
           this.Title = self.items.fields.Title;
         })
@@ -115,9 +113,6 @@ export default {
         });
       this.$toast.show("Item Saved");
     }
-    // backToList(){
-    //   this.$router.go(-1)
-    // }
   }
 };
 </script>
@@ -130,7 +125,7 @@ export default {
   padding-top: 56.25%;
 }
 
-.youtube-player-wrapper ::v-deep iframe{
+.youtube-player-wrapper ::v-deep iframe {
   position: absolute;
   top: 0;
   left: 0;
@@ -140,7 +135,6 @@ export default {
 
 .text-area {
   width: 100%;
-  /* max-width: 640px; */
   height: 400px;
   border: 1px solid gray;
 }

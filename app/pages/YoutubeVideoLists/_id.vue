@@ -1,7 +1,7 @@
 <template>
   <div class="container-wrapper">
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
-      <p>YoutubeVideoListData (PC Display Only)</p>
+      <p>YoutubeVideoListsData (PC Display Only)</p>
       <button v-on:click="downloadCSV">
         CSV DownLoad
       </button>
