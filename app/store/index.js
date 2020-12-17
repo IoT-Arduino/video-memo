@@ -3,49 +3,41 @@ import Vuex from "vuex";
 export default () =>
   new Vuex.Store({
     state: {
-      playLists: [],
-      videoLists: [],
-      // currentVideo: [],
-      errorList: []
+      YoutubePlayLists: [],
+      YoutubeVideoLists: [],
     },
     getters: {
-      playLists: state => state.playLists,
-      videoLists: state => state.videoLists,
-      // currentVideo: state => state.currentVideo,
-      errorList: state => state.errorList
+      YoutubePlayLists: state => state.YoutubePlayLists,
+      YoutubeVideoLists: state => state.YoutubeVideoLists,
     },
     mutations: {
-      setPlayLists(state, { playLists }) {
-        state.playLists = playLists;
+      setYoutubePlayLists(state, { YoutubePlayLists }) {
+        state.YoutubePlayLists = YoutubePlayLists;
       },
-      setVideoLists(state, videoLists) {
-        state.videoLists = videoLists;
+      setYoutubeVideoLists(state, YoutubeVideoLists) {
+        state.YoutubeVideoLists = YoutubeVideoLists;
       },
-      // setCurrentVideo(state, payload) {
-      //   state.currentVideo = payload;
-      // },
-      setErrorList(state, payload) {
-        state.errorList = payload;
-      }
     },
     actions: {
-      //　index.vue で使用
-      async fetchPlayLists({ commit }) {
-        const fetchPlayLists = await this.$axios.$get("/api/channelSections", {
-          params: {
-            part: "contentDetails",
-            channelId: "UCkli32c5AWOAReJmPnbEs6w",
-            maxResults: 50,
-            key: process.env.YOUTUBE_API_KEY
+      async fetchYoutubePlayLists({ commit }) {
+        const fetchYoutubePlayLists = await this.$axios.$get(
+          "/api/channelSections",
+          {
+            params: {
+              part: "contentDetails",
+              channelId: "UCkli32c5AWOAReJmPnbEs6w",
+              maxResults: 50,
+              key: process.env.YOUTUBE_API_KEY
+            }
           }
-        });
-        console.log(fetchPlayLists.items[1]);
-        const playLists = fetchPlayLists.items[1].contentDetails["playlists"];
-        commit("setPlayLists", { playLists });
+        );
+        console.log(fetchYoutubePlayLists.items[1]);
+        const YoutubePlayLists =
+          fetchYoutubePlayLists.items[1].contentDetails["playlists"];
+        commit("setYoutubePlayLists", { YoutubePlayLists });
       },
 
-      //　youtubeEachPlayList/_id.vue で使用
-      async fetchVideoLists({ commit }, id) {
+      async fetchYoutubeVideoLists({ commit }, id) {
         const fetchVideoLists = await this.$axios.$get("/api/playlistItems", {
           params: {
             part: "snippet",
@@ -88,7 +80,7 @@ export default () =>
 
         // console.log(videoListsAll);
 
-        commit("setVideoLists", videoListsAll);
+        commit("setYoutubeVideoLists", videoListsAll);
       }
     }
   });

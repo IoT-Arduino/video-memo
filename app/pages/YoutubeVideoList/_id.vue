@@ -1,7 +1,7 @@
 <template>
   <div class="container-wrapper">
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
-      <p>PlayListData (PC Display Only)</p>
+      <p>YoutubeVideoListData (PC Display Only)</p>
       <button v-on:click="downloadCSV">
         CSV DownLoad
       </button>
@@ -30,16 +30,17 @@
 export default {
   layout: "defaultPC",
   async asyncData({ route, store, redirect }) {
-    await store.dispatch("fetchVideoLists", route.params.id);
+    await store.dispatch("fetchYoutubeVideoLists", route.params.id);
   },
   computed: {
     videos() {
-      return this.$store.getters["videoLists"];
+      return this.$store.getters["YoutubeVideoLists"];
     }
   },
   methods: {
     downloadCSV() {
-      const videoLists = this.$store.getters["videoLists"];
+      const videoLists = this.$store.getters["YoutubeVideoLists"];
+      console.log(videoLists)
 
       let csv = "\ufeff" + "Title,VideoId,Thumbnail,Description\n";
       videoLists.forEach(video => {

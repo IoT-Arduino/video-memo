@@ -2,11 +2,11 @@
   <div class="container mx-auto">
     <div>
       <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
-        <p>Youtube ChannelLists Top Page</p>
+        <p>Youtube PlayLists Top Page</p>
       </div>
       <ul v-for="playlist in playlists" :key="playlist.id">
         <li>
-          <nuxt-link :to="`/youtubeEachPlayList/${playlist}`">
+          <nuxt-link :to="`/YoutubeVideoList/${playlist}`">
             {{ playlist }}
           </nuxt-link>
         </li>
@@ -16,18 +16,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 
 export default {
   async asyncData({ store }) {
-    if (store.getters["playLists"].length) {
+    if (store.getters["YoutubePlayLists"].length) {
       return;
     }
-    await store.dispatch("fetchPlayLists");
+    await store.dispatch("fetchYoutubePlayLists");
   },
   computed: {
     playlists() {
-      return this.$store.state.playLists;
+      // return this.$store.state.YoutubePlayLists;
+      return this.$store.getters["YoutubePlayLists"];
     }
   }
 };
