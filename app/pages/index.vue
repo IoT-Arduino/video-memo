@@ -51,7 +51,8 @@ export default {
   async asyncData({ store }) {
     const dispatchInfo = {
       tableId : "PlayListIndex",
-      currentPage : "index"
+      currentPage : "index",
+      recordId :""
     }
     // const tableId = "PlayListIndex"
     await store.dispatch("fetchAirTableData",dispatchInfo);

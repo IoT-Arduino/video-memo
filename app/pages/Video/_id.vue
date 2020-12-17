@@ -7,7 +7,7 @@
     </div>
     <div class="m-2">
       <p>Category: {{ tableId }}</p>
-      <p class="text-left">{{ Title }}</p>
+      <p class="text-left">{{ airTableRecord.Title }}</p>
     </div>
     <form class="form" @submit.prevent="submit(recordId, tableId)">
       <textarea type="text" v-model="memo" class="text-area" />
@@ -26,18 +26,30 @@
 
 <script>
 export default {
-  async mounted () {
+  async asyncData({ store, route }) {
+    const queryString2 = route.query.id.split("?");
+    let recordId = queryString2[0];
+    let tableId = queryString2[1];
+
+    const dispatchInfo = {
+      tableId: tableId,
+      currentPage: "VideoPage",
+      recordId: recordId
+    };
+    console.log(dispatchInfo);
+    await store.dispatch("fetchAirTableData", dispatchInfo);
+  },
+  async mounted() {
     const currentId = this.$nuxt.$route.params.id;
     const queryString = this.$nuxt.$route.query.id.split("?");
     this.recordId = queryString[0];
     this.tableId = queryString[1];
-    await this.loadItem(this.recordId, this.tableId);
+
   },
   data() {
     return {
       videoId: this.$nuxt.$route.params.id,
       memoData: "",
-      memo: "",
       recordId: "",
       tableId: "",
       Title: ""
@@ -46,40 +58,51 @@ export default {
   computed: {
     player() {
       return this.$refs.youtube.player;
+    },
+    airTableRecord() {
+      return this.$store.getters["airTableRecord"];
+    },
+    memo:{
+      get(){
+        return this.$store.getters["airTableRecord"].memo
+      },
+      set(newValue){
+        this.submit(this.recordId, this.tableId, newValue) 
+      }
     }
   },
   methods: {
-    loadItem: function(recordId, tableId) {
-      // Init variables
-      var self = this;
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var table_id = tableId;
-      this.items = [];
-      this.$axios
-        .get(
-          "https://api.airtable.com/v0/" +
-            app_id +
-            "/" +
-            table_id +
-            "?view=Grid%20view",
-          {
-            headers: { Authorization: "Bearer " + app_key }
-          }
-        )
-        .then(response => {
-          self.items = response.data.records.find(record => {
-            return record.id == recordId;
-          });
-          // self.memoData = self.items.fields.memo;
-          this.memo = self.items.fields.memo;
-          this.Title = self.items.fields.Title;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    submit(recordId, tableId) {
+    // loadItem: function(recordId, tableId) {
+    //   // Init variables
+    //   var self = this;
+    //   var app_id = process.env.AIRTABLE_APP_ID;
+    //   var app_key = process.env.AIRTABLE_API_KEY;
+    //   var table_id = tableId;
+    //   this.items = [];
+    //   this.$axios
+    //     .get(
+    //       "https://api.airtable.com/v0/" +
+    //         app_id +
+    //         "/" +
+    //         table_id +
+    //         "?view=Grid%20view",
+    //       {
+    //         headers: { Authorization: "Bearer " + app_key }
+    //       }
+    //     )
+    //     .then(response => {
+    //       self.items = response.data.records.find(record => {
+    //         return record.id == recordId;
+    //       });
+    //       // self.memoData = self.items.fields.memo;
+    //       this.memo = self.items.fields.memo;
+    //       this.Title = self.items.fields.Title;
+    //     })
+    //     .catch(function(error) {
+    //       console.log(error);
+    //     });
+    // },
+    submit(recordId, tableId, newValue) {
       // Init variables
       var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
@@ -91,7 +114,7 @@ export default {
           {
             id: recordId,
             fields: {
-              memo: this.memo
+              memo: newValue
             }
           }
         ]

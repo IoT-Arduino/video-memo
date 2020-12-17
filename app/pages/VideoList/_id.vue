@@ -79,7 +79,8 @@ export default {
   async asyncData({ store,route }) {
     const dispatchInfo = {
       tableId: route.query.name,
-      currentPage: "VideoList"
+      currentPage: "VideoList",
+      recordId :""
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
   },
@@ -88,7 +89,6 @@ export default {
       return this.$store.getters["airTableData"];
     },
     result() {
-      // let list = this.items.slice();
       let list = this.playLists.slice();
 
       if (this.filterName) {

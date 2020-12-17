@@ -4,17 +4,22 @@ export default () =>
   new Vuex.Store({
     state: {
       airTableData: [],
+      airTableRecord: {},
       YoutubePlayLists: [],
       YoutubeVideoLists: []
     },
     getters: {
       airTableData: state => state.airTableData,
+      airTableRecord: state => state.airTableRecord,
       YoutubePlayLists: state => state.YoutubePlayLists,
       YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
       setAirTableData(state, airTableData) {
         state.airTableData = airTableData;
+      },
+      setAirTableRecord(state, airTableRecord) {
+        state.airTableRecord = airTableRecord;
       },
       setYoutubePlayLists(state, { YoutubePlayLists }) {
         state.YoutubePlayLists = YoutubePlayLists;
@@ -25,12 +30,8 @@ export default () =>
     },
     actions: {
       async fetchAirTableData({ commit }, dispatchInfo) {
-        console.log(dispatchInfo);
-        // Init variables
-        // var self = this;
         const app_id = process.env.AIRTABLE_APP_ID;
         const app_key = process.env.AIRTABLE_API_KEY;
-        // var table_id = "PlayListIndex";
         const table_id = dispatchInfo.tableId;
 
         let items = [];
@@ -49,11 +50,13 @@ export default () =>
           )
           .then(function(response) {
             items = response.data.records;
-            let addMemoItems = []
-            // console.log("items");
-            // console.log(items);
 
-            if (dispatchInfo.currentPage !== "index") {
+            if (dispatchInfo.currentPage === "index") {
+              commit("setAirTableData", items);
+            }
+
+            if (dispatchInfo.currentPage === "VideoList") {
+              let addMemoItems = [];
               const filteredItems = items.filter((item, index) => {
                 if (item.fields.Title == "Deleted video") {
                   console.log(`Video:${index} has deleted`);
@@ -69,9 +72,20 @@ export default () =>
               });
 
               items = addMemoItems;
+              commit("setAirTableData", items);
             }
 
-            commit("setAirTableData", items);
+            if (dispatchInfo.currentPage === "VideoPage") {
+              let filteredItem = {}
+              filteredItem = items.find(record => {
+                return record.id == dispatchInfo.recordId;
+              });
+              const airTableRecord = {
+                memo: filteredItem.fields.memo ?filteredItem.fields.memo : "" ,
+                Title: filteredItem.fields.Title
+              };
+              commit("setAirTableRecord", airTableRecord);
+            }
           })
           .catch(function(error) {
             console.log(error);
