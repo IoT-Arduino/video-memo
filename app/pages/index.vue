@@ -7,8 +7,8 @@
 
       <ul class="mb-6">
         <li
-          class="border list-none rounded-sm px-3 py-3 flex items-center"
-          style="border-bottom-width:0"
+          class="border list-none rounded-sm px-3 py-3 flex items-center playList"
+
           v-for="item in items"
           :key="item.id"
         >
@@ -20,6 +20,7 @@
             class="ml-2 hover:font-bold"
           >
             <h3>{{ item["fields"]["Name"] }}</h3>
+            <p></p>
           </nuxt-link>
         </li>
       </ul>
@@ -58,7 +59,8 @@ export default {
       var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
-      var table_id = "再生リスト一覧";
+      var table_id = "PlayListIndex";
+
       this.items = [];
       this.$axios
         .get(
@@ -91,5 +93,9 @@ export default {
 .container__list,
 .container__item {
   margin: 16px;
+}
+
+.playList:not(:last-child) {
+  border-bottom: none;
 }
 </style>

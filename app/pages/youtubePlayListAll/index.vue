@@ -24,13 +24,11 @@ export default {
       return;
     }
     await store.dispatch("fetchPlayLists");
-    console.log(store.state.playLists);
   },
   computed: {
     playlists() {
       return this.$store.state.playLists;
     }
-    // ...mapGetters(['playLists'])
   }
 };
 </script>

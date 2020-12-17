@@ -5,13 +5,13 @@ export default () =>
     state: {
       playLists: [],
       videoLists: [],
-      currentVideo: [],
+      // currentVideo: [],
       errorList: []
     },
     getters: {
       playLists: state => state.playLists,
       videoLists: state => state.videoLists,
-      currentVideo: state => state.currentVideo,
+      // currentVideo: state => state.currentVideo,
       errorList: state => state.errorList
     },
     mutations: {
@@ -21,9 +21,9 @@ export default () =>
       setVideoLists(state, videoLists) {
         state.videoLists = videoLists;
       },
-      setCurrentVideo(state, payload) {
-        state.currentVideo = payload;
-      },
+      // setCurrentVideo(state, payload) {
+      //   state.currentVideo = payload;
+      // },
       setErrorList(state, payload) {
         state.errorList = payload;
       }
@@ -44,7 +44,7 @@ export default () =>
         commit("setPlayLists", { playLists });
       },
 
-      //　youtubePlayList/_id.vue で使用
+      //　youtubeEachPlayList/_id.vue で使用
       async fetchVideoLists({ commit }, id) {
         const fetchVideoLists = await this.$axios.$get("/api/playlistItems", {
           params: {

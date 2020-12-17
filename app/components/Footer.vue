@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <div class="footer__inner max-w-2xl p-2">
+    <div class="footer__inner max-w-2xl px-2">
       <nuxt-link to="/">
         <div
           class="footer__item flex-column justify-center align-center text-center text-green-700 hover:text-green-300"
@@ -36,13 +36,12 @@
 
       <div
         class="footer__item flex-column justify-center text-center text-green-700 hover:text-green-300 cursor-pointer"
-         @click="signOut" 
+        @click="signOut"
       >
         <div>
           <font-awesome-icon :icon="['fas', 'sign-out-alt']" />
         </div>
         <span>SignOut</span>
-
       </div>
     </div>
   </div>
@@ -57,7 +56,7 @@ export default {
   methods: {
     backToList() {
       if (this.currentPage == "/") {
-        return
+        return;
       } else {
         this.$router.go(-1);
       }
@@ -73,7 +72,7 @@ export default {
 <style lang="scss" scoped>
 .footer {
   background-color: #f2f2f2;
-  height: 80px;
+  height: 65px;
   font-size: 12px;
   z-index: 99;
   width: 100%;
@@ -86,9 +85,9 @@ export default {
   }
 
   &__item {
-    height: 55px;
-    width: 55px;
-    margin: 12px;
+    height: 40px;
+    width: 50px;
+    margin: 15px;
   }
 }
 </style>

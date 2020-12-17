@@ -3,14 +3,21 @@
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
       <p>PlayList : {{ tableId }}</p>
     </div>
-    <label for="filter">Filter by Title</label>
-    <input type="text" v-model="filterName" name="filter" />
 
-    <div @click="sortBy('Title')" :class="sortClass('Title')" class="sort">
-      <span>Sort by Title</span>
-    </div>
-    <div @click="sortBy('memo')" :class="sortClass('memo')" class="sort">
-      <span>Sort by memo</span>
+    <div class="filter-sort flex justify-between align-center mx-2 my-5">
+      <div class="border-2 ">
+        <label for="filter">Filter by Title</label>
+        <input type="text" v-model="filterName" name="filter" class="border-2" />
+      </div>
+
+      <div class="flex justify-around align-center">
+        <div @click="sortBy('Title')" :class="sortClass('Title')" class="sort">
+          <span>Sort by Title</span>
+        </div>
+        <div @click="sortBy('memo')" :class="sortClass('memo')" class="sort">
+          <span>Sort by memo</span>
+        </div>
+      </div>
     </div>
     <ul>
       <li
@@ -165,6 +172,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sort {
+  border: 1px solid gray;
+  padding: 4px 8px ;
+  border-radius: 5px;
+}
+
 .sort.desc:after {
   display: inline-block;
   content: "▽";
