@@ -40,7 +40,7 @@ export default {
   plugins: [
     { src: "~/plugins/axios" },
     { src: "~/plugins/vue-youtube" },
-    { src: "~/plugins/firebase" }
+    { src: "~/plugins/firebase" },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -58,7 +58,7 @@ export default {
         "faCog",
         "faSignOutAlt",
         "faList",
-        "faSave"
+        "faSave",
       ]
     }
   },

@@ -1,24 +1,27 @@
 <template>
-  <div class="container-wrapper">
+  <div class="container">
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
       <p>YoutubeVideoListsData (PC Display Only)</p>
-      <button v-on:click="downloadCSV">
-        CSV DownLoad
-      </button>
     </div>
+    <button
+      v-on:click="downloadCSV"
+      class="mx-1 cursor-pointer px-3 py-1 bg-gray-300 hover:bg-green-500 hover:text-white rounded text-center shadow"
+    >
+      CSV DownLoad
+    </button>
     <!-- table tag is required for copy&paste to create excel data -->
-    <table>
+    <table class="w-full overflow-scroll text-xs">
       <tr
         v-for="video in videos"
         :key="video.id"
         class="flex justify-between items-center"
       >
         <td class="video-item">{{ video.snippet.title }}</td>
-        <td class="video-item-id">{{ video.snippet.resourceId.videoId }}</td>
-        <td v-if="video.snippet.thumbnails.default" class="video-item">
+        <td class="video-item-id longurl">{{ video.snippet.resourceId.videoId }}</td>
+        <td v-if="video.snippet.thumbnails.default" class="video-item longurl">
           {{ video.snippet.thumbnails.default.url }}
         </td>
-        <td class="video-item">
+        <td class="video-item longurl">
           {{ video.snippet.description.slice(0, 140) }}
         </td>
       </tr>
@@ -28,7 +31,7 @@
 
 <script>
 export default {
-  layout: "defaultPC",
+  // layout: "defaultPC",
   // async asyncData({ route, store, redirect }) {
   //   await store.dispatch("fetchYoutubeVideoLists", route.params.id);
   // },
@@ -43,7 +46,7 @@ export default {
   methods: {
     downloadCSV() {
       const videoLists = this.$store.getters["YoutubeVideoLists"];
-      console.log(videoLists)
+      console.log(videoLists);
 
       let csv = "\ufeff" + "Title,VideoId,Thumbnail,Description\n";
       videoLists.forEach(video => {
@@ -84,6 +87,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.longurl {
+  word-break: break-all;
+}
+
 .video-item {
   padding: 4px;
   width: 25%;

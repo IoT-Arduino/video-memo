@@ -50,12 +50,24 @@
 <script>
 import { firebase, auth } from "@/plugins/firebase";
 export default {
-  async mounted() {
-    this.currentPage = $nuxt.$route.path;
+  data() {
+    return {
+      pagePath: $nuxt.$route.path
+    };
+  },
+  watch: {
+    $route: function(to, from) {
+      if (to.path !== from.path) {
+        this.pagePath = $nuxt.$route.path;
+      }
+    }
   },
   methods: {
     backToList() {
-      if (this.currentPage == "/") {
+      const path = this.pagePath;
+      const regex = /^\/$/;
+      const rootMatch = regex.test(path);
+      if (rootMatch) {
         return;
       } else {
         this.$router.go(-1);

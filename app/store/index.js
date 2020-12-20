@@ -1,4 +1,5 @@
 import Vuex from "vuex";
+import { firebase, auth } from "@/plugins/firebase";
 
 export default () =>
   new Vuex.Store({
@@ -7,14 +8,14 @@ export default () =>
       airTableVideoList: [],
       airTableRecord: {},
       YoutubePlayLists: [],
-      YoutubeVideoLists: []
+      YoutubeVideoLists: [],
     },
     getters: {
       airTablePlayList: state => state.airTablePlayList,
       airTableVideoList: state => state.airTableVideoList,
       airTableRecord: state => state.airTableRecord,
       YoutubePlayLists: state => state.YoutubePlayLists,
-      YoutubeVideoLists: state => state.YoutubeVideoLists
+      YoutubeVideoLists: state => state.YoutubeVideoLists,
     },
     mutations: {
       setAirTablePlayList(state, airTablePlayList) {
@@ -31,7 +32,7 @@ export default () =>
       },
       setYoutubeVideoLists(state, YoutubeVideoLists) {
         state.YoutubeVideoLists = YoutubeVideoLists;
-      }
+      },
     },
     actions: {
       async fetchAirTableData({ commit }, dispatchInfo) {
@@ -140,7 +141,6 @@ export default () =>
           fetchYoutubePlayLists.items[1].contentDetails["playlists"];
         commit("setYoutubePlayLists", { YoutubePlayLists });
       },
-
       async fetchYoutubeVideoLists({ commit }, id) {
         const fetchVideoLists = await this.$axios.$get("/api/playlistItems", {
           params: {
@@ -181,8 +181,7 @@ export default () =>
         } else {
           videoListsAll = videoLists;
         }
-
         commit("setYoutubeVideoLists", videoListsAll);
-      }
+      },
     }
   });

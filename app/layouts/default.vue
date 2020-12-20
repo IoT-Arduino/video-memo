@@ -17,24 +17,17 @@ import { firebase, auth } from "@/plugins/firebase";
 export default {
   data() {
     return {
-      items: [],
       isLogin: false,
-      currentPage: "",
       currentUser: ""
     };
   },
   async mounted() {
-    this.currentPage = $nuxt.$route.path;
-
-    await auth().onAuthStateChanged(
-      // user => (this.isLogin = user ? true : false)
-      user => {
-        this.isLogin = user ? true : false;
-        if (user) {
-          this.currentUser = user.email;
-        }
+    await auth().onAuthStateChanged(user => {
+      this.isLogin = user ? true : false;
+      if (user) {
+        this.currentUser = user.email;
       }
-    );
+    });
   }
 };
 </script>
@@ -59,7 +52,7 @@ html {
   margin: 0;
 }
 
-main{
+main {
   margin: 0 auto;
 }
 

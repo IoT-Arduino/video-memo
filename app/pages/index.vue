@@ -7,26 +7,26 @@
 
       <ul class="mb-6">
         <li
-          class="border list-none rounded-sm px-3 py-3 flex items-center playList"
+          class="border list-none rounded-sm px-3 py-3 playList flex items-center"
           v-for="item in playLists"
           :key="item.id"
         >
-          <font-awesome-icon :icon="['fas', 'list']" />
-          <nuxt-link
-            :to="
-              `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
-            "
-            class="ml-2 hover:font-bold"
-          >
-            <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <font-awesome-icon :icon="['fas', 'list']" />
+            <nuxt-link
+              :to="
+                `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
+              "
+              class="ml-2 hover:font-bold"
+            >
               <h3>{{ item["fields"]["Name"] }}</h3>
-              <p class="ml-5">
-                {{ item["fields"]["memoLength"] ?  item["fields"]["memoLength"] : 0}}/{{
-                  item["fields"]["videoLength"]
-                }}
-              </p>
-            </div>
-          </nuxt-link>
+            </nuxt-link>
+          </div>
+          <p class="ml-5" v-if="item.fields.videoLength > 0">
+            {{
+              item["fields"]["memoLength"] ? item["fields"]["memoLength"] : 0
+            }}/{{ item["fields"]["videoLength"] }}
+          </p>
         </li>
       </ul>
     </div>
@@ -37,14 +37,6 @@
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
-  // async asyncData({ store }) {
-  //   const dispatchInfo = {
-  //     tableId: "PlayListIndex",
-  //     currentPage: "index",
-  //     recordId: ""
-  //   };
-  //   await store.dispatch("fetchAirTableData", dispatchInfo);
-  // },
   async fetch({ store }) {
     const dispatchInfo = {
       tableId: "PlayListIndex",
@@ -53,20 +45,9 @@ export default {
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
   },
-  async mounted() {
-    this.currentPage = $nuxt.$route.path;
-    await auth().onAuthStateChanged(user => {
-      this.isLogin = user ? true : false;
-      if (user) {
-        this.currentUser = user.email;
-      }
-    });
-  },
   data() {
     return {
-      items: [],
       isLogin: false,
-      currentPage: "",
       currentUser: ""
     };
   },

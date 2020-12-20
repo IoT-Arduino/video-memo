@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div class="container p-2 sm:p-0">
     <div class="youtube-wrapper">
-      <div class="youtube-player-wrapper">
+      <div class="youtube-player-wrapper pt-2">
         <youtube ref="youtube" :video-id="videoId" />
       </div>
     </div>
@@ -17,14 +17,15 @@
       v-bind:star-size="20"
       :rating="rating"
       @rating-selected="setRating"
+      class="m-2"
     >
     </star-rating>
     <form class="form" @submit.prevent="submit">
-      <textarea v-model="memo" class="text-area" name="memo" />
-      <div class="border-solid">
+      <textarea v-model="memo" class="text-area my-2" name="memo" />
+      <div class="border-solid  text-white">
         <button
           type="submit"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-auto"
+          class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded mx-auto"
         >
           <font-awesome-icon :icon="['fas', 'save']" />
           Save
@@ -65,7 +66,6 @@ export default {
     setTimeout(() => {
       this.rating = this.$store.getters["airTableRecord"].rating;
     }, 1000);
-
   },
   data() {
     return {
@@ -97,15 +97,15 @@ export default {
   methods: {
     setRating(rating) {
       this.rating = rating;
-      console.log(this.rating);
+      // console.log(this.rating);
 
       // var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
       var tableId = this.tableId;
 
-      console.log(this.recordId);
-      console.log(this.tableId);
+      // console.log(this.recordId);
+      // console.log(this.tableId);
 
       let data = {
         records: [
@@ -126,9 +126,9 @@ export default {
           }
         })
         .then(response => {
-          console.log(response.data.records[0].fields.rating);
+          // console.log(response.data.records[0].fields.rating);
           const newRating = response.data.records[0].fields.rating;
-          console.log(this.rating);
+          // console.log(this.rating);
           this.rating = parseFloat(newRating);
         })
         .catch(function(error) {
