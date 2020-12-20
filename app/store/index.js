@@ -159,7 +159,7 @@ export default () =>
         if (fetchVideoLists.nextPageToken) {
           // console.log(fetchVideoLists.nextPageToken);
           const fetchVideoLists2 = await this.$axios.$get(
-            "/api/playlistItems",
+            "https://www.googleapis.com/youtube/v3/playlistItems",
             {
               params: {
                 part: "snippet",

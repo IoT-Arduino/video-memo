@@ -84,10 +84,10 @@ export default {
   },
 
   proxy: {
-    "/api/": {
-      target: "https://www.googleapis.com/youtube/v3",
-      pathRewrite: { "^/api/": "" }
-    }
+    // "/api/": {
+    //   target: "https://www.googleapis.com/youtube/v3",
+    //   pathRewrite: { "^/api/": "" }
+    // }
   },
 
   env: {
