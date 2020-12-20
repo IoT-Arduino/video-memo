@@ -127,7 +127,7 @@ export default () =>
       },
       async fetchYoutubePlayLists({ commit }) {
         const fetchYoutubePlayLists = await this.$axios.$get(
-          "/api/channelSections",
+          "https://www.googleapis.com/youtube/v3/channelSections",
           {
             params: {
               part: "contentDetails",
@@ -142,14 +142,17 @@ export default () =>
         commit("setYoutubePlayLists", { YoutubePlayLists });
       },
       async fetchYoutubeVideoLists({ commit }, id) {
-        const fetchVideoLists = await this.$axios.$get("/api/playlistItems", {
-          params: {
-            part: "snippet",
-            playlistId: id,
-            maxResults: 50,
-            key: process.env.YOUTUBE_API_KEY
+        const fetchVideoLists = await this.$axios.$get(
+          "https://www.googleapis.com/youtube/v3/playlistItems",
+          {
+            params: {
+              part: "snippet",
+              playlistId: id,
+              maxResults: 50,
+              key: process.env.YOUTUBE_API_KEY
+            }
           }
-        });
+        );
 
         let videoLists2 = [];
 

@@ -16,6 +16,8 @@
 </template>
 
 <script>
+
+// temporary 
 export default {
   mounted() {
     setTimeout(() => {
