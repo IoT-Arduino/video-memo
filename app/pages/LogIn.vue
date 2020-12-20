@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- Login Form -->
-    <div class="container mx-auto p-2">
+    <div class="mx-auto p-2">
       <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
         <div class="text-center mb-8">
           <h1 class="font-bold text-2xl text-gray-800">
@@ -53,34 +53,30 @@
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
-  async mounted() {
-    await auth().onAuthStateChanged(
-      user => {
-        if (user) {
-          console.log(user)
-          // auth().signOut();
-        } else {
-          console.log("no user")
-        }
-      }
-    );
-  },
+  // async mounted() {
+  //   await auth().onAuthStateChanged(
+  //     user => {
+  //       if (user) {
+  //         console.log("loggedin")
+  //       } else {
+  //         console.log("no user")
+  //       }
+  //     }
+  //   );
+  // },
   data: function() {
     return {
       login_email: "",
       login_password: "",
       loginErrorMsg: "",
-      // isLogin: false
     };
   },
 
   methods: {
     login() {
-      console.log("loginFunction")
       auth()
         .signInWithEmailAndPassword(this.login_email, this.login_password)
         .then(user => {
-          console.log("loggedIn")
           this.$router.push("/")
           })
         .catch(e => (this.loginErrorMsg = e.message));

@@ -4,11 +4,33 @@
       <p>Settimgs Menu</p>
     </div>
     <nuxt-link :to="'/YoutubePlayLists'">YoutubePlayLists</nuxt-link>
+    <div>
+      <nuxt-link
+        :to="
+          '/YoutubeVideoLists/PLwje-oXlOZnSHgTnPENYI3OPLV--ks25Z'
+        "
+        >YoutubePlayLists2</nuxt-link
+      >
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    setTimeout(() => {
+      console.log(this.playlists.length);
+    }, 1000);
+  },
+  async fetch({ store }) {
+    await store.dispatch("fetchYoutubePlayLists");
+  },
+  computed: {
+    playlists() {
+      return this.$store.getters["YoutubePlayLists"];
+    }
+  }
+};
 </script>
 
 <style></style>

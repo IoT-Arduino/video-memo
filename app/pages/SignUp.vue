@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <!-- SignUp Form -->
-    <div class="container mx-auto p-2">
+    <div class="mx-auto p-2">
       <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
         <div class="text-center mb-8">
           <h1 class="font-bold text-2xl text-gray-800">
