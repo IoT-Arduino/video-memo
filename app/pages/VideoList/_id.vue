@@ -16,8 +16,8 @@
       </div>
 
       <div class="flex justify-around align-center">
-        <div @click="sortBy('Title')" :class="sortClass('Title')" class="sort">
-          <span>Sort by Title</span>
+        <div @click="sortBy('rating')" :class="sortClass('rating')" class="sort">
+          <span>Sort by Rating</span>
         </div>
         <div @click="sortBy('memo')" :class="sortClass('memo')" class="sort">
           <span>Sort by memo</span>
@@ -46,6 +46,17 @@
                 class="text-indigo-600"
               />
             </nuxt-link>
+            <star-rating
+              v-bind:increment="0.5"
+              v-bind:max-rating="5"
+              inactive-color="#ccc"
+              active-color="#f9d71c"
+              v-bind:star-size="10"
+              :rating="parseFloat(item.fields.rating)"
+              :show-rating="false"
+              read-only
+            >
+            </star-rating>
           </div>
         </div>
         <p v-if="item.fields.memo" class="m-1 p-1 bg-gray-300">
@@ -57,7 +68,12 @@
 </template>
 
 <script>
+import StarRating from "vue-star-rating";
+
 export default {
+  components: {
+    StarRating
+  },
   data() {
     return {
       items: [],
@@ -66,30 +82,40 @@ export default {
         key: "memo",
         isAsc: true
       },
-      filterName: ""
+      filterName: "",
+      rating: 3,
+      airTablePlayListData: []
     };
   },
   created() {
     const currentId = this.$nuxt.$route.params.id;
   },
-  mounted() {
-    this.tableId = this.$nuxt.$route.query.name;
-    // this.loadItems();
-  },
-  async asyncData({ store,route }) {
+  async fetch({ store, route }) {
     const dispatchInfo = {
       tableId: route.query.name,
       currentPage: "VideoList",
-      recordId :""
+      recordId: ""
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
   },
+  async mounted() {
+    this.tableId = this.$nuxt.$route.query.name;
+    await this.$nextTick( () => {
+
+      setTimeout(() => {
+        this.setLength();
+      }, 1000);
+    });
+  },
   computed: {
     playLists() {
-      return this.$store.getters["airTableData"];
+      return this.$store.getters["airTablePlayList"];
+    },
+    videoLists() {
+      return this.$store.getters["airTableVideoList"];
     },
     result() {
-      let list = this.playLists.slice();
+      let list = this.videoLists.slice();
 
       if (this.filterName) {
         list = list.filter(
@@ -104,7 +130,7 @@ export default {
           return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1);
         });
       }
-      console.log(list);
+
       return list;
     }
   },
@@ -125,48 +151,59 @@ export default {
     }
   },
   methods: {
-    // loadItems() {
-    //   var self = this;
-    //   var app_id = process.env.AIRTABLE_APP_ID;
-    //   var app_key = process.env.AIRTABLE_API_KEY;
-    //   var table_id = this.$nuxt.$route.query.name;
-    //   this.items = [];
-    //   this.$axios
-    //     .get(
-    //       "https://api.airtable.com/v0/" +
-    //         app_id +
-    //         "/" +
-    //         table_id +
-    //         "?view=Grid%20view",
-    //       {
-    //         headers: { Authorization: "Bearer " + app_key }
-    //       }
-    //     )
-    //     .then(function(response) {
-    //       let beforeSortedItems = [];
+    videoListsLength() {
+      return this.$store.getters["airTableVideoList"].length;
+    },
+    videoMemoLength() {
+      const items = this.$store.getters["airTableVideoList"];
+      const filteredItems = items.filter(item => {
+        return item.fields.memo !== "";
+      });
+      return filteredItems.length;
+    },
+    setLength() {
+      if (this.playLists.length > 0) {
+        const filteredPlayList = this.playLists.filter(list => {
+          return list.fields.Name === this.tableId;
+        });
+        const recordId = filteredPlayList[0].id;
+        var self = this;
+        var app_id = process.env.AIRTABLE_APP_ID;
+        var app_key = process.env.AIRTABLE_API_KEY;
+        var tableId = "PlayListIndex";
 
-    //       self.items = response.data.records;
+        const data = {
+          records: [
+            {
+              id: recordId,
+              fields: {
+                memoLength: this.videoMemoLength(),
+                videoLength: this.videoListsLength()
+              }
+            }
+          ]
+        };
+        this.items = [];
+        this.$axios
+          .patch(
+            "https://api.airtable.com/v0/" + app_id + "/" + tableId,
+            data,
+            {
+              headers: {
+                Authorization: "Bearer " + app_key,
+                "Content-Type": "application/json"
+              }
+            }
+          )
+          .then(function(response) {
+            self.items = response.data.records;
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+    },
 
-    //       const filteredItems = self.items.filter((item, index) => {
-    //         if (item.fields.Title == "Deleted video") {
-    //           console.log(`Video:${index} has deleted`);
-    //         }
-    //         return item.fields.Title != "Deleted video";
-    //       });
-
-    //       filteredItems.forEach(data => {
-    //         if (!data.fields.memo) {
-    //           data.fields.memo = "";
-    //         }
-    //         beforeSortedItems.push(data);
-    //       });
-
-    //       self.items = beforeSortedItems;
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
-    // },
     sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : true;
       this.sort.key = key;

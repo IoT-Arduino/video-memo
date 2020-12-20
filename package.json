@@ -20,6 +20,7 @@
     "marked": "^1.1.1",
     "nuxt": "^2.14.5",
     "shitajicss": "^5.1.0",
+    "vue-star-rating": "^1.7.0",
     "vue-youtube": "^1.4.0"
   },
   "devDependencies": {

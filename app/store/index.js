@@ -3,20 +3,25 @@ import Vuex from "vuex";
 export default () =>
   new Vuex.Store({
     state: {
-      airTableData: [],
+      airTablePlayList: [],
+      airTableVideoList: [],
       airTableRecord: {},
       YoutubePlayLists: [],
       YoutubeVideoLists: []
     },
     getters: {
-      airTableData: state => state.airTableData,
+      airTablePlayList: state => state.airTablePlayList,
+      airTableVideoList: state => state.airTableVideoList,
       airTableRecord: state => state.airTableRecord,
       YoutubePlayLists: state => state.YoutubePlayLists,
       YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
-      setAirTableData(state, airTableData) {
-        state.airTableData = airTableData;
+      setAirTablePlayList(state, airTablePlayList) {
+        state.airTablePlayList = airTablePlayList;
+      },
+      setAirTableVideoList(state, airTableVideoList) {
+        state.airTableVideoList = airTableVideoList;
       },
       setAirTableRecord(state, airTableRecord) {
         state.airTableRecord = airTableRecord;
@@ -52,7 +57,7 @@ export default () =>
             items = response.data.records;
 
             if (dispatchInfo.currentPage === "index") {
-              commit("setAirTableData", items);
+              commit("setAirTablePlayList", items);
             }
 
             if (dispatchInfo.currentPage === "VideoList") {
@@ -68,24 +73,52 @@ export default () =>
                 if (!data.fields.memo) {
                   data.fields.memo = "";
                 }
+                if (!data.fields.rating) {
+                  data.fields.rating = 0;
+                }
                 addMemoItems.push(data);
               });
 
               items = addMemoItems;
-              commit("setAirTableData", items);
-            }
 
-            if (dispatchInfo.currentPage === "VideoPage") {
-              let filteredItem = {}
-              filteredItem = items.find(record => {
-                return record.id == dispatchInfo.recordId;
-              });
-              const airTableRecord = {
-                memo: filteredItem.fields.memo ?filteredItem.fields.memo : "" ,
-                Title: filteredItem.fields.Title
-              };
-              commit("setAirTableRecord", airTableRecord);
+              commit("setAirTableVideoList", items);
             }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      },
+      async fetchAirTableRecord({ commit }, dispatchInfo) {
+        const app_id = process.env.AIRTABLE_APP_ID;
+        const app_key = process.env.AIRTABLE_API_KEY;
+        const table_id = dispatchInfo.tableId;
+        const record_id = dispatchInfo.recordId;
+
+        let item = [];
+        this.$axios
+          .get(
+            "https://api.airtable.com/v0/" +
+              app_id +
+              "/" +
+              table_id +
+              "/" +
+              record_id,
+
+            {
+              headers: {
+                Authorization: "Bearer " + app_key
+              }
+            }
+          )
+          .then(function(response) {
+            item = response.data;
+
+            const airTableRecord = {
+              memo: item.fields.memo ? item.fields.memo : "",
+              rating: item.fields.rating ? item.fields.rating : 0,
+              Title: item.fields.Title
+            };
+            commit("setAirTableRecord", airTableRecord);
           })
           .catch(function(error) {
             console.log(error);
@@ -103,7 +136,6 @@ export default () =>
             }
           }
         );
-        console.log(fetchYoutubePlayLists.items[1]);
         const YoutubePlayLists =
           fetchYoutubePlayLists.items[1].contentDetails["playlists"];
         commit("setYoutubePlayLists", { YoutubePlayLists });
@@ -122,7 +154,7 @@ export default () =>
         let videoLists2 = [];
 
         if (fetchVideoLists.nextPageToken) {
-          console.log(fetchVideoLists.nextPageToken);
+          // console.log(fetchVideoLists.nextPageToken);
           const fetchVideoLists2 = await this.$axios.$get(
             "/api/playlistItems",
             {

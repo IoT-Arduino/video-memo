@@ -18,8 +18,14 @@
             "
             class="ml-2 hover:font-bold"
           >
-            <h3>{{ item["fields"]["Name"] }}</h3>
-            <p></p>
+            <div class="flex justify-between items-center">
+              <h3>{{ item["fields"]["Name"] }}</h3>
+              <p class="ml-5">
+                {{ item["fields"]["memoLength"] ?  item["fields"]["memoLength"] : 0}}/{{
+                  item["fields"]["videoLength"]
+                }}
+              </p>
+            </div>
           </nuxt-link>
         </li>
       </ul>
@@ -31,13 +37,21 @@
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
-  data() {
-    return {
-      items: [],
-      isLogin: false,
-      currentPage: "",
-      currentUser: ""
+  // async asyncData({ store }) {
+  //   const dispatchInfo = {
+  //     tableId: "PlayListIndex",
+  //     currentPage: "index",
+  //     recordId: ""
+  //   };
+  //   await store.dispatch("fetchAirTableData", dispatchInfo);
+  // },
+  async fetch({ store }) {
+    const dispatchInfo = {
+      tableId: "PlayListIndex",
+      currentPage: "index",
+      recordId: ""
     };
+    await store.dispatch("fetchAirTableData", dispatchInfo);
   },
   async mounted() {
     this.currentPage = $nuxt.$route.path;
@@ -48,18 +62,17 @@ export default {
       }
     });
   },
-  async asyncData({ store }) {
-    const dispatchInfo = {
-      tableId : "PlayListIndex",
-      currentPage : "index",
-      recordId :""
-    }
-    // const tableId = "PlayListIndex"
-    await store.dispatch("fetchAirTableData",dispatchInfo);
+  data() {
+    return {
+      items: [],
+      isLogin: false,
+      currentPage: "",
+      currentUser: ""
+    };
   },
   computed: {
     playLists() {
-      return this.$store.getters["airTableData"];
+      return this.$store.getters["airTablePlayList"];
     }
   }
 };

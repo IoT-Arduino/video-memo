@@ -29,7 +29,10 @@
 <script>
 export default {
   layout: "defaultPC",
-  async asyncData({ route, store, redirect }) {
+  // async asyncData({ route, store, redirect }) {
+  //   await store.dispatch("fetchYoutubeVideoLists", route.params.id);
+  // },
+  async fetch({ route, store }) {
     await store.dispatch("fetchYoutubeVideoLists", route.params.id);
   },
   computed: {

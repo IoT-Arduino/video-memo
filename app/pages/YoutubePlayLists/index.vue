@@ -17,10 +17,16 @@
 
 <script>
 export default {
-  async asyncData({ store }) {
-    if (store.getters["YoutubePlayLists"].length) {
-      return;
-    }
+  // async asyncData({ store }) {
+  //   if (store.getters["YoutubePlayLists"].length) {
+  //     return;
+  //   }
+  //   await store.dispatch("fetchYoutubePlayLists");
+  // },
+  async fetch({ store }) {
+    // if (store.getters["YoutubePlayLists"].length) {
+    //   return;
+    // }
     await store.dispatch("fetchYoutubePlayLists");
   },
   computed: {
