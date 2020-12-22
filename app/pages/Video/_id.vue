@@ -9,19 +9,27 @@
       <p>Category: {{ tableId }}</p>
       <p class="text-left">{{ airTableRecord.Title }}</p>
     </div>
-    <star-rating
-      v-bind:increment="0.5"
-      v-bind:max-rating="5"
-      inactive-color="#ccc"
-      active-color="#f9d71c"
-      v-bind:star-size="20"
-      :rating="rating"
-      @rating-selected="setRating"
-      class="m-2"
-    >
-    </star-rating>
+    <div @change.stop="change">
+      <star-rating
+        v-bind:increment="0.5"
+        v-bind:max-rating="5"
+        inactive-color="#ccc"
+        active-color="#f9d71c"
+        v-bind:star-size="20"
+        :rating="rating"
+        @rating-selected="setTest"
+        class="m-2"
+      >
+      </star-rating>
+    </div>
+
     <form class="form" @submit.prevent="submit">
-      <textarea v-model="memo" class="text-area my-2" name="memo" />
+      <textarea
+        v-model="memo"
+        class="text-area my-2"
+        name="memo"
+        @keydown.enter.exact="keyDownEnter"
+      ></textarea>
       <div class="border-solid  text-white">
         <button
           type="submit"
@@ -95,7 +103,62 @@ export default {
     }
   },
   methods: {
-    setRating(rating) {
+    keyDownEnter(e) {
+      // e.preventDefault();
+      e.stopPropagation()
+    },
+    setTest(rating) {
+      // this.rating = rating; 
+      console.log(this.memoData)
+      console.log(rating);
+
+      this.memo = this.memoData
+
+      const airTableRecord = {
+        Title:this.airTableRecord.Title,
+        rating:rating,
+        memo:this.memoData
+      }
+
+      console.log(airTableRecord)
+
+      this.$store.commit["setAirTableRecord",airTableRecord]
+
+
+      var app_id = process.env.AIRTABLE_APP_ID;
+      var app_key = process.env.AIRTABLE_API_KEY;
+      var tableId = this.tableId;
+
+      let data = {
+        records: [
+          {
+            id: this.recordId,
+            fields: {
+              rating: rating
+            }
+          }
+        ]
+      };
+
+      this.$axios
+        .patch("https://api.airtable.com/v0/" + app_id + "/" + tableId, data, {
+          headers: {
+            Authorization: "Bearer " + app_key,
+            "Content-Type": "application/json"
+          }
+        })
+        .then(response => {
+          // console.log(response.data.records[0].fields.rating);
+          const newRating = response.data.records[0].fields.rating;
+          // console.log(this.rating);
+          // this.rating = parseFloat(newRating);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
+
+    setRatingData(rating) {
       this.rating = rating;
       // console.log(this.rating);
 
@@ -129,7 +192,7 @@ export default {
           // console.log(response.data.records[0].fields.rating);
           const newRating = response.data.records[0].fields.rating;
           // console.log(this.rating);
-          this.rating = parseFloat(newRating);
+          // this.rating = parseFloat(newRating);
         })
         .catch(function(error) {
           console.log(error);
