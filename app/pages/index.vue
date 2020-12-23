@@ -15,11 +15,11 @@
             <font-awesome-icon :icon="['fas', 'list']" />
             <nuxt-link
               :to="
-                `/VideoList/${item.fields.PlayListId}?name=${item.fields.Name}`
+                `/VideoList/${item.fields.name}?name=${item.fields.name}`
               "
               class="ml-2 hover:font-bold"
             >
-              <h3>{{ item["fields"]["Name"] }}</h3>
+              <h3>{{ item["fields"]["name"] }}</h3>
             </nuxt-link>
           </div>
           <p class="ml-5" v-if="item.fields.videoLength > 0">

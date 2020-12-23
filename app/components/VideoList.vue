@@ -7,14 +7,14 @@
     >
       <div class="flex hover:bg-green-200">
         <div class="flex-none">
-          <img :src="item['fields']['Thumbnail']" />
+          <img :src="item['fields']['thumbnail']" />
         </div>
         <div class="ml-2 pt-1">
           <nuxt-link
             class="mt-2"
-            :to="`/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`"
+            :to="`/Video/${item.fields.youtubeVideoId}?id=${item.id}?${tableId}`"
           >
-            <h3 class="mb-2">{{ item["fields"]["Title"] | itemTitle }}</h3>
+            <h3 class="mb-2">{{ item["fields"]["title"] | itemTitle }}</h3>
             <span class="text-indigo-600">Go To Movie Page</span>
             <font-awesome-icon
               :icon="['fas', 'angle-double-right']"

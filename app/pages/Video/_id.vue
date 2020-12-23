@@ -7,7 +7,7 @@
     </div>
     <div class="m-2">
       <p>Category: {{ tableId }}</p>
-      <p class="text-left">{{ airTableRecord.Title }}</p>
+      <p class="text-left">{{ airTableRecord.title }}</p>
     </div>
     <div @change.stop="change">
       <star-rating
@@ -115,7 +115,7 @@ export default {
       this.memo = this.memoData
 
       const airTableRecord = {
-        Title:this.airTableRecord.Title,
+        title:this.airTableRecord.title,
         rating:rating,
         memo:this.memoData
       }

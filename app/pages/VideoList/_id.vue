@@ -129,7 +129,7 @@ export default {
 
       if (this.filterName) {
         list = list.filter(
-          item => item.fields.Title.indexOf(this.filterName) > -1
+          item => item.fields.title.indexOf(this.filterName) > -1
         );
       }
 
@@ -174,7 +174,7 @@ export default {
     setVideoLength() {
       if (this.playLists.length > 0) {
         const filteredPlayList = this.playLists.filter(list => {
-          return list.fields.Name === this.tableId;
+          return list.fields.name === this.tableId;
         });
         const recordId = filteredPlayList[0].id;
         var self = this;

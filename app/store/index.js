@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import { firebase, auth } from "@/plugins/firebase";
+// import { firebase, auth } from "@/plugins/firebase";
 
 export default () =>
   new Vuex.Store({
@@ -117,7 +117,7 @@ export default () =>
             const airTableRecord = {
               memo: item.fields.memo ? item.fields.memo : "",
               rating: item.fields.rating ? item.fields.rating : 0,
-              Title: item.fields.Title
+              title: item.fields.title
             };
             commit("setAirTableRecord", airTableRecord);
           })
