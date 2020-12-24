@@ -7,14 +7,14 @@ export default () =>
       airTablePlayList: [],
       airTableVideoList: [],
       airTableRecord: {},
-      YoutubePlayLists: [],
+      // YoutubePlayLists: [],
       YoutubeVideoLists: []
     },
     getters: {
       airTablePlayList: state => state.airTablePlayList,
       airTableVideoList: state => state.airTableVideoList,
       airTableRecord: state => state.airTableRecord,
-      YoutubePlayLists: state => state.YoutubePlayLists,
+      // YoutubePlayLists: state => state.YoutubePlayLists,
       YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
@@ -27,9 +27,9 @@ export default () =>
       setAirTableRecord(state, airTableRecord) {
         state.airTableRecord = airTableRecord;
       },
-      setYoutubePlayLists(state, { YoutubePlayLists }) {
-        state.YoutubePlayLists = YoutubePlayLists;
-      },
+      // setYoutubePlayLists(state, { YoutubePlayLists }) {
+      //   state.YoutubePlayLists = YoutubePlayLists;
+      // },
       setYoutubeVideoLists(state, YoutubeVideoLists) {
         state.YoutubeVideoLists = YoutubeVideoLists;
       }
@@ -137,22 +137,22 @@ export default () =>
             console.log(error);
           });
       },
-      async fetchYoutubePlayLists({ commit }) {
-        const fetchYoutubePlayLists = await this.$axios.$get(
-          "https://www.googleapis.com/youtube/v3/channelSections",
-          {
-            params: {
-              part: "contentDetails",
-              channelId: "UCkli32c5AWOAReJmPnbEs6w",
-              maxResults: 50,
-              key: process.env.YOUTUBE_API_KEY
-            }
-          }
-        );
-        const YoutubePlayLists =
-          fetchYoutubePlayLists.items[1].contentDetails["playlists"];
-        commit("setYoutubePlayLists", { YoutubePlayLists });
-      },
+      // async fetchYoutubePlayLists({ commit }) {
+      //   const fetchYoutubePlayLists = await this.$axios.$get(
+      //     "https://www.googleapis.com/youtube/v3/channelSections",
+      //     {
+      //       params: {
+      //         part: "contentDetails",
+      //         channelId: "UCkli32c5AWOAReJmPnbEs6w",
+      //         maxResults: 50,
+      //         key: process.env.YOUTUBE_API_KEY
+      //       }
+      //     }
+      //   );
+      //   const YoutubePlayLists =
+      //     fetchYoutubePlayLists.items[1].contentDetails["playlists"];
+      //   commit("setYoutubePlayLists", { YoutubePlayLists });
+      // },
       async fetchYoutubeVideoLists({ commit }, id) {
         const fetchVideoLists = await this.$axios.$get(
           "https://www.googleapis.com/youtube/v3/playlistItems",
