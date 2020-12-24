@@ -8,14 +8,14 @@ export default () =>
       airTableVideoList: [],
       airTableRecord: {},
       YoutubePlayLists: [],
-      YoutubeVideoLists: [],
+      YoutubeVideoLists: []
     },
     getters: {
       airTablePlayList: state => state.airTablePlayList,
       airTableVideoList: state => state.airTableVideoList,
       airTableRecord: state => state.airTableRecord,
       YoutubePlayLists: state => state.YoutubePlayLists,
-      YoutubeVideoLists: state => state.YoutubeVideoLists,
+      YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
       setAirTablePlayList(state, airTablePlayList) {
@@ -32,7 +32,7 @@ export default () =>
       },
       setYoutubeVideoLists(state, YoutubeVideoLists) {
         state.YoutubeVideoLists = YoutubeVideoLists;
-      },
+      }
     },
     actions: {
       async fetchAirTableData({ commit }, dispatchInfo) {
@@ -63,11 +63,17 @@ export default () =>
 
             if (dispatchInfo.currentPage === "VideoList") {
               let addMemoItems = [];
-              const filteredItems = items.filter((item, index) => {
-                if (item.fields.Title == "Deleted video") {
+              const filterDeletedItems = items.filter((item, index) => {
+                if (item.fields.title == "Deleted video") {
                   console.log(`Video:${index} has deleted`);
                 }
-                return item.fields.Title != "Deleted video";
+                return item.fields.title !== "Deleted video";
+              });
+
+              const filteredItems = filterDeletedItems.filter((item) => {
+                return (
+                  item.fields.youtubeVideoId !== undefined 
+                );
               });
 
               filteredItems.forEach(data => {
@@ -114,10 +120,16 @@ export default () =>
           .then(function(response) {
             item = response.data;
 
+            console.log(item)
+
             const airTableRecord = {
               memo: item.fields.memo ? item.fields.memo : "",
               rating: item.fields.rating ? item.fields.rating : 0,
-              title: item.fields.title
+              title: item.fields.title,
+              publishedAt: item.fields.publishedAt,
+              channel: item.fields.channel,
+              videoUrl: item.fields.videoUrl
+
             };
             commit("setAirTableRecord", airTableRecord);
           })
@@ -185,6 +197,6 @@ export default () =>
           videoListsAll = videoLists;
         }
         commit("setYoutubeVideoLists", videoListsAll);
-      },
+      }
     }
   });

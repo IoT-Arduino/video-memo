@@ -6,7 +6,6 @@
 
     <div class="filter-sort mx-2 my-5 sm:flex justify-between align-center">
       <div class="border-2 w-3/5 sm:w-2/5">
-        <!-- <label for="filter">Filter by Title</label> -->
         <input
           placeholder="Filter by Title"
           type="text"
@@ -17,7 +16,7 @@
       </div>
 
       <div class="flex sm:justify-end align-center items-center mt-4 sm:mt-0">
-        <p class="mx-1">Sort by :</p>
+        
         <div
           @click="sortBy('rating')"
           :class="sortClass('rating')"
@@ -32,59 +31,23 @@
         >
           <span>Memo</span>
         </div>
+        <div
+          @click="sortBy('publishedAt')"
+          :class="sortClass('publishedAt')"
+          class="sort mx-1 cursor-pointer px-3 py-1 bg-gray-300 hover:bg-green-500 hover:text-white rounded text-center shadow"
+        >
+          <span>PublishedAt</span>
+        </div>
       </div>
     </div>
     <VideoList :result="result" :tableId="tableId" />
-    <!-- <ul>
-      <li
-        v-for="item in result"
-        :key="item.id"
-        class="mb-3 border list-none rounded-sm"
-      >
-        <div class="flex hover:bg-green-200">
-          <div class="flex-none">
-            <img :src="item['fields']['Thumbnail']" />
-          </div>
-          <div class="ml-2 pt-1">
-            <nuxt-link
-              class="mt-2"
-              :to="`/Video/${item.fields.VideoId}?id=${item.id}?${tableId}`"
-            >
-              <h3 class="mb-2">{{ item["fields"]["Title"] | itemTitle }}</h3>
-              <span class="text-indigo-600">Go To Movie Page</span>
-              <font-awesome-icon
-                :icon="['fas', 'angle-double-right']"
-                class="text-indigo-600"
-              />
-            </nuxt-link>
-            <star-rating
-              v-bind:increment="0.5"
-              v-bind:max-rating="5"
-              inactive-color="#ccc"
-              active-color="#f9d71c"
-              v-bind:star-size="10"
-              :rating="parseFloat(item.fields.rating)"
-              :show-rating="false"
-              read-only
-            >
-            </star-rating>
-          </div>
-        </div>
-        <p v-if="item.fields.memo" class="m-1 p-1 bg-gray-300">
-          {{ item["fields"]["memo"] | itemMemo }}
-        </p>
-      </li>
-    </ul> -->
   </div>
 </template>
 
 <script>
-// import StarRating from "vue-star-rating";
 
 export default {
-  // components: {
-  //   StarRating
-  // },
+
   data() {
     return {
       items: [],
@@ -144,22 +107,7 @@ export default {
       return list;
     }
   },
-  // filters: {
-  //   itemTitle(val) {
-  //     if (val) {
-  //       return `${val.substring(0, 50)}...`;
-  //     } else {
-  //       return;
-  //     }
-  //   },
-  //   itemMemo(val) {
-  //     if (val) {
-  //       return `${val.substring(0, 70)}...`;
-  //     } else {
-  //       return;
-  //     }
-  //   }
-  // },
+
   methods: {
     videoListsLength() {
       return this.$store.getters["airTableVideoList"].length;

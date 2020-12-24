@@ -1,13 +1,19 @@
 <template>
   <div class="container p-2 sm:p-0">
+    <p class="mb-2">PlayList: {{ tableId }}</p>
     <div class="youtube-wrapper">
       <div class="youtube-player-wrapper pt-2">
         <youtube ref="youtube" :video-id="videoId" />
       </div>
     </div>
     <div class="m-2">
-      <p>Category: {{ tableId }}</p>
-      <p class="text-left">{{ airTableRecord.title }}</p>
+      <a :href="airTableRecord.videoUrl" class="text-left font-bold">{{
+        airTableRecord.title
+      }}</a>
+      <div class="flex justify-start">
+        <p class="mr-6">Channel: {{ airTableRecord.channel }}</p>
+        <p>PublishedAt: {{ airTableRecord.publishedAt }}</p>
+      </div>
     </div>
     <div @change.stop="change">
       <star-rating
@@ -73,6 +79,7 @@ export default {
 
     setTimeout(() => {
       this.rating = this.$store.getters["airTableRecord"].rating;
+      console.log(this.airTableRecord);
     }, 1000);
   },
   data() {
@@ -105,25 +112,24 @@ export default {
   methods: {
     keyDownEnter(e) {
       // e.preventDefault();
-      e.stopPropagation()
+      e.stopPropagation();
     },
     setTest(rating) {
-      // this.rating = rating; 
-      console.log(this.memoData)
+      // this.rating = rating;
+      console.log(this.memoData);
       console.log(rating);
 
-      this.memo = this.memoData
+      this.memo = this.memoData;
 
       const airTableRecord = {
-        title:this.airTableRecord.title,
-        rating:rating,
-        memo:this.memoData
-      }
+        title: this.airTableRecord.title,
+        rating: rating,
+        memo: this.memoData
+      };
 
-      console.log(airTableRecord)
+      console.log(airTableRecord);
 
-      this.$store.commit["setAirTableRecord",airTableRecord]
-
+      this.$store.commit[("setAirTableRecord", airTableRecord)];
 
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;

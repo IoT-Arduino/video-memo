@@ -24,8 +24,8 @@
           </div>
           <p class="ml-5" v-if="item.fields.videoLength > 0">
             {{
-              item["fields"]["memoLength"] ? item["fields"]["memoLength"] : 0
-            }}/{{ item["fields"]["videoLength"] }}
+              item.fields.memoLength ? item.fields.memoLength : 0
+            }}/{{ item.fields.videoLength }}
           </p>
         </li>
       </ul>

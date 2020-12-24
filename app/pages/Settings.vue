@@ -8,23 +8,6 @@
 </template>
 
 <script>
-
-// temporary 
-// export default {
-//   mounted() {
-//     setTimeout(() => {
-//       console.log(this.playlists.length);
-//     }, 1000);
-//   },
-//   async fetch({ store }) {
-//     await store.dispatch("fetchYoutubePlayLists");
-//   },
-//   computed: {
-//     playlists() {
-//       return this.$store.getters["YoutubePlayLists"];
-//     }
-//   }
-// };
 </script>
 
 <style></style>
