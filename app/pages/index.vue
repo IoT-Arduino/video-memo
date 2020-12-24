@@ -15,7 +15,7 @@
             <font-awesome-icon :icon="['fas', 'list']" />
             <nuxt-link
               :to="
-                `/VideoList/${item.fields.name}?name=${item.fields.name}`
+                `/VideoList/${item.fields.name}`
               "
               class="ml-2 hover:font-bold"
             >

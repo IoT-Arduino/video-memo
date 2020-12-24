@@ -66,14 +66,15 @@ export default {
   },
   async fetch({ store, route }) {
     const dispatchInfo = {
-      tableId: route.query.name,
+      tableId: route.params.id,
       currentPage: "VideoList",
       recordId: ""
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
   },
   async mounted() {
-    this.tableId = this.$nuxt.$route.query.name;
+    // this.tableId = this.$nuxt.$route.query.name;
+    this.tableId = this.$nuxt.$route.params.id;
     await this.$nextTick(() => {
       setTimeout(() => {
         this.setVideoLength();
@@ -124,6 +125,9 @@ export default {
         const filteredPlayList = this.playLists.filter(list => {
           return list.fields.name === this.tableId;
         });
+
+        console.log(filteredPlayList)
+
         const recordId = filteredPlayList[0].id;
         var self = this;
         var app_id = process.env.AIRTABLE_APP_ID;

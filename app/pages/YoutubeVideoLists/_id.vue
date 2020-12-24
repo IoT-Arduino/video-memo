@@ -17,7 +17,10 @@
         class="flex justify-between items-center"
       >
         <td class="video-item">{{ video.snippet.title }}</td>
-        <td class="video-item-id longurl">{{ video.snippet.resourceId.videoId }}</td>
+        <td class="video-item longurl">{{ video.snippet.publishedAt }}</td>
+        <td class="video-item-id longurl">
+          {{ video.snippet.resourceId.videoId }}
+        </td>
         <td v-if="video.snippet.thumbnails.default" class="video-item longurl">
           {{ video.snippet.thumbnails.default.url }}
         </td>
@@ -33,6 +36,7 @@
 export default {
   async fetch({ route, store }) {
     await store.dispatch("fetchYoutubeVideoLists", route.params.id);
+    await console.log(store.getters["YoutubeVideoLists"]);
   },
   computed: {
     videos() {
@@ -44,9 +48,10 @@ export default {
       const videoLists = this.$store.getters["YoutubeVideoLists"];
       console.log(videoLists);
 
-      let csv = "\ufeff" + "Title,VideoId,Thumbnail,Description\n";
+      let csv = "\ufeff" + "Title,PublishedAt,VideoId,Thumbnail,Description\n";
       videoLists.forEach(video => {
         const newTitle = video.snippet.title.replace(/\r?\n?,?/g, "");
+        const newPublishedAt = video.snippet.publishedAt.replace(/\r?\n?,?/g, "");
         const newVideoId = video.snippet.resourceId.videoId.replace(
           /\r?\n?,?/g,
           ""
@@ -62,6 +67,8 @@ export default {
 
         const line =
           newTitle +
+          "," +
+          newPublishedAt +
           "," +
           newVideoId +
           "," +
