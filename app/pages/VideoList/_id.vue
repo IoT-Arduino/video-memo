@@ -93,7 +93,7 @@ export default {
 
       if (this.filterName) {
         list = list.filter(
-          item => item.fields.title.indexOf(this.filterName) > -1
+          item => item.fields.title.toLowerCase().indexOf(this.filterName.toLowerCase()) > -1
         );
       }
 
@@ -114,7 +114,6 @@ export default {
       const items = await this.videoLists.filter(item => {
         return item.fields.publishedAt !== "";
       });
-      await console.log(items.length);
       await items.length !== 0 ? this.isPublishedAt = true : this.isPublishedAt =false
     },
     videoListsLength() {

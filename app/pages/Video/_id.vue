@@ -11,8 +11,8 @@
         airTableRecord.title
       }}</a>
       <div class="flex justify-start">
-        <p class="mr-6">Channel: {{ airTableRecord.channel }}</p>
-        <p>PublishedAt: {{ airTableRecord.publishedAt }}</p>
+        <p v-if="airTableRecord.channel" class="mr-6">Channel: {{ airTableRecord.channel }}</p>
+        <p v-if="airTableRecord.publishedAt">PublishedAt: {{ airTableRecord.publishedAt }}</p>
       </div>
     </div>
     <div @change.stop="change">
