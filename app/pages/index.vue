@@ -19,7 +19,7 @@
               "
               class="ml-2 hover:font-bold"
             >
-              <h3>{{ item["fields"]["name"] }}</h3>
+              <h3>{{ item.fields.name }}</h3>
             </nuxt-link>
           </div>
           <p class="ml-5" v-if="item.fields.videoLength > 0">

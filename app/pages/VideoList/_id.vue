@@ -16,7 +16,6 @@
       </div>
 
       <div class="flex sm:justify-end align-center items-center mt-4 sm:mt-0">
-        
         <div
           @click="sortBy('rating')"
           :class="sortClass('rating')"
@@ -32,6 +31,7 @@
           <span>Memo</span>
         </div>
         <div
+          v-if="isPublishedAt"
           @click="sortBy('publishedAt')"
           :class="sortClass('publishedAt')"
           class="sort mx-1 cursor-pointer px-3 py-1 bg-gray-300 hover:bg-green-500 hover:text-white rounded text-center shadow"
@@ -45,9 +45,7 @@
 </template>
 
 <script>
-
 export default {
-
   data() {
     return {
       items: [],
@@ -58,7 +56,8 @@ export default {
       },
       filterName: "",
       rating: 3,
-      airTablePlayListData: []
+      airTablePlayListData: [],
+      isPublishedAt:null
     };
   },
   created() {
@@ -78,6 +77,7 @@ export default {
     await this.$nextTick(() => {
       setTimeout(() => {
         this.setVideoLength();
+        this.checkPublishedAt()
       }, 1000);
     });
   },
@@ -106,10 +106,17 @@ export default {
       }
 
       return list;
-    }
+    },
   },
 
   methods: {
+    async checkPublishedAt() {
+      const items = await this.videoLists.filter(item => {
+        return item.fields.publishedAt !== "";
+      });
+      await console.log(items.length);
+      await items.length !== 0 ? this.isPublishedAt = true : this.isPublishedAt =false
+    },
     videoListsLength() {
       return this.$store.getters["airTableVideoList"].length;
     },
@@ -125,8 +132,6 @@ export default {
         const filteredPlayList = this.playLists.filter(list => {
           return list.fields.name === this.tableId;
         });
-
-        console.log(filteredPlayList)
 
         const recordId = filteredPlayList[0].id;
         var self = this;
@@ -180,7 +185,6 @@ export default {
 
 <style lang="scss" scoped>
 .sort.desc:after {
-
   margin-left: 4px;
   display: inline-block;
   content: "▽";

@@ -83,6 +83,9 @@ export default () =>
                 if (!data.fields.rating) {
                   data.fields.rating = 0;
                 }
+                if (!data.fields.publishedAt) {
+                  data.fields.publishedAt = "";
+                }
                 addMemoItems.push(data);
               });
 
@@ -137,22 +140,6 @@ export default () =>
             console.log(error);
           });
       },
-      // async fetchYoutubePlayLists({ commit }) {
-      //   const fetchYoutubePlayLists = await this.$axios.$get(
-      //     "https://www.googleapis.com/youtube/v3/channelSections",
-      //     {
-      //       params: {
-      //         part: "contentDetails",
-      //         channelId: "UCkli32c5AWOAReJmPnbEs6w",
-      //         maxResults: 50,
-      //         key: process.env.YOUTUBE_API_KEY
-      //       }
-      //     }
-      //   );
-      //   const YoutubePlayLists =
-      //     fetchYoutubePlayLists.items[1].contentDetails["playlists"];
-      //   commit("setYoutubePlayLists", { YoutubePlayLists });
-      // },
       async fetchYoutubeVideoLists({ commit }, id) {
         const fetchVideoLists = await this.$axios.$get(
           "https://www.googleapis.com/youtube/v3/playlistItems",
