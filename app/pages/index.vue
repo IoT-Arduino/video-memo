@@ -35,11 +35,12 @@
 
 <script>
 import { firebase, auth } from "@/plugins/firebase";
+import settingData from "@/util/settingData"
 
 export default {
   async fetch({ store }) {
     const dispatchInfo = {
-      tableId: "PlayListIndex",
+      tableId: settingData.indexTableName,
       currentPage: "index",
       recordId: ""
     };

@@ -4,15 +4,14 @@ import "firebase/firestore";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    // apiKey: "AIzaSyBy2YwdqUjB1N07cDJsQV0DtxYjsUSXc-Q",
     apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: "movie-memo-a810f.firebaseapp.com",
-    databaseURL: "https://movie-memo-a810f.firebaseio.com",
-    projectId: "movie-memo-a810f",
-    storageBucket: "movie-memo-a810f.appspot.com",
-    messagingSenderId: "357306995010",
-    appId: "1:357306995010:web:dc39b2d329213ebbd738db",
-    measurementId: "G-XVBT8FDZEP"
+    authDomain: "process.env.FIREBASE_AUTH_DOMAIN",
+    projectId: "process.env.FIREBASE_PROJECT_ID",
+    appId: "process.env.FIREBASE_APP_ID"
+    // databaseURL: "https://movie-memo-a810f.firebaseio.com",
+    // storageBucket: "movie-memo-a810f.appspot.com",
+    // messagingSenderId: "357306995010",
+    // measurementId: "G-XVBT8FDZEP"
   });
 }
 

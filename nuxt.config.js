@@ -2,6 +2,9 @@ const {
   AIRTABLE_APP_ID,
   AIRTABLE_API_KEY,
   FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_APP_ID,
   YOUTUBE_API_KEY
 } = process.env;
 
@@ -82,17 +85,15 @@ export default {
     proxy: true
   },
 
-  proxy: {
-    // "/api/": {
-    //   target: "https://www.googleapis.com/youtube/v3",
-    //   pathRewrite: { "^/api/": "" }
-    // }
-  },
+  proxy: {},
 
   env: {
     AIRTABLE_APP_ID,
     AIRTABLE_API_KEY,
     FIREBASE_API_KEY,
+    FIREBASE_AUTH_DOMAIN,
+    FIREBASE_PROJECT_ID,
+    FIREBASE_APP_ID,
     YOUTUBE_API_KEY
   },
 
