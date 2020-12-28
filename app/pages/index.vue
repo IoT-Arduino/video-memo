@@ -7,7 +7,7 @@
 
       <ul class="mb-6">
         <li
-          class="border list-none rounded-sm px-3 py-3 playList flex items-center"
+          class="border list-none rounded-sm px-3 py-3 playList flex justify-between items-center"
           v-for="item in playLists"
           :key="item.id"
         >
@@ -19,7 +19,8 @@
               "
               class="ml-2 hover:font-bold"
             >
-              <h3>{{ item.fields.name }}</h3>
+              <h3 class="block sm:hidden">{{ item.fields.name.substring(0,18) }}</h3>
+              <h3 class="hidden sm:block">{{ item.fields.name }}</h3>
             </nuxt-link>
           </div>
           <p class="ml-5" v-if="item.fields.videoLength > 0">
