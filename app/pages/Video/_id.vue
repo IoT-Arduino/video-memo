@@ -1,5 +1,10 @@
 <template>
   <div class="container p-2 sm:p-0">
+    <loading
+      :active.sync="isLoading"
+      :is-full-page="fullPage"
+      :color="'#38feb8'"
+    ></loading>
     <p class="mb-2">PlayList: {{ tableId }}</p>
     <div class="youtube-wrapper">
       <div class="youtube-player-wrapper pt-2">
@@ -11,8 +16,12 @@
         airTableRecord.title
       }}</a>
       <div class="flex justify-start">
-        <p v-if="airTableRecord.channel" class="mr-6">Channel: {{ airTableRecord.channel }}</p>
-        <p v-if="airTableRecord.publishedAt">PublishedAt: {{ airTableRecord.publishedAt }}</p>
+        <p v-if="airTableRecord.channel" class="mr-6">
+          Channel: {{ airTableRecord.channel }}
+        </p>
+        <p v-if="airTableRecord.publishedAt">
+          PublishedAt: {{ airTableRecord.publishedAt }}
+        </p>
       </div>
     </div>
     <div @change.stop="change">
@@ -51,9 +60,13 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+
 export default {
   components: {
-    StarRating
+    StarRating,
+    Loading
   },
   async fetch({ store, route, app }) {
     const queryString = await route.query.id.split("?");
@@ -67,6 +80,7 @@ export default {
     await store.dispatch("fetchAirTableRecord", dispatchInfo);
   },
   async mounted() {
+    this.isLoading = true;
     const queryString2 = await this.$nuxt.$route.query.id.split("?");
     this.recordId = queryString2[0];
     this.tableId = queryString2[1];
@@ -79,11 +93,13 @@ export default {
 
     setTimeout(() => {
       this.rating = this.$store.getters["airTableRecord"].rating;
-      console.log(this.airTableRecord);
+      this.isLoading = false;
     }, 1000);
   },
   data() {
     return {
+      isLoading: false,
+      fullPage: false,
       videoId: this.$nuxt.$route.params.id,
       memoData: "",
       recordId: "",
@@ -111,14 +127,9 @@ export default {
   },
   methods: {
     keyDownEnter(e) {
-      // e.preventDefault();
       e.stopPropagation();
     },
     setTest(rating) {
-      // this.rating = rating;
-      console.log(this.memoData);
-      console.log(rating);
-
       this.memo = this.memoData;
 
       const airTableRecord = {
@@ -126,8 +137,6 @@ export default {
         rating: rating,
         memo: this.memoData
       };
-
-      console.log(airTableRecord);
 
       this.$store.commit[("setAirTableRecord", airTableRecord)];
 
@@ -154,10 +163,7 @@ export default {
           }
         })
         .then(response => {
-          // console.log(response.data.records[0].fields.rating);
           const newRating = response.data.records[0].fields.rating;
-          // console.log(this.rating);
-          // this.rating = parseFloat(newRating);
         })
         .catch(function(error) {
           console.log(error);
@@ -166,15 +172,10 @@ export default {
 
     setRatingData(rating) {
       this.rating = rating;
-      // console.log(this.rating);
 
-      // var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
       var tableId = this.tableId;
-
-      // console.log(this.recordId);
-      // console.log(this.tableId);
 
       let data = {
         records: [
@@ -195,10 +196,7 @@ export default {
           }
         })
         .then(response => {
-          // console.log(response.data.records[0].fields.rating);
           const newRating = response.data.records[0].fields.rating;
-          // console.log(this.rating);
-          // this.rating = parseFloat(newRating);
         })
         .catch(function(error) {
           console.log(error);
@@ -206,12 +204,9 @@ export default {
     },
     submit() {
       // Init variables
-      // var self = this;
       var app_id = process.env.AIRTABLE_APP_ID;
       var app_key = process.env.AIRTABLE_API_KEY;
       var tableId = this.tableId;
-
-      console.log(this.memoData);
 
       const data = {
         records: [
@@ -261,7 +256,7 @@ export default {
 
 .text-area {
   width: 100%;
-  height: 400px;
+  height: 300px;
   border: 1px solid gray;
 }
 </style>

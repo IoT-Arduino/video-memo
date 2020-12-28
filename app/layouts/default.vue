@@ -1,8 +1,8 @@
 <template>
   <div class="wrapper">
-    <div class="mx-auto pb-20">
+    <div class="mx-auto pb-24">
       <Header :currentUser="currentUser" v-if="isLogin" />
-      <main class="max-w-2xl mx-auto">
+      <main class="max-w-2xl mx-auto ">
         <Nuxt />
       </main>
     </div>

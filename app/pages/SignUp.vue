@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <!-- SignUp Form -->
-    <div class="mx-auto p-2">
-      <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
+    <div class="mx-auto px-2 mt-10">
+      <div class="max-w-sm mx-auto my-14 bg-white px-5 py-10 rounded shadow-xl">
         <div class="text-center mb-8">
           <h1 class="font-bold text-2xl text-gray-800">
             Sign To VideoMemoApp
@@ -41,7 +41,7 @@
         </form>
         <div class="hover:text-green-800 text-center w-full mt-3">
           <nuxt-link to="/Login" class="hover:text-green-800"
-            ><span>Already have an account? Click this link to Login</span></nuxt-link
+            ><span>Already have an account?<br /> Click this link to Login</span></nuxt-link
           >
         </div>
       </div>

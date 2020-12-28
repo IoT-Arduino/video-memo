@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <loading
+      :active.sync="isLoading"
+      :is-full-page="fullPage"
+      :color="'#38feb8'"
+    ></loading>
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
       <p>PlayList : {{ tableId }}</p>
     </div>
@@ -45,9 +50,17 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
+
 export default {
+  components: {
+    loading: Loading
+  },
   data() {
     return {
+      isLoading: false,
+      fullPage: false,
       items: [],
       tableId: "",
       sort: {
@@ -57,7 +70,7 @@ export default {
       filterName: "",
       rating: 3,
       airTablePlayListData: [],
-      isPublishedAt:null
+      isPublishedAt: null
     };
   },
   created() {
@@ -72,12 +85,13 @@ export default {
     await store.dispatch("fetchAirTableData", dispatchInfo);
   },
   async mounted() {
-    // this.tableId = this.$nuxt.$route.query.name;
     this.tableId = this.$nuxt.$route.params.id;
+    this.isLoading = true;
     await this.$nextTick(() => {
       setTimeout(() => {
         this.setVideoLength();
-        this.checkPublishedAt()
+        this.checkPublishedAt();
+        this.isLoading = false;
       }, 1000);
     });
   },
@@ -93,7 +107,10 @@ export default {
 
       if (this.filterName) {
         list = list.filter(
-          item => item.fields.title.toLowerCase().indexOf(this.filterName.toLowerCase()) > -1
+          item =>
+            item.fields.title
+              .toLowerCase()
+              .indexOf(this.filterName.toLowerCase()) > -1
         );
       }
 
@@ -106,7 +123,7 @@ export default {
       }
 
       return list;
-    },
+    }
   },
 
   methods: {
@@ -114,7 +131,9 @@ export default {
       const items = await this.videoLists.filter(item => {
         return item.fields.publishedAt !== "";
       });
-      await items.length !== 0 ? this.isPublishedAt = true : this.isPublishedAt =false
+      (await items.length) !== 0
+        ? (this.isPublishedAt = true)
+        : (this.isPublishedAt = false);
     },
     videoListsLength() {
       return this.$store.getters["airTableVideoList"].length;

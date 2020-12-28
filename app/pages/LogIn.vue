@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <!-- Login Form -->
-    <div class="mx-auto p-2">
-      <div class="max-w-sm mx-auto my-24 bg-white px-5 py-10 rounded shadow-xl">
+    <div class="mx-auto px-2 mt-10">
+      <div class="max-w-sm mx-auto my-14 bg-white px-5 py-10 rounded shadow-xl">
         <div class="text-center mb-8">
           <h1 class="font-bold text-2xl text-gray-800">
             Login To VideoMemoApp
@@ -53,17 +52,6 @@
 import { firebase, auth } from "@/plugins/firebase";
 
 export default {
-  // async mounted() {
-  //   await auth().onAuthStateChanged(
-  //     user => {
-  //       if (user) {
-  //         console.log("loggedin")
-  //       } else {
-  //         console.log("no user")
-  //       }
-  //     }
-  //   );
-  // },
   data: function() {
     return {
       login_email: "",
