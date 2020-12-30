@@ -1,8 +1,9 @@
 <template>
   <div class="container mx-auto">
     <div class="container__list">
-      <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
+      <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6 flex justify-between">
         <p>All PlayLists</p>
+        <p class="text-xs">memoed / total</p>
       </div>
 
       <ul class="mb-6">
