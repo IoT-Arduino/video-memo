@@ -152,10 +152,10 @@ export default {
         });
 
         const recordId = filteredPlayList[0].id;
-        var self = this;
-        var app_id = process.env.AIRTABLE_APP_ID;
-        var app_key = process.env.AIRTABLE_API_KEY;
-        var tableId = "PlayListIndex";
+        const self = this;
+        const app_id = process.env.AIRTABLE_APP_ID;
+        const app_key = process.env.AIRTABLE_API_KEY;
+        const tableId = "PlayListIndex";
 
         const data = {
           records: [

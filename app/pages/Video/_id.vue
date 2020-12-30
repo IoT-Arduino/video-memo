@@ -143,9 +143,9 @@ export default {
 
       this.$store.commit[("setAirTableRecord", airTableRecord)];
 
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var tableId = this.tableId;
+      const app_id = process.env.AIRTABLE_APP_ID;
+      const app_key = process.env.AIRTABLE_API_KEY;
+      const tableId = this.tableId;
 
       let data = {
         records: [
@@ -197,7 +197,7 @@ export default {
           }
         })
         .then(function(response) {
-          items = response.data.records;
+          self.items = response.data.records;
         })
         .catch(function(error) {
           console.log(error);
