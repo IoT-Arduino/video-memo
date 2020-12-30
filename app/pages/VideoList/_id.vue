@@ -3,6 +3,8 @@
     <loading
       :active.sync="isLoading"
       :is-full-page="fullPage"
+      :backgroundColor="'#fff'"
+      :opacity="1"
       :color="'#38feb8'"
     ></loading>
     <div class="border-l-4 border-red-400 -ml-1 pl-6 items-center mt-4 mb-6">
@@ -73,9 +75,6 @@ export default {
       isPublishedAt: null
     };
   },
-  created() {
-    const currentId = this.$nuxt.$route.params.id;
-  },
   async fetch({ store, route }) {
     const dispatchInfo = {
       tableId: route.params.id,
@@ -87,6 +86,7 @@ export default {
   async mounted() {
     this.tableId = this.$nuxt.$route.params.id;
     this.isLoading = true;
+
     await this.$nextTick(() => {
       setTimeout(() => {
         this.setVideoLength();

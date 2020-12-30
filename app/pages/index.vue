@@ -19,7 +19,7 @@
               "
               class="ml-2 hover:font-bold"
             >
-              <h3 class="block sm:hidden">{{ item.fields.name.substring(0,18) }}</h3>
+              <h3 class="block sm:hidden">{{ item.fields.name.substring(0,17) }}</h3>
               <h3 class="hidden sm:block">{{ item.fields.name }}</h3>
             </nuxt-link>
           </div>

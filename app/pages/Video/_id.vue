@@ -3,6 +3,8 @@
     <loading
       :active.sync="isLoading"
       :is-full-page="fullPage"
+      :backgroundColor="'#fff'"
+      :opacity="1"
       :color="'#38feb8'"
     ></loading>
     <p class="mb-2">PlayList: {{ tableId }}</p>
@@ -15,7 +17,7 @@
       <a :href="airTableRecord.videoUrl" class="text-left font-bold">{{
         airTableRecord.title
       }}</a>
-      <div class="flex justify-start">
+      <div class="sm:flex justify-start">
         <p v-if="airTableRecord.channel" class="mr-6">
           Channel: {{ airTableRecord.channel }}
         </p>
@@ -32,13 +34,13 @@
         active-color="#f9d71c"
         v-bind:star-size="20"
         :rating="rating"
-        @rating-selected="setTest"
+        @rating-selected="setRating"
         class="m-2"
       >
       </star-rating>
     </div>
 
-    <form class="form" @submit.prevent="submit">
+    <form class="form" @submit.prevent="submitMemo">
       <textarea
         v-model="memo"
         class="text-area my-2"
@@ -70,20 +72,21 @@ export default {
   },
   async fetch({ store, route, app }) {
     const queryString = await route.query.id.split("?");
-    let recordId = queryString[0];
-    let tableId = queryString[1];
+    const recordId = queryString[0];
+    const tableId = queryString[1];
     const dispatchInfo = {
       tableId: tableId,
       currentPage: "VideoPage",
       recordId: recordId
     };
     await store.dispatch("fetchAirTableRecord", dispatchInfo);
+    const airtableRecord = await store.getters["airTableRecord"];
   },
   async mounted() {
     this.isLoading = true;
     const queryString2 = await this.$nuxt.$route.query.id.split("?");
-    this.recordId = queryString2[0];
-    this.tableId = queryString2[1];
+    this.recordId = await queryString2[0];
+    this.tableId = await queryString2[1];
 
     const dispatchInfo = {
       tableId: this.tableId,
@@ -129,7 +132,7 @@ export default {
     keyDownEnter(e) {
       e.stopPropagation();
     },
-    setTest(rating) {
+    setRating(rating) {
       this.memo = this.memoData;
 
       const airTableRecord = {
@@ -170,43 +173,10 @@ export default {
         });
     },
 
-    setRatingData(rating) {
-      this.rating = rating;
-
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var tableId = this.tableId;
-
-      let data = {
-        records: [
-          {
-            id: this.recordId,
-            fields: {
-              rating: this.rating
-            }
-          }
-        ]
-      };
-
-      this.$axios
-        .patch("https://api.airtable.com/v0/" + app_id + "/" + tableId, data, {
-          headers: {
-            Authorization: "Bearer " + app_key,
-            "Content-Type": "application/json"
-          }
-        })
-        .then(response => {
-          const newRating = response.data.records[0].fields.rating;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    },
-    submit() {
-      // Init variables
-      var app_id = process.env.AIRTABLE_APP_ID;
-      var app_key = process.env.AIRTABLE_API_KEY;
-      var tableId = this.tableId;
+    submitMemo() {
+      const app_id = process.env.AIRTABLE_APP_ID;
+      const app_key = process.env.AIRTABLE_API_KEY;
+      const tableId = this.tableId;
 
       const data = {
         records: [
@@ -227,7 +197,7 @@ export default {
           }
         })
         .then(function(response) {
-          self.items = response.data.records;
+          items = response.data.records;
         })
         .catch(function(error) {
           console.log(error);
@@ -258,5 +228,11 @@ export default {
   width: 100%;
   height: 300px;
   border: 1px solid gray;
+}
+
+@media screen and (max-width: 480px) {
+  .text-area {
+    height: 240px;
+  }
 }
 </style>

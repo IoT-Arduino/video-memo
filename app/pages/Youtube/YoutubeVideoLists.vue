@@ -38,8 +38,6 @@
         CSV DownLoad
       </button>
     </div>
-    <!-- table tag is required for copy&paste to create excel data -->
-
     <table class="w-full overflow-scroll text-xs">
       <tr
         v-for="video in videos"
@@ -64,14 +62,8 @@
 
 <script>
 export default {
-  // async fetch({ route, store }) {
-  //   const playListId = this.playListId;
-  //   await store.dispatch("fetchYoutubeVideoLists", playListId);
-  //   await console.log(store.getters["YoutubeVideoLists"]);
-  // },
   data() {
     return {
-      // playListId: "PLwje-oXlOZnRuGgxf_uUX-aoiwoCpDl31"
       playListId: ""
     };
   },
@@ -83,7 +75,6 @@ export default {
   methods: {
     downloadCSV() {
       const videoLists = this.$store.getters["YoutubeVideoLists"];
-      console.log(videoLists);
 
       let csv = "\ufeff" + "Title,PublishedAt,VideoId,Thumbnail,Description\n";
       videoLists.forEach(video => {

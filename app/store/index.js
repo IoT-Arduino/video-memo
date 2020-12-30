@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-// import { firebase, auth } from "@/plugins/firebase";
+import dateFormat from "dateformat"
 
 export default () =>
   new Vuex.Store({
@@ -7,14 +7,12 @@ export default () =>
       airTablePlayList: [],
       airTableVideoList: [],
       airTableRecord: {},
-      // YoutubePlayLists: [],
       YoutubeVideoLists: []
     },
     getters: {
       airTablePlayList: state => state.airTablePlayList,
       airTableVideoList: state => state.airTableVideoList,
       airTableRecord: state => state.airTableRecord,
-      // YoutubePlayLists: state => state.YoutubePlayLists,
       YoutubeVideoLists: state => state.YoutubeVideoLists
     },
     mutations: {
@@ -27,9 +25,6 @@ export default () =>
       setAirTableRecord(state, airTableRecord) {
         state.airTableRecord = airTableRecord;
       },
-      // setYoutubePlayLists(state, { YoutubePlayLists }) {
-      //   state.YoutubePlayLists = YoutubePlayLists;
-      // },
       setYoutubeVideoLists(state, YoutubeVideoLists) {
         state.YoutubeVideoLists = YoutubeVideoLists;
       }
@@ -85,6 +80,11 @@ export default () =>
                 }
                 if (!data.fields.publishedAt) {
                   data.fields.publishedAt = "";
+                } else {
+                  data.fields.publishedAt = dateFormat(
+                    data.fields.publishedAt,
+                    "mediumDate"
+                  );
                 }
                 addMemoItems.push(data);
               });
@@ -122,19 +122,20 @@ export default () =>
           )
           .then(function(response) {
             item = response.data;
-
-            console.log(item)
-
             const airTableRecord = {
               memo: item.fields.memo ? item.fields.memo : "",
               rating: item.fields.rating ? item.fields.rating : 0,
               title: item.fields.title,
-              publishedAt: item.fields.publishedAt,
+              publishedAt: dateFormat(
+                    item.fields.publishedAt,
+                    "mediumDate"
+                  ),
               channel: item.fields.channel,
               videoUrl: item.fields.videoUrl
 
             };
-            commit("setAirTableRecord", airTableRecord);
+
+           commit("setAirTableRecord", airTableRecord);
           })
           .catch(function(error) {
             console.log(error);
@@ -156,7 +157,6 @@ export default () =>
         let videoLists2 = [];
 
         if (fetchVideoLists.nextPageToken) {
-          // console.log(fetchVideoLists.nextPageToken);
           const fetchVideoLists2 = await this.$axios.$get(
             "https://www.googleapis.com/youtube/v3/playlistItems",
             {

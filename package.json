@@ -15,6 +15,7 @@
     "@nuxtjs/proxy": "^2.0.1",
     "@nuxtjs/toast": "^3.3.1",
     "core-js": "^3.6.5",
+    "dateformat": "^4.4.1",
     "firebase": "^7.24.0",
     "lodash": "^4.17.20",
     "marked": "^1.1.1",
