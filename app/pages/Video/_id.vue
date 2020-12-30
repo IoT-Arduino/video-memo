@@ -97,7 +97,7 @@ export default {
     setTimeout(() => {
       this.rating = this.$store.getters["airTableRecord"].rating;
       this.isLoading = false;
-    }, 1000);
+    }, 800);
   },
   data() {
     return {

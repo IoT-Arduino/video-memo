@@ -92,7 +92,7 @@ export default {
         this.setVideoLength();
         this.checkPublishedAt();
         this.isLoading = false;
-      }, 1000);
+      }, 800);
     });
   },
   computed: {
