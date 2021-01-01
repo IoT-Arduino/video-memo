@@ -70,20 +70,6 @@ export default {
     StarRating,
     Loading
   },
-  // async fetch({ store, route, app }) {
-  //   // const queryString = await route.query.id.split("?");
-  //   // const recordId = queryString[0];
-  //   // const tableId = queryString[1];
-  //   // this.recordId = await queryString[0];
-  //   // this.tableId = await queryString[1];
-  //   // const dispatchInfo = {
-  //   //   tableId: this.tableId,
-  //   //   currentPage: "VideoPage",
-  //   //   recordId: this.recordId
-  //   // };
-  //   // await store.dispatch("fetchAirTableRecord", dispatchInfo);
-  //   // const airtableRecord = await store.getters["airTableRecord"];
-  // },
   async mounted() {
     this.isLoading = true;
     const queryString = await this.$nuxt.$route.query.id.split("?");
