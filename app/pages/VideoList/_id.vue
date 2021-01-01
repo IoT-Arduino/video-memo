@@ -87,13 +87,11 @@ export default {
     this.tableId = this.$nuxt.$route.params.id;
     this.isLoading = true;
 
-    await this.$nextTick(() => {
-      setTimeout(() => {
-        this.setVideoLength();
-        this.checkPublishedAt();
-        this.isLoading = false;
-      }, 800);
-    });
+    setTimeout(() => {
+      this.setVideoLength();
+      this.checkPublishedAt();
+      this.isLoading = false;
+    }, 800);
   },
   computed: {
     playLists() {
