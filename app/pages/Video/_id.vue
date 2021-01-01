@@ -47,14 +47,17 @@
         name="memo"
         @keydown.enter.exact="keyDownEnter"
       ></textarea>
-      <div class="border-solid  text-white">
-        <button
-          type="submit"
-          class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded mx-auto"
-        >
-          <font-awesome-icon :icon="['fas', 'save']" />
-          Save
-        </button>
+      <div :class="{ buttonDisabled: isNotTextEdited }">
+        <div class="border-solid  text-white">
+          <button
+            type="submit"
+            class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded mx-auto "
+
+          >
+            <font-awesome-icon :icon="['fas', 'save']" />
+            Save
+          </button>
+        </div>
       </div>
     </form>
   </div>
@@ -70,25 +73,25 @@ export default {
     StarRating,
     Loading
   },
-  async fetch({ store, route, app }) {
-    const queryString = await route.query.id.split("?");
-    // const recordId = queryString[0];
-    // const tableId = queryString[1];
-    // this.recordId = await queryString[0];
-    // this.tableId = await queryString[1];
-    // const dispatchInfo = {
-    //   tableId: this.tableId,
-    //   currentPage: "VideoPage",
-    //   recordId: this.recordId
-    // };
-    // await store.dispatch("fetchAirTableRecord", dispatchInfo);
-    // const airtableRecord = await store.getters["airTableRecord"];
-  },
+  // async fetch({ store, route, app }) {
+  //   // const queryString = await route.query.id.split("?");
+  //   // const recordId = queryString[0];
+  //   // const tableId = queryString[1];
+  //   // this.recordId = await queryString[0];
+  //   // this.tableId = await queryString[1];
+  //   // const dispatchInfo = {
+  //   //   tableId: this.tableId,
+  //   //   currentPage: "VideoPage",
+  //   //   recordId: this.recordId
+  //   // };
+  //   // await store.dispatch("fetchAirTableRecord", dispatchInfo);
+  //   // const airtableRecord = await store.getters["airTableRecord"];
+  // },
   async mounted() {
     this.isLoading = true;
-    const queryString2 = await this.$nuxt.$route.query.id.split("?");
-    this.recordId = await queryString2[0];
-    this.tableId = await queryString2[1];
+    const queryString = await this.$nuxt.$route.query.id.split("?");
+    this.recordId = await queryString[0];
+    this.tableId = await queryString[1];
 
     const dispatchInfo = {
       tableId: this.tableId,
@@ -98,20 +101,21 @@ export default {
 
     await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
 
-    const airtableRecord = await this.$store.getters["airTableRecord"]
-    this.rating = await this.$store.getters["airTableRecord"].rating;
-    this.isLoading = await false;
+    // const airtableRecord = await this.$store.getters["airTableRecord"]
+    // this.rating = await this.$store.getters["airTableRecord"].rating;
+    // this.isLoading = await false;
 
-    // setTimeout(() => {
-    //   const airtableRecord = this.$store.getters["airTableRecord"];
-    //   this.rating = this.$store.getters["airTableRecord"].rating;
-    //   this.isLoading = false;
-    // }, 800);
+    setTimeout(() => {
+      const airtableRecord = this.$store.getters["airTableRecord"];
+      this.rating = this.$store.getters["airTableRecord"].rating;
+      this.isLoading = false;
+    }, 800);
   },
   data() {
     return {
       isLoading: false,
       fullPage: false,
+      isNotTextEdited: true,
       videoId: this.$nuxt.$route.params.id,
       tableId: "",
       recordId: "",
@@ -182,7 +186,6 @@ export default {
     },
 
     submitMemo() {
-
       const app_id = process.env.AIRTABLE_APP_ID;
       const app_key = process.env.AIRTABLE_API_KEY;
       const tableId = this.tableId;
@@ -205,13 +208,15 @@ export default {
             "Content-Type": "application/json"
           }
         })
-        .then(function(response) {
+        .then((response) =>{
           self.items = response.data.records;
+          this.isNotTextEdited = true;
+          this.$toast.show("Item Saved");
         })
-        .catch(function(error) {
+        .catch((error)=> {
           console.log(error);
         });
-      this.$toast.show("Item Saved");
+      
     }
   }
 };
@@ -238,6 +243,10 @@ export default {
   height: 300px;
   border: 1px solid gray;
 }
+
+// .buttonDisabled > div > button{
+//   opacity: 0.5;
+// }
 
 @media screen and (max-width: 480px) {
   .text-area {
