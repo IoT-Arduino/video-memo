@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import dateFormat from "dateformat"
+import dateFormat from "dateformat";
 
 export default () =>
   new Vuex.Store({
@@ -65,10 +65,8 @@ export default () =>
                 return item.fields.title !== "Deleted video";
               });
 
-              const filteredItems = filterDeletedItems.filter((item) => {
-                return (
-                  item.fields.youtubeVideoId !== undefined 
-                );
+              const filteredItems = filterDeletedItems.filter(item => {
+                return item.fields.youtubeVideoId !== undefined;
               });
 
               filteredItems.forEach(data => {
@@ -126,16 +124,14 @@ export default () =>
               memo: item.fields.memo ? item.fields.memo : "",
               rating: item.fields.rating ? item.fields.rating : 0,
               title: item.fields.title,
-              publishedAt: dateFormat(
-                    item.fields.publishedAt,
-                    "mediumDate"
-                  ),
+              publishedAt: item.fields.publishedAt
+                ? dateFormat(item.fields.publishedAt, "mediumDate")
+                : "",
               channel: item.fields.channel,
               videoUrl: item.fields.videoUrl
-
             };
 
-           commit("setAirTableRecord", airTableRecord);
+            commit("setAirTableRecord", airTableRecord);
           })
           .catch(function(error) {
             console.log(error);

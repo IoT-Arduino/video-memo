@@ -104,12 +104,12 @@ export default {
       isLoading: false,
       fullPage: false,
       videoId: this.$nuxt.$route.params.id,
-      memoData: "",
-      recordId: "",
       tableId: "",
+      recordId: "",
+      airTableRecordData: {},
       Title: "",
+      memoData: "",
       rating: 0,
-      airTableRecordData: {}
     };
   },
   computed: {

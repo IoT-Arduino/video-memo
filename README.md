@@ -50,9 +50,9 @@ The csv data will be output.Then, copy this csv file to the table of each VideoL
 
 ## Libraries
 
-[vue-star-rating](https://www.npmjs.com/package/vue-star-rating) 　
-[vue-loading-overlay](https://www.npmjs.com/package/vue-loading-overlay) 　
-[vue-youtube](https://www.npmjs.com/package/vue-youtube) 　
+- [vue-star-rating](https://www.npmjs.com/package/vue-star-rating) 　
+- [vue-loading-overlay](https://www.npmjs.com/package/vue-loading-overlay) 　
+- [vue-youtube](https://www.npmjs.com/package/vue-youtube) 　
 
 ## Function addition
 
