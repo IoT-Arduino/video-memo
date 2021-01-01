@@ -72,15 +72,17 @@ export default {
   },
   async fetch({ store, route, app }) {
     const queryString = await route.query.id.split("?");
-    const recordId = queryString[0];
-    const tableId = queryString[1];
-    const dispatchInfo = {
-      tableId: tableId,
-      currentPage: "VideoPage",
-      recordId: recordId
-    };
-    await store.dispatch("fetchAirTableRecord", dispatchInfo);
-    const airtableRecord = await store.getters["airTableRecord"];
+    // const recordId = queryString[0];
+    // const tableId = queryString[1];
+    // this.recordId = await queryString[0];
+    // this.tableId = await queryString[1];
+    // const dispatchInfo = {
+    //   tableId: this.tableId,
+    //   currentPage: "VideoPage",
+    //   recordId: this.recordId
+    // };
+    // await store.dispatch("fetchAirTableRecord", dispatchInfo);
+    // const airtableRecord = await store.getters["airTableRecord"];
   },
   async mounted() {
     this.isLoading = true;
@@ -94,10 +96,17 @@ export default {
       recordId: this.recordId
     };
 
-    setTimeout(() => {
-      this.rating = this.$store.getters["airTableRecord"].rating;
-      this.isLoading = false;
-    }, 800);
+    await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
+
+    const airtableRecord = await this.$store.getters["airTableRecord"]
+    this.rating = await this.$store.getters["airTableRecord"].rating;
+    this.isLoading = await false;
+
+    // setTimeout(() => {
+    //   const airtableRecord = this.$store.getters["airTableRecord"];
+    //   this.rating = this.$store.getters["airTableRecord"].rating;
+    //   this.isLoading = false;
+    // }, 800);
   },
   data() {
     return {
@@ -109,7 +118,7 @@ export default {
       airTableRecordData: {},
       Title: "",
       memoData: "",
-      rating: 0,
+      rating: 0
     };
   },
   computed: {
@@ -135,19 +144,11 @@ export default {
     setRating(rating) {
       this.memo = this.memoData;
 
-      const airTableRecord = {
-        title: this.airTableRecord.title,
-        rating: rating,
-        memo: this.memoData
-      };
-
-      this.$store.commit[("setAirTableRecord", airTableRecord)];
-
       const app_id = process.env.AIRTABLE_APP_ID;
       const app_key = process.env.AIRTABLE_API_KEY;
       const tableId = this.tableId;
 
-      let data = {
+      const data = {
         records: [
           {
             id: this.recordId,
@@ -167,6 +168,13 @@ export default {
         })
         .then(response => {
           const newRating = response.data.records[0].fields.rating;
+          const airTableRecord = {
+            title: this.airTableRecord.title,
+            rating: newRating,
+            memo: this.memoData
+          };
+
+          this.$store.commit[("setAirTableRecord", airTableRecord)];
         })
         .catch(function(error) {
           console.log(error);
@@ -174,6 +182,7 @@ export default {
     },
 
     submitMemo() {
+
       const app_id = process.env.AIRTABLE_APP_ID;
       const app_key = process.env.AIRTABLE_API_KEY;
       const tableId = this.tableId;
