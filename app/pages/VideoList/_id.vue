@@ -91,7 +91,7 @@ export default {
       this.setVideoLength();
       this.checkPublishedAt();
       this.isLoading = false;
-    }, 300);
+    }, 500);
   },
   computed: {
     playLists() {

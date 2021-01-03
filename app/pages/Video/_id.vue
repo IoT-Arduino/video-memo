@@ -14,9 +14,13 @@
       </div>
     </div>
     <div class="m-2">
-      <a :href="airTableRecord.videoUrl" class="text-left font-bold">{{
-        airTableRecord.title
-      }}</a>
+      <a
+        :href="airTableRecord.videoUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-left font-bold"
+        >{{ airTableRecord.title }}</a
+      >
       <div class="sm:flex justify-start">
         <p v-if="airTableRecord.channel" class="mr-6">
           Channel: {{ airTableRecord.channel }}
@@ -70,28 +74,40 @@ import "vue-loading-overlay/dist/vue-loading.css";
 export default {
   components: {
     StarRating,
-    Loading
+    loading: Loading
   },
-  async mounted() {
-    this.isLoading = true;
-    const queryString = await this.$nuxt.$route.query.id.split("?");
+  async fetch({ store, route }) {
+    const queryString = await route.query.id.split("?");
     this.recordId = await queryString[0];
     this.tableId = await queryString[1];
-
     const dispatchInfo = {
       tableId: this.tableId,
       currentPage: "VideoPage",
       recordId: this.recordId
     };
 
-    await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
+    await store.dispatch("fetchAirTableRecord", dispatchInfo);
+  },
+  async mounted() {
+    this.isLoading = true;
+    // const queryString = await this.$nuxt.$route.query.id.split("?");
+    // this.recordId = await queryString[0];
+    // this.tableId = await queryString[1];
+
+    // const dispatchInfo = {
+    //   tableId: this.tableId,
+    //   currentPage: "VideoPage",
+    //   recordId: this.recordId
+    // };
+
+    // await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
 
     setTimeout(() => {
       const airtableRecord = this.$store.getters["airTableRecord"];
       this.rating = this.$store.getters["airTableRecord"].rating;
       this.memoData = this.$store.getters["airTableRecord"].memo;
       this.isLoading = false;
-    }, 800);
+    }, 500);
   },
   data() {
     return {
@@ -113,7 +129,7 @@ export default {
     },
     airTableRecord() {
       return this.$store.getters["airTableRecord"];
-    },
+    }
     // memo: {
     //   get() {
     //     return this.$store.getters["airTableRecord"].memo;
@@ -230,7 +246,7 @@ export default {
 }
 
 .active {
-  opacity:1
+  opacity: 1;
 }
 
 @media screen and (max-width: 480px) {
