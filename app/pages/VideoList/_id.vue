@@ -54,7 +54,7 @@
 <script>
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
-import settingData from "@/util/settingData"
+import settingData from "@/util/settingData";
 
 export default {
   components: {
@@ -77,21 +77,21 @@ export default {
     };
   },
   async fetch({ store, route }) {
-    this.isLoading = true;
     const dispatchInfo = {
       tableId: route.params.id,
       currentPage: "VideoList",
       recordId: ""
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
-    this.isLoading = await false;
   },
   mounted() {
+    this.isLoading = true;
     this.tableId = this.$nuxt.$route.params.id;
     setTimeout(() => {
       this.setVideoLength();
       this.checkPublishedAt();
-    }, 800);
+      this.isLoading = false;
+    }, 300);
   },
   computed: {
     playLists() {
