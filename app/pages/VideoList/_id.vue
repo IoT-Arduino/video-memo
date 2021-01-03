@@ -54,6 +54,7 @@
 <script>
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+import settingData from "@/util/settingData"
 
 export default {
   components: {
@@ -70,27 +71,26 @@ export default {
         isAsc: true
       },
       filterName: "",
-      rating: 3,
-      airTablePlayListData: [],
+      // rating: 3,
+      // airTablePlayListData: [],
       isPublishedAt: null
     };
   },
   async fetch({ store, route }) {
+    this.isLoading = true;
     const dispatchInfo = {
       tableId: route.params.id,
       currentPage: "VideoList",
       recordId: ""
     };
     await store.dispatch("fetchAirTableData", dispatchInfo);
+    this.isLoading = await false;
   },
-  async mounted() {
+  mounted() {
     this.tableId = this.$nuxt.$route.params.id;
-    this.isLoading = true;
-
     setTimeout(() => {
       this.setVideoLength();
       this.checkPublishedAt();
-      this.isLoading = false;
     }, 800);
   },
   computed: {
@@ -125,6 +125,7 @@ export default {
   },
 
   methods: {
+    // check for display publisheAt sortButton or not
     async checkPublishedAt() {
       const items = await this.videoLists.filter(item => {
         return item.fields.publishedAt !== "";
@@ -133,6 +134,7 @@ export default {
         ? (this.isPublishedAt = true)
         : (this.isPublishedAt = false);
     },
+    // -- aquire video length data to display on the top page --
     videoListsLength() {
       return this.$store.getters["airTableVideoList"].length;
     },
@@ -153,7 +155,7 @@ export default {
         const self = this;
         const app_id = process.env.AIRTABLE_APP_ID;
         const app_key = process.env.AIRTABLE_API_KEY;
-        const tableId = "PlayListIndex";
+        const tableId = settingData.indexTableName;
 
         const data = {
           records: [
@@ -186,6 +188,7 @@ export default {
           });
       }
     },
+    // ------
     sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : true;
       this.sort.key = key;
