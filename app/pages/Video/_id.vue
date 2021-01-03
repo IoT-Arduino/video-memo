@@ -42,15 +42,17 @@
 
     <form class="form" @submit.prevent="submitMemo">
       <textarea
-        v-model="memo"
+        v-model="memoData"
         class="text-area my-2"
         name="memo"
-        @keydown.enter.exact="keyDownEnter"
+        @input="input"
       ></textarea>
       <div class="border-solid  text-white">
         <button
           type="submit"
-          class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded mx-auto "
+          class="bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded mx-auto opacity-50"
+          :class="{ active: isMemoEdited }"
+          :disabled="isMemoEdited === false"
         >
           <font-awesome-icon :icon="['fas', 'save']" />
           Save
@@ -87,19 +89,20 @@ export default {
     setTimeout(() => {
       const airtableRecord = this.$store.getters["airTableRecord"];
       this.rating = this.$store.getters["airTableRecord"].rating;
-      this.memoData = this.$store.getters["airTableRecord"].memo
+      this.memoData = this.$store.getters["airTableRecord"].memo;
       this.isLoading = false;
     }, 800);
   },
   data() {
     return {
+      isMemoEdited: false,
       isLoading: false,
       fullPage: false,
       videoId: this.$nuxt.$route.params.id,
       tableId: "",
       recordId: "",
-      airTableRecordData: {},
-      Title: "",
+      // airTableRecordData: {},
+      // Title: "",
       memoData: "",
       rating: 0
     };
@@ -111,21 +114,26 @@ export default {
     airTableRecord() {
       return this.$store.getters["airTableRecord"];
     },
-    memo: {
-      get() {
-        return this.$store.getters["airTableRecord"].memo;
-      },
-      set(newValue) {
-        this.memoData = newValue;
-      }
-    }
+    // memo: {
+    //   get() {
+    //     return this.$store.getters["airTableRecord"].memo;
+    //   },
+    //   set(newValue) {
+    //     this.memoData = newValue;
+    //   }
+    // }
   },
   methods: {
-    keyDownEnter(e) {
+    // keyDownEnter(e) {
+    //   e.stopPropagation();
+    //  console.log(this.memoData); // 13
+    // },
+    input(e) {
       e.stopPropagation();
+      this.isMemoEdited = true;
     },
     setRating(rating) {
-      this.memo = this.memoData;
+      // this.memo = this.memoData;
 
       const app_id = process.env.AIRTABLE_APP_ID;
       const app_key = process.env.AIRTABLE_API_KEY;
@@ -219,6 +227,10 @@ export default {
   width: 100%;
   height: 300px;
   border: 1px solid gray;
+}
+
+.active {
+  opacity:1
 }
 
 @media screen and (max-width: 480px) {
