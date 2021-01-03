@@ -187,7 +187,7 @@ export default {
           }
         ]
       };
-      this.items = [];
+      // this.items = [];
       this.$axios
         .patch("https://api.airtable.com/v0/" + app_id + "/" + tableId, data, {
           headers: {
@@ -196,7 +196,7 @@ export default {
           }
         })
         .then(response => {
-          self.items = response.data.records;
+          const items = response.data.records;
           this.$toast.show("Item Saved");
         })
         .catch(error => {
