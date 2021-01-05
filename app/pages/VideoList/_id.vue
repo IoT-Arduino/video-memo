@@ -74,14 +74,6 @@ export default {
       isPublishedAt: null
     };
   },
-  // async fetch({ store, route }) {
-  //   const dispatchInfo = {
-  //     tableId: route.params.id,
-  //     currentPage: "VideoList",
-  //     recordId: ""
-  //   };
-  //   await store.dispatch("fetchAirTableData", dispatchInfo);
-  // },
   async mounted() {
     this.isLoading = true;
     this.tableId = this.$nuxt.$route.params.id;

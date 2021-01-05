@@ -76,17 +76,6 @@ export default {
     StarRating,
     loading: Loading
   },
-  // async fetch({ store, route }) {
-  //   const queryString = await route.query.id.split("?");
-  //   this.recordId = await queryString[0];
-  //   this.tableId = await queryString[1];
-  //   const dispatchInfo = {
-  //     tableId: this.tableId,
-  //     currentPage: "VideoPage",
-  //     recordId: this.recordId
-  //   };
-  //   await store.dispatch("fetchAirTableRecord", dispatchInfo);
-  // },
   async mounted() {
     this.isLoading = true;
 
