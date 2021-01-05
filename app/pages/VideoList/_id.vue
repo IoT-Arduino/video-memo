@@ -71,27 +71,39 @@ export default {
         isAsc: true
       },
       filterName: "",
-      // rating: 3,
-      // airTablePlayListData: [],
       isPublishedAt: null
     };
   },
-  async fetch({ store, route }) {
+  // async fetch({ store, route }) {
+  //   const dispatchInfo = {
+  //     tableId: route.params.id,
+  //     currentPage: "VideoList",
+  //     recordId: ""
+  //   };
+  //   await store.dispatch("fetchAirTableData", dispatchInfo);
+  // },
+  async mounted() {
+    this.isLoading = true;
+    this.tableId = this.$nuxt.$route.params.id;
+
     const dispatchInfo = {
-      tableId: route.params.id,
+      tableId: this.tableId,
       currentPage: "VideoList",
       recordId: ""
     };
-    await store.dispatch("fetchAirTableData", dispatchInfo);
-  },
-  mounted() {
-    this.isLoading = true;
-    this.tableId = this.$nuxt.$route.params.id;
+    await this.$store.dispatch("fetchAirTableData", dispatchInfo);
+
+    this.$store.watch(
+      () => this.$store.getters["airTableVideoList"],
+      value => {
+        this.isLoading = false;
+      }
+    );
+
     setTimeout(() => {
       this.setVideoLength();
       this.checkPublishedAt();
-      this.isLoading = false;
-    }, 500);
+    }, 800);
   },
   computed: {
     playLists() {
@@ -119,7 +131,6 @@ export default {
           return (a === b ? 0 : a > b ? 1 : -1) * (this.sort.isAsc ? 1 : -1);
         });
       }
-
       return list;
     }
   },
@@ -168,7 +179,6 @@ export default {
             }
           ]
         };
-        this.items = [];
         this.$axios
           .patch(
             "https://api.airtable.com/v0/" + app_id + "/" + tableId,
@@ -180,15 +190,15 @@ export default {
               }
             }
           )
-          .then(function(response) {
-            self.items = response.data.records;
+          .then(response => {
+            const items = response.data.records;
           })
-          .catch(function(error) {
+          .catch(error => {
             console.log(error);
           });
       }
     },
-    // ------
+    // ----end--
     sortBy(key) {
       this.sort.isAsc = this.sort.key === key ? !this.sort.isAsc : true;
       this.sort.key = key;

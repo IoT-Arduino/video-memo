@@ -76,38 +76,42 @@ export default {
     StarRating,
     loading: Loading
   },
-  async fetch({ store, route }) {
-    const queryString = await route.query.id.split("?");
+  // async fetch({ store, route }) {
+  //   const queryString = await route.query.id.split("?");
+  //   this.recordId = await queryString[0];
+  //   this.tableId = await queryString[1];
+  //   const dispatchInfo = {
+  //     tableId: this.tableId,
+  //     currentPage: "VideoPage",
+  //     recordId: this.recordId
+  //   };
+  //   await store.dispatch("fetchAirTableRecord", dispatchInfo);
+  // },
+  async mounted() {
+    this.isLoading = true;
+
+    const queryString = await this.$nuxt.$route.query.id.split("?");
     this.recordId = await queryString[0];
     this.tableId = await queryString[1];
+
     const dispatchInfo = {
       tableId: this.tableId,
       currentPage: "VideoPage",
       recordId: this.recordId
     };
 
-    await store.dispatch("fetchAirTableRecord", dispatchInfo);
-  },
-  async mounted() {
-    this.isLoading = true;
-    // const queryString = await this.$nuxt.$route.query.id.split("?");
-    // this.recordId = await queryString[0];
-    // this.tableId = await queryString[1];
+    await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
 
-    // const dispatchInfo = {
-    //   tableId: this.tableId,
-    //   currentPage: "VideoPage",
-    //   recordId: this.recordId
-    // };
+    this.$store.watch(
+      () => this.$store.getters["airTableRecord"],
+      record => {
+        const airtableRecord = this.$store.getters["airTableRecord"];
+        this.rating = this.$store.getters["airTableRecord"].rating;
+        this.memoData = this.$store.getters["airTableRecord"].memo;
+        this.isLoading = false;
+      }
+    );
 
-    // await this.$store.dispatch("fetchAirTableRecord", dispatchInfo);
-
-    setTimeout(() => {
-      const airtableRecord = this.$store.getters["airTableRecord"];
-      this.rating = this.$store.getters["airTableRecord"].rating;
-      this.memoData = this.$store.getters["airTableRecord"].memo;
-      this.isLoading = false;
-    }, 500);
   },
   data() {
     return {
@@ -117,8 +121,6 @@ export default {
       videoId: this.$nuxt.$route.params.id,
       tableId: "",
       recordId: "",
-      // airTableRecordData: {},
-      // Title: "",
       memoData: "",
       rating: 0
     };
@@ -130,27 +132,13 @@ export default {
     airTableRecord() {
       return this.$store.getters["airTableRecord"];
     }
-    // memo: {
-    //   get() {
-    //     return this.$store.getters["airTableRecord"].memo;
-    //   },
-    //   set(newValue) {
-    //     this.memoData = newValue;
-    //   }
-    // }
   },
   methods: {
-    // keyDownEnter(e) {
-    //   e.stopPropagation();
-    //  console.log(this.memoData); // 13
-    // },
     input(e) {
       e.stopPropagation();
       this.isMemoEdited = true;
     },
     setRating(rating) {
-      // this.memo = this.memoData;
-
       const app_id = process.env.AIRTABLE_APP_ID;
       const app_key = process.env.AIRTABLE_API_KEY;
       const tableId = this.tableId;
@@ -203,7 +191,7 @@ export default {
           }
         ]
       };
-      // this.items = [];
+
       this.$axios
         .patch("https://api.airtable.com/v0/" + app_id + "/" + tableId, data, {
           headers: {
