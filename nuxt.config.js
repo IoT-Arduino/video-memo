@@ -13,6 +13,7 @@ const SITE_DOMAIN = "https://video-memo.netlify.app/";
 
 export default {
   ssr: false,
+  loading: false,
   // Target (https://go.nuxtjs.dev/config-target)
   target: "static",
 

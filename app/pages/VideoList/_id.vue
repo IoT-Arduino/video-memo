@@ -97,13 +97,12 @@ export default {
       () => this.$store.getters["airTableVideoList"],
       value => {
         this.isLoading = false;
+        setTimeout(() => {
+          this.setVideoLength();
+          this.checkPublishedAt();
+        }, 800);
       }
     );
-
-    setTimeout(() => {
-      this.setVideoLength();
-      this.checkPublishedAt();
-    }, 800);
   },
   computed: {
     playLists() {
