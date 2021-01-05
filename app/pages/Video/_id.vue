@@ -100,7 +100,6 @@ export default {
         this.isLoading = false;
       }
     );
-
   },
   data() {
     return {
