@@ -95,8 +95,8 @@ export default {
       () => this.$store.getters["airTableRecord"],
       record => {
         const airtableRecord = this.$store.getters["airTableRecord"];
-        this.rating = this.$store.getters["airTableRecord"].rating;
-        this.memoData = this.$store.getters["airTableRecord"].memo;
+        this.rating = airtableRecord.rating;
+        this.memoData = airtableRecord.memo;
         this.isLoading = false;
       }
     );
