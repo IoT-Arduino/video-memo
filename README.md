@@ -62,23 +62,3 @@ The csv data will be output.Then, copy this csv file to the table of each VideoL
 
 ![image5](https://user-images.githubusercontent.com/45728258/103328431-451fd600-4a9c-11eb-84ab-16226970b795.png)
 
-## Demo Url （id and password required）
-
-[VideoMemoAppDemo](https://video-memo-demo.netlify.app/login)
-
-## Build Setup
-
-```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
