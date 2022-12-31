@@ -19,7 +19,7 @@
     "firebase": "^7.24.0",
     "lodash": "^4.17.20",
     "marked": ">=2.0.0",
-    "nuxt": "^2.14.5",
+    "nuxt": "^3.0.0",
     "shitajicss": "^5.1.0",
     "vue-loading-overlay": "^3.4.2",
     "vue-star-rating": "^1.7.0",
@@ -30,13 +30,13 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/tailwindcss": "^3.2.0",
-    "@nuxtjs/vuetify": "^1.11.2",
+    "@nuxtjs/vuetify": "^1.12.3",
     "@vue/test-utils": "^1.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^26.3.0",
     "jest": "^26.4.2",
     "node-sass": "^7.0.0",
     "sass-loader": "^10.0.2",
-    "vue-jest": "^3.0.4"
+    "vue-jest": "^4.0.1"
   }
 }
